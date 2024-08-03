@@ -1,0 +1,21 @@
+# Step 1: Authenticate the user
+POST https://examcell.rguktn.ac.in/results/202324_20E2_S2_Reg/authenticate_user.php
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Cookie: PHPSESSID=8i9tfr0ud8ahh1e1lnpbiukfr3
+Referer: https://examcell.rguktn.ac.in/results/202324_20E2_S2_Reg/
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36
+X-Requested-With: XMLHttpRequest
+
+token=j5tnBq71wx8hs69hbov5hTBJhYE1vEdzk6HbvJICZBDDxj6uRfzuAio122DTM+8rvURAwXp9hrLDyg==
+
+# Assuming successful authentication, copy the token from the response and use it in the next request
+###
+# Step 2: Get the result (use the actual token obtained from the previous step)
+POST https://examcell.rguktn.ac.in/results/202324_20E2_S2_Reg/getResult.php
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Cookie: PHPSESSID=8i9tfr0ud8ahh1e1lnpbiukfr3
+Referer: https://examcell.rguktn.ac.in/results/202324_20E2_S2_Reg/
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36
+X-Requested-With: XMLHttpRequest
+
+SID=N200119&token=NnvvxFsBe+Kmm2OC0qY5bhztoxJGmTjqVCVQvClaNui4kzC/476UKv7yDWTnY0kmR7ndvO58a5NjKA==
