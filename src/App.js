@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import React from 'react'
+import { Routes, Route } from "react-router-dom";
+import Home from './pages/Home';
+import './index.css'
+import Login from './auth/Login';
+import Register from './auth/Register'
+import ForgetPassword from './auth/ForgetPassword';
+import NewPassword from './auth/NewPassword';
+import OTPForm from './auth/OtpForm';
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgotPassword" element={<ForgetPassword />} />
+        <Route path="/newPassword" element={<NewPassword />} />
+        <Route path="/otp" element={<OTPForm />} />
+    </Routes>
+  )
 }
 
-export default App;
+export default App
