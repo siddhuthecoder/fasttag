@@ -4,7 +4,7 @@ import { FaDotCircle } from "react-icons/fa";
 // eslint-disable-next-line
 const MapInformation = ({ data }) => {
   return (
-    <div className="p-2 rounded-md border-purple-600 border">
+    <div className=" rounded-md border-purple-600 border">
       <h6 className="text-[0.7rem] text-gray-400">Vehichle Number</h6>
       {/* eslint-disable-next-line */}
       <h4 className="font-semibold mb-1">{data && data[0].vehicleRegNo}</h4>
