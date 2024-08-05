@@ -1,6 +1,7 @@
 import React from 'react'
 import FormLayer from '../components/FormLayer'
 import { BsEnvelope } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 const ForgetPassword = () => {
   return (
@@ -18,7 +19,7 @@ const ForgetPassword = () => {
               placeholder="Email"
             />
           </div>
-          <button className="w-full rounded-md text-white md:text-2xl font-bold bg-[#8098F9] py-3" type="submit">GET OTP</button>
+          <Link to="/otp" className="w-full ms-[-7px] text-center rounded-md text-white md:text-2xl font-bold bg-[#8098F9] py-3" type="submit">GET OTP</Link>
         </form>
       </div>
     </FormLayer>

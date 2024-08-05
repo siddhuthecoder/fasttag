@@ -10,8 +10,8 @@ import OTPForm from './auth/OtpForm';
 const App = () => {
   return (
     <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgotPassword" element={<ForgetPassword />} />
         <Route path="/newPassword" element={<NewPassword />} />

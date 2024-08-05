@@ -5,5 +5,13 @@
 
 .gradient-border{
     border-image-source: linear-gradient(90deg,80% #444CE7,20% #ffffff);
-
 }
+body{
+    background-color: #F2F2F2;
+}
+
+::-webkit-scrollbar {
+    width: 0px; /* Width of the vertical scrollbar */
+    /* height: 8px; */
+  }
+  

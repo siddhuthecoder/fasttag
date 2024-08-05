@@ -1,7 +1,9 @@
 import React from 'react'
 import { FiShieldOff } from 'react-icons/fi';
 import FormLayer from '../components/FormLayer';
+import { useNavigate } from 'react-router-dom';
 const NewPassword = () => {
+  const navigate = useNavigate()
   return (
     <FormLayer>
     <div className="flex flex-col">
@@ -27,7 +29,7 @@ const NewPassword = () => {
           />
           
         </div>
-        <button className="w-full rounded-md text-white md:text-2xl font-bold bg-[#8098F9] py-3" type="submit">SUBMIT</button>
+        <button className="w-full rounded-md text-white md:text-2xl font-bold bg-[#8098F9] py-3" type="submit" onClick={() => navigate('/')}>SUBMIT</button>
       </form>
     </div>
   </FormLayer>

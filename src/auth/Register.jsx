@@ -2,11 +2,12 @@ import React from 'react'
 import { BsEnvelope } from 'react-icons/bs';
 import { FiShieldOff } from 'react-icons/fi';
 import { FaRegUser } from "react-icons/fa6";
-
+import { useNavigate } from 'react-router-dom';
 
 import FormLayer from '../components/FormLayer'
 
 const Register = () => {
+  const navigate = useNavigate()
   return (
     <FormLayer>
       <div className="flex   flex-col">
@@ -65,7 +66,7 @@ const Register = () => {
           </div>
           <button className="w-full rounded-md text-white md:text-2xl font-bold bg-[#8098F9] py-3" type="submit">SIGN UP</button>
           <div className="text-center">
-            Already have an account ? <span className="text-[#8098F9] font-semibold cursor-pointer">Login</span>
+            Already have an account ? <span className="text-[#8098F9] font-semibold cursor-pointer" onClick={() => navigate("/")}>Login</span>
           </div>
         </form>
       </div>

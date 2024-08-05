@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import OTPInput from './OTP';
 import FormLayer from '../components/FormLayer';
+import { useNavigate } from 'react-router-dom';
 
 const OtpForm = () => {
   const [otp, setOtp] = useState('');
+  const navigate = useNavigate()
 
   const handleOtpChange = (otp) => {
     setOtp(otp);
@@ -23,13 +25,13 @@ const OtpForm = () => {
         <OTPInput length={4} onChange={handleOtpChange} />
         <button
           type="submit"
-          className="w-full bg-[#8098F9] text-white py-2 rounded mt-4 hover:bg-[#8098F9]transition-colors"
+          className="w-full bg-[#8098F9] text-white py-2 rounded mt-4 hover:bg-[#8098F9]transition-colors" onClick={() => navigate('/newPassword')}
         >
           SUBMIT
         </button>
         <button
           type="button"
-          className="mt-4 w-full text-center font-semibold text-[#8098F9] hover:underline"
+          className="mt-4 w-full text-center font-semibold text-[#8098F9] hover:underline" 
         >
           Resent OTP
         </button>

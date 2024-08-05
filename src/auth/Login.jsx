@@ -5,9 +5,11 @@ import { BsEnvelope } from 'react-icons/bs';
 import { FiShieldOff } from 'react-icons/fi';
 import { FiEye } from 'react-icons/fi';
 import { FiEyeOff } from 'react-icons/fi';
-
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const Login = () => {
   const [passType, setPassType] = useState('password');
+  const navigate = useNavigate()
 
   return (
     <FormLayer>
@@ -56,11 +58,11 @@ const Login = () => {
                 Remember me
               </label>
             </div>
-            <div className="font-semibold text-[#8098F9] cursor-pointer">Forgot Password?</div>
+            <Link to="/forgotPassword" className="font-semibold text-[#8098F9] cursor-pointer">Forgot Password?</Link>
           </div>
-          <button className="w-full rounded-md text-white md:text-2xl font-bold bg-[#8098F9] py-3" type="submit">LOG IN</button>
+          <button className="w-full rounded-md text-white md:text-2xl font-bold bg-[#8098F9] py-3" type="submit" onClick={() => navigate('/home')}>LOG IN</button>
           <div className="text-center">
-            Don't Have account ? <span className="text-[#8098F9] font-semibold">Create an account</span>
+            Don't Have account ? <span className="text-[#8098F9] font-semibold" onClick={() => navigate('/register')}>Create an account</span>
           </div>
         </form>
       </div>
