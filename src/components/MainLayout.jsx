@@ -43,13 +43,13 @@ const MainLayout = () => {
                                 {data.name}
                             </div>
                         ))}
-                        <img src={list} alt="" className='cursor-pointer mx-3' />
+                        {/* <img src={list} alt="" className='cursor-pointer mx-3' /> */}
                     </div>
                     <div className="w-full flex flex-col">
                         {activeTab}
                     </div>
                 </div>
-                <div className="h-full mb-4">
+                <div className="h-full  ">
                     <Map />
                 </div>
             </div>

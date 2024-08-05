@@ -24,7 +24,7 @@ const Header = () => {
                 <div className="w-[30px] h-[30px] rounded-full overflow-hidden">
                     <img src={per} alt="" className="w-full h-full" />
                 </div>
-                <div className="px-2">Sribabu</div>
+                <div className="px-2">VS Logistics Solution Put.Ltd</div>
                 <FaChevronDown className='mx-3' />
             </div>
         </div>

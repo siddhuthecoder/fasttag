@@ -21,7 +21,7 @@ const OtpForm = () => {
      <div className="flex items-center justify-center min-h-screen w-full ">
       <form onSubmit={handleSubmit} className=" p-6 rounded-lg">
       <div className=" font-bold text-2xl md:text-[40px]">Enter OTP</div>
-      <p className=" text-[#71717A] pt-3 md:text-[20px] mb-[20px]">Sent OTP on <span className="text-[#8098F9] font-semibold">sribabu@gmail.com</span></p>
+      <p className=" text-[#71717A] pt-3 md:text-[20px] mb-[20px]">Sent OTP on <span className="text-[#8098F9] font-semibold">9398848215</span></p>
         <OTPInput length={4} onChange={handleOtpChange} />
         <button
           type="submit"
