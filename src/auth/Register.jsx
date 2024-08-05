@@ -10,8 +10,8 @@ const Register = () => {
   const navigate = useNavigate()
   return (
     <FormLayer>
-      <div className="flex   flex-col">
-        <div className="text-center font-bold text-2xl md:text-[40px]">Create your accoumt</div>
+      <div className="flex w-[90%] max-w-[400px] mx-auto   flex-col">
+        <div className=" font-bold text-2xl md:text-[40px]">Create your accoumt</div>
         <p className=" text-[#71717A] pt-3 md:text-[20px]">Unlock all Features!</p>
         <hr className="mx-[100px] my-[15px]" />
         <form action="" className="flex flex-col w-full  space-y-2">
