@@ -25,52 +25,55 @@ const Sarathi = () => {
             <img src={car1} alt="" className="m-2" />
           </div>
           <hr className="mx-3 my-1" />
-          <div className="text-2xl font-semibold text-[#5E81F4]">Driving license Details</div>
-          <div className="w-full  grid grid-cols-1 md:grid-cols-2 gap-3 min-h-[150px] overflow-y-scroll">
-            <div className="flex flex-col ps-2">
-              <div className="text-zinc-400">Vehicle Number</div>
-              <div className="font-semibold">EV-2017002346</div>
+          
+          <div className="w-full flex flex-col h-[400px] overflow-y-auto">
+            <div className="text-2xl font-semibold text-[#5E81F4]">Driving license Details</div>
+            <div className="w-full  grid grid-cols-1 md:grid-cols-2 gap-3 ">
+              <div className="flex flex-col ps-2">
+                <div className="text-zinc-400">Vehicle Number</div>
+                <div className="font-semibold">EV-2017002346</div>
+              </div>
+              <div className="flex flex-col ps-2">
+                <div className="text-zinc-400">Vehicle Number</div>
+                <div className="font-semibold">EV-2017002346</div>
+              </div>
+              <div className="flex flex-col ps-2">
+                <div className="text-zinc-400">Vehicle Number</div>
+                <div className="font-semibold">EV-2017002346</div>
+              </div>
+              <div className="flex flex-col ps-2">
+                <div className="text-zinc-400">Vehicle Number</div>
+                <div className="font-semibold">EV-2017002346</div>
+              </div>
+              <div className="flex flex-col ps-2">
+                <div className="text-zinc-400">Vehicle Number</div>
+                <div className="font-semibold">EV-2017002346</div>
+              </div>
+              <div className="flex flex-col ps-2">
+                <div className="text-zinc-400">Vehicle Number</div>
+                <div className="font-semibold">EV-2017002346</div>
+              </div>
+              <div className="flex flex-col ps-2">
+                <div className="text-zinc-400">Vehicle Number</div>
+                <div className="font-semibold">EV-2017002346</div>
+              </div>
             </div>
-            <div className="flex flex-col ps-2">
-              <div className="text-zinc-400">Vehicle Number</div>
-              <div className="font-semibold">EV-2017002346</div>
-            </div>
-            <div className="flex flex-col ps-2">
-              <div className="text-zinc-400">Vehicle Number</div>
-              <div className="font-semibold">EV-2017002346</div>
-            </div>
-            <div className="flex flex-col ps-2">
-              <div className="text-zinc-400">Vehicle Number</div>
-              <div className="font-semibold">EV-2017002346</div>
-            </div>
-            <div className="flex flex-col ps-2">
-              <div className="text-zinc-400">Vehicle Number</div>
-              <div className="font-semibold">EV-2017002346</div>
-            </div>
-            <div className="flex flex-col ps-2">
-              <div className="text-zinc-400">Vehicle Number</div>
-              <div className="font-semibold">EV-2017002346</div>
-            </div>
-            <div className="flex flex-col ps-2">
-              <div className="text-zinc-400">Vehicle Number</div>
-              <div className="font-semibold">EV-2017002346</div>
+            <hr className="mx-3 my-1" />
+            <div className="flex flex-col ">
+                <div className="text-2xl font-semibold text-[#5E81F4]">Driving Class</div>
+                  {/* ============ classes ============== */}
+                  <div className="font-semibold text-lg ps-3">Motot Cycle WIth Gear <span className="text-green-600">(Active)</span></div>
+                  <div className=" ps-[30px] text-zinc-400">Validity <span className="text-semibold">00/00/0000-11/11/1111 </span></div>
+                  <div className="font-semibold text-lg ps-3">Motot Cycle WIth Gear <span className="text-green-600">(Active)</span></div>
+                  <div className=" ps-[30px] text-zinc-400">Validity <span className="text-semibold">00/00/0000-11/11/1111 </span></div>
+                  <div className="font-semibold text-lg ps-3">Motot Cycle WIth Gear <span className="text-green-600">(Active)</span></div>
+                  <div className=" ps-[30px] text-zinc-400">Validity <span className="text-semibold">00/00/0000-11/11/1111 </span></div>
+                  <div className="font-semibold text-lg ps-3">Motot Cycle WIth Gear <span className="text-green-600">(Active)</span></div>
+                  <div className=" ps-[30px] text-zinc-400">Validity <span className="text-semibold">00/00/0000-11/11/1111 </span></div>
+                  <div className="font-semibold text-lg ps-3">Motot Cycle WIth Gear <span className="text-green-600">(Active)</span></div>
+                  <div className=" ps-[30px] text-zinc-400">Validity <span className="text-semibold">00/00/0000-11/11/1111 </span></div>
             </div>
           </div>
-          <hr className="mx-3 my-1" />
-         <div className="flex flex-col min-h-[140px] overflow-y-scroll">
-            <div className="text-2xl font-semibold text-[#5E81F4]">Driving Class</div>
-              {/* ============ classes ============== */}
-              <div className="font-semibold text-lg ps-3">Motot Cycle WIth Gear <span className="text-green-600">(Active)</span></div>
-              <div className=" ps-[30px] text-zinc-400">Validity <span className="text-semibold">00/00/0000-11/11/1111 </span></div>
-              <div className="font-semibold text-lg ps-3">Motot Cycle WIth Gear <span className="text-green-600">(Active)</span></div>
-              <div className=" ps-[30px] text-zinc-400">Validity <span className="text-semibold">00/00/0000-11/11/1111 </span></div>
-              <div className="font-semibold text-lg ps-3">Motot Cycle WIth Gear <span className="text-green-600">(Active)</span></div>
-              <div className=" ps-[30px] text-zinc-400">Validity <span className="text-semibold">00/00/0000-11/11/1111 </span></div>
-              <div className="font-semibold text-lg ps-3">Motot Cycle WIth Gear <span className="text-green-600">(Active)</span></div>
-              <div className=" ps-[30px] text-zinc-400">Validity <span className="text-semibold">00/00/0000-11/11/1111 </span></div>
-              <div className="font-semibold text-lg ps-3">Motot Cycle WIth Gear <span className="text-green-600">(Active)</span></div>
-              <div className=" ps-[30px] text-zinc-400">Validity <span className="text-semibold">00/00/0000-11/11/1111 </span></div>
-         </div>
         </div>
 
       </div>
