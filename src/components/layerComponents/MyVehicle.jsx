@@ -25,7 +25,7 @@ const MyVehicle = () => {
           </div>
           
         </div>
-       <div className="w-full flex-col mt-3 h-[70vh] overflow-y-auto">
+       <div className="w-full flex-col h-[70vh] mt-3 overflow-y-auto">
         <div className="w-full bg-white rounded-md mt-3 justify-between flex-wrap  flex items-center">
             <div className="flex w-full  justify-between ,d:justify-start md:w-auto items-center gap-1">
               <div className="flex flex-col ps-2 my-2">
@@ -299,7 +299,7 @@ const MyVehicle = () => {
               </div>
             </div>
         </div>
-
+        
        </div>
        
         

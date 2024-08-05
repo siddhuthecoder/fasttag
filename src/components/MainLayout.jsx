@@ -31,8 +31,8 @@ const MainLayout = () => {
 
     return (
         <>
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-2 mt-5">
-                <div className="w-[90%] mx-auto flex flex-col ">
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5  md:gap-2 mt-5">
+                <div className="w-[90%] mx-auto  max-h-[80vh] overflow-y-scroll flex flex-col ">
                     <div className="w-full overflow-x-scroll  mx-auto flex items-center justify-start gap-3">
                         {tabs.map((data, index) => (
                             <div
@@ -49,7 +49,7 @@ const MainLayout = () => {
                         {activeTab}
                     </div>
                 </div>
-                <div className="h-full mb-4">
+                <div className=" mb-4 max-h-[80vh]">
                     <Map />
                 </div>
             </div>
