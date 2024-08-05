@@ -10,7 +10,7 @@ import { FaChevronDown } from "react-icons/fa";
 const Header = () => {
   return (
     <>
-      <div className="w-full flex items-center shadow sticky top-0   justify-between bg-white h-[60px]">
+      <div className="w-full flex items-center shadow sticky top-0 z-[3]  justify-between bg-white h-[60px]">
         <div className="flex items-center">
             <TiThMenu className='text-2xl text-zinc-400 cursor-pointer mx-2 md:hidden'  />
             <img src={logo} alt="" className="mx-3 cursor-pointer"  />

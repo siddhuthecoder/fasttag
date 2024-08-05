@@ -49,9 +49,10 @@ const MainLayout = () => {
                         {activeTab}
                     </div>
                 </div>
-                <div className="w-[90%] mx-auto h-[650px]  z-[-5] overflow-y-scroll flex justify-center items-center">
+                <div className="w-[90%] mx-auto h-[650px]  z-[-0] overflow-y-scroll flex justify-center items-center">
                     <Map />
                 </div>
+                
                 
             </div>
         </>
