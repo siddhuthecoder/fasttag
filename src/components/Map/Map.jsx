@@ -83,8 +83,8 @@ const Map = () => {
   };
 
   return (
-        <div className=" w-[90%] mx-auto overflow-hidden mt-3 h-full  rounded-lg " style={{
-          // height:"20vh"
+        <div className=" w-[100%] mx-auto overflow-hidden mt-3   rounded-lg " style={{
+          height:"82vh"
         }}>
           <MapComponent data={data} />
         </div>
