@@ -8,12 +8,12 @@ const Fastag = () => {
   return (
     <>  
       <div className="w-full flex flex-col">
-          <div className="flex w-full  mx-auto items-center mt-3 relative">
+          {/* <div className="flex w-full  mx-auto items-center mt-3 relative">
             <input type="text" className="w-full  px-3  h-[52px] rounded-md border"  placeholder="Enter Vehicle Number"/>
-            <div className="absolute right-0 w-[50px] z-[2] h-[50px] bg-[#5E81F4] rounded-tr-md rounded-tb-md rounded-br-md flex justify-center   items-center">
+            <div className="absolute right-0 w-[50px]  h-[50px] bg-[#5E81F4] rounded-tr-md rounded-tb-md rounded-br-md flex justify-center   items-center">
               <IoSearchOutline className="text-white text-2xl" />
             </div>
-          </div>
+          </div> */}
         <div className="w-full flex flex-col bg-white mt-5 ps-3  rounded-md">
             <div className="text-zinc-400 pt-3 ">Vehicle Number</div>
             <div className="text-2xl font-semibold">EV-2017002346</div>

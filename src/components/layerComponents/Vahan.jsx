@@ -28,7 +28,7 @@ const Vahan = () => {
               <div className="text-2xl font-semi-bold text-[#5E81F4]">Vehicle Info</div>
               <div className="flex flex-col ps-2">
                 <div className="text-zinc-400">Owner Name</div>
-                <div className=" text-lg">Sribabu Mandraju</div>
+                <div className=" text-lg">Siddhu</div>
               </div>
               <div className="w-full grid grid-cols-1 mt-2 gap-2 md:grid-cols-2">
                 <div className="flex flex-col ps-2">

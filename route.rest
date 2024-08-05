@@ -13,9 +13,38 @@ token=j5tnBq71wx8hs69hbov5hTBJhYE1vEdzk6HbvJICZBDDxj6uRfzuAio122DTM+8rvURAwXp9hr
 # Step 2: Get the result (use the actual token obtained from the previous step)
 POST https://examcell.rguktn.ac.in/results/202324_20E2_S2_Reg/getResult.php
 Content-Type: application/x-www-form-urlencoded; charset=UTF-8
-Cookie: PHPSESSID=8i9tfr0ud8ahh1e1lnpbiukfr3
+Cookie: PHPSESSID=98u4c01ub0bk3q490ios6bf0o7
 Referer: https://examcell.rguktn.ac.in/results/202324_20E2_S2_Reg/
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36
-X-Requested-With: XMLHttpRequest
+# User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36
+# X-Requested-With: XMLHttpRequest
 
-SID=N200119&token=NnvvxFsBe+Kmm2OC0qY5bhztoxJGmTjqVCVQvClaNui4kzC/476UKv7yDWTnY0kmR7ndvO58a5NjKA==
+SID=N200212&token=Ze5hXOqjPm2sIIwXx2EF6v3vX9d10wFYJWyF6vD764NcBLAxfrA73Upm7k5FljvS2kizMmeVVF25eQ==
+###
+POST https://freighteg.in/freightapi/ULLIPtracking
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxaWtfdXNyIiwiaWF0IjoxNzIxODQwMDI0LCJhcHBzIjoiZGF0YXB1c2gifQ.seQnFT3tjqPfsEPo34eSP-HQi4W8vGvPAwFuW910Y3Sw1mlbgMnLp89VKL9xB9coX2Yf8GvPYmvtjwSPkLx9GQ
+
+{
+  "company_id": "665580f353ccced94082681b",
+  "tracking_For": "VAHAN",
+  "parameters": {
+    "vehiclenumber": "HR55AM4802"
+  }
+}
+
+
+
+###
+POST https://freighteg.in/freightapi/ULLIPtracking
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxaWtfdXNyIiwiaWF0IjoxNzIxODQwMDI0LCJhcHBzIjoiZGF0YXB1c2gifQ.seQnFT3tjqPfsEPo34eSP-HQi4W8vGvPAwFuW910Y3Sw1mlbgMnLp89VKL9xB9coX2Yf8GvPYmvtjwSPkLx9GQ
+
+{
+  "company_id": "665580f353ccced94082681b",
+  "tracking_For": "SARATHI",
+  "parameters": {
+    "dlnumber": "AP03020190043439",
+    "dob": "1980-09-10"
+  }
+}
+

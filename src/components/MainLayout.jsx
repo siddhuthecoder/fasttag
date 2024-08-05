@@ -32,7 +32,7 @@ const MainLayout = () => {
     return (
         <>
             <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5  md:gap-2 mt-5">
-                <div className="w-[90%] mx-auto  max-h-[80vh] overflow-y-scroll flex flex-col ">
+                <div className="w-[90%] mx-auto  overflow-y-scroll flex flex-col ">
                     <div className="w-full overflow-x-scroll  mx-auto flex items-center justify-start gap-3">
                         {tabs.map((data, index) => (
                             <div
@@ -43,15 +43,14 @@ const MainLayout = () => {
                                 {data.name}
                             </div>
                         ))}
-                        <img src={list} alt="" className='cursor-pointer mx-3' />
+                        {/* <img src={list} alt="" className='cursor-pointer mx-3' /> */}
                     </div>
                     <div className="w-full flex flex-col">
                         {activeTab}
                     </div>
                 </div>
-                <div className=" mb-4 max-h-[80vh]">
-                    <Map />
-                </div>
+                <Map style={{zIndex:"-1"}} />
+                
             </div>
         </>
     );

@@ -5,7 +5,7 @@ const GOOGLE_MAPS_API_KEY = "AIzaSyDRsQkxX8q_oHmm5V8Mz2tjeuurOQpfbN0";
 
 const containerStyle = {
   width: "100%",
-  height: "80vh",
+  minHeight: "80vh",
 };
 
 // eslint-disable-next-line
