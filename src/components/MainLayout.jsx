@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 const MainLayout = ({children}) => {
     const [tab, setTab] = useState("Fastag");
 
-    
+
     const tabs = [
         {
             name: "Fastag",
@@ -39,7 +39,7 @@ const MainLayout = ({children}) => {
     return (
         <>
             <div className="w-full grid grid-cols-1 mt-[80px] md:grid-cols-12 gap-5 overflow-auto  md:gap-2 ">
-                <div className="w-[90%] mx-auto max-h-[620px]  md:col-span-4     overflow-y-scroll flex flex-col ">
+                <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[620px]  md:col-span-4     overflow-y-scroll flex flex-col ">
                     <div className="flex items-center flex-wrap mt-2 gap-2 md:hidden ">
                         {tabs.map((data, index) => (
                             <Link
@@ -56,7 +56,7 @@ const MainLayout = ({children}) => {
                         {children}
                     </div>
                 </div>
-                <div className="w-[90%] mx-auto min-h-[620px]  z-[-0]  md:col-span-8 overflow-y-scroll flex justify-center items-center">
+                <div className="md:w-[90%] w-[100%] ms-2  mx-auto min-h-[620px]  z-[-0]  md:col-span-8 overflow-y-scroll flex justify-center items-center">
                     <Map />
                 </div>
                 
