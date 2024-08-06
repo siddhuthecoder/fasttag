@@ -115,8 +115,8 @@ const Header = () => {
       </div>
       {/* Side Menu */}
       {isMenuOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-[1000]">
-          <div className="absolute flex  flex-col top-0 left-0 w-full max-w-[230px] h-[100vh]  z-[1000] bg-white shadow-md">
+        <div className="fixed inset-0 top-0 bg-black bg-opacity-50 z-[1000]">
+          <div className="absolute flex  flex-col top-0 left-0 w-full max-w-[270px] h-[100vh]  z-[1000] bg-white shadow-md">
               <div className="w-full flex items-center mb-4 justify-between">
                 <div className="flex mt-2">
                   <img src={logo} alt="Logo" className=" scale-[0.6] cursor-pointer" />
