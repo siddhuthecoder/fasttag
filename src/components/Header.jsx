@@ -101,7 +101,7 @@ const Header = () => {
             </div>
             <div className="flex-col ps-2 mx-2 hidden md:flex">
               <div className="font-semibold flex items-center">
-                <span>Sribabu Mandraju</span>
+                <span>Company Name Here</span>
               </div>
               <div className="w-full flex items-center justify-between">
                 <div className="bg-[#5E81F4] px-2 rounded-lg font-semibold text-white">Basic</div>
