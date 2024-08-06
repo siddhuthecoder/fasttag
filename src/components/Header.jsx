@@ -116,10 +116,13 @@ const Header = () => {
       {/* Side Menu */}
       {isMenuOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-[1000]">
-          <div className="absolute flex  flex-col top-0 left-0 w-full h-[100vh]  z-[1000] bg-white shadow-md">
-              <div className="w-full flex items-center justify-between">
-                <div className=""></div>
-                <MdOutlineClose className="text-2xl m-2 text-red-500" onClick={toggleMenu} />
+          <div className="absolute flex  flex-col top-0 left-0 w-full max-w-[230px] h-[100vh]  z-[1000] bg-white shadow-md">
+              <div className="w-full flex items-center mb-4 justify-between">
+                <div className="flex mt-2">
+                  <img src={logo} alt="Logo" className=" scale-[0.6] cursor-pointer" />
+                  <div className=" font-semibold text-[#5E81F4]   text-1xl">VS Logistics Solution Pvt.Ltd</div>
+                </div>
+                <MdOutlineClose className="text-5xl m-2 text-red-500" onClick={toggleMenu} />
               </div>
               <div className="flex w-[70%] flex-col ps-2 divide-y">
                 {
