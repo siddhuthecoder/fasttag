@@ -56,7 +56,7 @@ const MainLayout = ({children}) => {
                         {children}
                     </div>
                 </div>
-                <div className="md:w-[90%] w-[100%]  mx-auto min-h-[620px]  z-[-0]  md:col-span-8  flex justify-center items-center">
+                <div className="md:w-[90%] w-[100%] ms-1  mx-auto min-h-[620px]  z-[-0]  md:col-span-8  flex justify-center items-center">
                     <Map />
                 </div>
                 
