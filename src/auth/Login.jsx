@@ -13,7 +13,7 @@ const Login = () => {
 
   return (
     <FormLayer>
-      <div className="flex w-[90%] mx-auto max-w-[400px] flex-col">
+      <div className="flex w-[90%]  mx-auto max-w-[400px] flex-col">
         <div className=" font-semibold text-2xl md:text-[40px]">Login to your Account</div>
         <p className=" text-[#71717A] pt-3 md:text-[20px]">Welcome back! Select method to log in:</p>
         <hr className="mx-[100px] my-[15px]" />

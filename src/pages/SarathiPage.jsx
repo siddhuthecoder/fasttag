@@ -1,12 +1,11 @@
 import React from 'react'
 import MainLayout from '../components/MainLayout'
-import Fastag from '../components/layerComponents/Fastag'
-
+import Sarathi from '../components/layerComponents/Sarathi'
 
 const SarathiPage = () => {
   return (
     <MainLayout>
-        <Fastag />
+        <Sarathi />
     </MainLayout>
   )
 }

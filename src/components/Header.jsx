@@ -53,18 +53,19 @@ const Header = () => {
             onClick={toggleMenu} 
           />
           <img src={logo} alt="Logo" className="mx-3 cursor-pointer" />
-          <div className="ps-2 font-semibold text-[#5E81F4] hidden md:block text-1xl">VS Logistics Solution Pvt.Ltd</div>
+          
         </div>
         <div className="md:flex items-center gap-2 hidden ">
-            {tabs.map((data, index) => (
-                <Link to={data.link}
-                    key={index}
-                    className={`px-3 py-1 cursor-pointer  text-nowrap  font-semibold  hover:text-[#5E81F4]`}
-                    // onClick={() => setTab(data.name)}
-                >
-                    {data.name}
-                </Link>
-            ))}
+          {tabs.map((data, index) => (
+              <Link
+                  to={data.link}
+                  key={index}
+                  className={`px-3 py-1 cursor-pointer  text-nowrap border border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
+                  // onClick={() => setTab(data.name)}
+              >
+                  {data.name}
+              </Link>
+          ))}
         </div>
         <div className="flex items-center gap-2">
           <div className="md:flex hidden items-center mx-2 group relative">
@@ -101,7 +102,7 @@ const Header = () => {
             </div>
             <div className="flex-col ps-2 mx-2 hidden md:flex">
               <div className="font-semibold flex items-center">
-                <span>Sribabu Mandraju</span>
+                <div className="ps-2 font-semibold text-[#5E81F4] hidden md:block text-1xl">VS Logistics Solution Pvt.Ltd</div>
               </div>
               <div className="w-full flex items-center justify-between">
                 <div className="bg-[#5E81F4] px-2 rounded-lg font-semibold text-white">Basic</div>

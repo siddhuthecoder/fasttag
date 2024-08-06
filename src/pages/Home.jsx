@@ -5,7 +5,7 @@ import MainLayout from '../components/MainLayout'
 const Home = ({children}) => {
   return (
     <>
-      <div className="w-full mt-[80px]">
+      <div className="w-full ">
         {children}  
       </div>
     </>
