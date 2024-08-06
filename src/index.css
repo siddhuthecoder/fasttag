@@ -8,10 +8,10 @@
 }
 body{
     background-color: #F2F2F2;
+
 }
 
 ::-webkit-scrollbar {
-    width: 0px; /* Width of the vertical scrollbar */
-    /* height: 8px; */
-  }
-  
+    width: 12px; /* Width of vertical scrollbar */
+    height: 2x; 
+}

@@ -26,7 +26,7 @@ const Sarathi = () => {
           </div>
           <hr className="mx-3 my-1" />
           
-          <div className="w-full flex flex-col h-[400px] overflow-y-auto">
+          <div className="w-full flex flex-col ">
             <div className="text-2xl font-semibold text-[#5E81F4]">Driving license Details</div>
             <div className="w-full  grid grid-cols-1 md:grid-cols-2 gap-3 ">
               <div className="flex flex-col ps-2">
@@ -59,7 +59,7 @@ const Sarathi = () => {
               </div>
             </div>
             <hr className="mx-3 my-1" />
-            <div className="flex flex-col ">
+            <div className="flex flex-col h-[200px] overflow-y-auto">
                 <div className="text-2xl font-semibold text-[#5E81F4]">Driving Class</div>
                   {/* ============ classes ============== */}
                   <div className="font-semibold text-lg ps-3">Motot Cycle WIth Gear <span className="text-green-600">(Active)</span></div>

@@ -31,7 +31,7 @@ const MainLayout = () => {
 
     return (
         <>
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5  md:gap-2 mt-5">
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5 overflow-auto  md:gap-2 mt-5">
                 <div className="w-[90%] mx-auto h-[650px]  overflow-y-scroll flex flex-col ">
                     <div className="w-full overflow-x-scroll   mx-auto flex items-center justify-start gap-3">
                         {tabs.map((data, index) => (
