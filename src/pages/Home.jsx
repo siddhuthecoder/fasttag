@@ -2,11 +2,12 @@ import React from 'react'
 import Header from '../components/Header'
 import MainLayout from '../components/MainLayout'
 
-const Home = () => {
+const Home = ({children}) => {
   return (
     <>
-      <Header />
-      <MainLayout />
+      <div className="w-full mt-[80px]">
+        {children}  
+      </div>
     </>
   )
 }
