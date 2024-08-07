@@ -1,48 +1,36 @@
+// src/pages/Login.js
 import React, { useState } from 'react';
-import FormLayer from '../components/FormLayer';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../store/authSlice';
 import { BsEnvelope } from 'react-icons/bs';
 import { FiShieldOff, FiEye, FiEyeOff } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';  // Import Axios
+import FormLayer from '../components/FormLayer';
 
 const Login = () => {
   const [number, setNumber] = useState('');
   const [password, setPassword] = useState('');
   const [passType, setPassType] = useState('password');
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { userInfo, loading, error } = useSelector((state) => state.user);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    try {
-      const response = await axios.post('https://fastagtracking.com/customulip/login', {
-        phone: number,
-        password: password,
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      });
-
-      console.log('Login successful:', response.data);
-      navigate('/fastag');
-    } catch (error) {
-      if (error.response) {
-        // Request made and server responded with a status code that falls out of the range of 2xx
-        console.error('Error response:', error.response.data);
-        console.error('Error status:', error.response.status);
-        console.error('Error headers:', error.response.headers);
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.error('Error request:', error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.error('Error message:', error.message);
-      }
-      console.error('Error config:', error.config);
-      navigate('/fastag');
-    }
+    dispatch(loginUser({ phone: number, password }));
   };
+
+  if (loading) {
+    return (
+      <div className="w-full flex justify-center items-center">
+        <div className="">Loading....</div>
+      </div>
+    );
+  }
+
+  if (userInfo) {
+    navigate('/fastag');
+  }
 
   return (
     <FormLayer>
@@ -93,9 +81,10 @@ const Login = () => {
               Forgot Password?
             </Link>
           </div>
-          <button className="w-full rounded-md text-white md:text-2xl font-bold bg-[#8098F9] py-3" type="submit">
+          <button type="submit" className="w-full rounded-md text-white md:text-2xl font-bold bg-[#8098F9] py-3">
             LOG IN
           </button>
+          {error && <div className="text-red-500">{error}</div>}
           <div className="text-center">
             Don't have an account?{' '}
             <span className="text-[#8098F9] font-semibold cursor-pointer" onClick={() => navigate('/register')}>
