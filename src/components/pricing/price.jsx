@@ -16,11 +16,9 @@ const Price = () => {
           {/* Free plan starts */}
           <div className="planItem planItem--free">
             <div className="card">
-              <div className="card__header">
-                <div className="w-[50px] h-[50px] rounded-md bg-blue-200 flex justify-center items-center">
-                    <GrCube className="text-2xl" />
-                </div>
-                <h2 className="font-semibold">Basic</h2>
+            <div class="card__header">
+                <div class="card__icon symbol symbol--rounded"></div>
+                <h2>Basic</h2>
               </div>
               <div className="card__desc">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
@@ -38,7 +36,7 @@ const Price = () => {
               <li className="disabled">API for ERP and SAP</li>
             </ul>
 
-            <button className="button white" style={{ color: "white" }}>
+            <button className="button white bg-[#5E81F4]" style={{ color: "white" }}>
               Get Started
             </button>
           </div>
@@ -48,11 +46,10 @@ const Price = () => {
           <div className="planItem planItem--entp bg-[#5E81F4] " style={{
             backgroundColor:"#5E81F4"
           }}>
-             <div className="card__header">
-                <div className="w-[50px] h-[50px] rounded-md bg-blue-200 flex justify-center items-center">
-                    <FaCubes className="text-2xl" />
-                </div>
-                <h2 className="font-semibold text-2xl">Standard</h2>
+             <div class="card__header">
+                <div class="card__icon"></div>
+                <h2 className="text-white font-semibold text-2xl">Standartad</h2>
+             
               </div>
             <div className="card">
               <div className="card__desc">
@@ -76,11 +73,10 @@ const Price = () => {
           {/* Premium plan starts */}
           <div className="planItem planItem--pro">
             <div className="card">
-            <div className="card__header">
-                <div className="w-[50px] h-[50px] rounded-md bg-blue-200 flex justify-center items-center">
-                    <MdCurrencyBitcoin className="text-2xl" />
-                </div>
-                <h2 className="font-semibold text-2xl">Standard</h2>
+            <div class="card__header">
+                <div class="card__icon symbol"></div>
+                <h2>Premeium</h2>
+                
               </div>
               <div className="card__desc">
                 Ut enim ad minim veniam, quis nostrud exercitation ullamco
