@@ -9,12 +9,18 @@ import Fastag from '../components/layerComponents/Fastag'
 import Vahan from '../components/layerComponents/Vahan'
 import Sarathi from '../components/layerComponents/Sarathi'
 import MyVehicle from '../components/layerComponents/MyVehicle'
-
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate()
+  const location = useLocation()
+  const pathName = location.pathname
+
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -60,7 +66,7 @@ const Header = () => {
               <Link
                   to={data.link}
                   key={index}
-                  className={`px-3 py-1 cursor-pointer  text-nowrap  border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
+                  className={`px-3 py-1 cursor-pointer ${pathName == data.link?"bg-[#E1E1FB]":""}  text-nowrap  border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
                   // onClick={() => setTab(data.name)}
               >
                   {data.name}
@@ -91,7 +97,7 @@ const Header = () => {
                 </div>
               </div>
               <div className="w-[75%] mx-auto mt-3">
-                <button className="w-full bg-[#EDEDED] py-1 border border-black rounded-md font-semibold">Pricing/Plan</button>
+                <button className="w-full bg-[#EDEDED] py-1 border border-black rounded-md font-semibold" onClick={() => navigate("/pricing")}>Pricing/Plan</button>
               </div>
               <div className="w-[75%] mx-auto mt-3">
                 <button className="w-full bg-[#5E81F4] text-white py-1 rounded-md font-semibold">Log Out</button>

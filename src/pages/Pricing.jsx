@@ -1,11 +1,10 @@
 import React from 'react'
 import MainLayout from '../components/MainLayout'
-import price from '../components/price'
-
+import Price from '../components/pricing/price'
 const Pricing = () => {
   return (
   
-      <price/>
+      <Price />
    
   )
 }

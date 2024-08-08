@@ -7,9 +7,13 @@ import MyVehicle from './layerComponents/MyVehicle';
 // import Map from './Map/Map';
 import Map from './openstreetMap/Map'
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const MainLayout = ({children}) => {
     const [tab, setTab] = useState("Fastag");
+    const location = useLocation()
+
+    const pathName = location.pathname
 
     const tollData = [
         {
@@ -160,13 +164,13 @@ const MainLayout = ({children}) => {
     return (
         <>
             <div className="w-full grid grid-cols-1 mt-[80px] md:grid-cols-12 gap-5  md:gap-2 ">
-                <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[620px]  md:col-span-4      flex flex-col ">
+                <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[620px]  md:col-span-4  flex flex-col ">
                     <div className="flex items-center flex-wrap mt-2 gap-2 md:hidden ">
                         {tabs.map((data, index) => (
                             <Link
                                 to={data.link}
                                 key={index}
-                                className={`px-3 py-1 cursor-pointer  text-nowrap border border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
+                                className={`px-3 py-1 cursor-pointer ${pathName == data.link?"bg-[#E1E1FB]":""}   text-nowrap border border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
                                 // onClick={() => setTab(data.name)}
                             >
                                 {data.name}

@@ -28,6 +28,7 @@ const Fastag = () => {
       });
   
       if (!response.ok) {
+        
         const errorText = await response.text(); // Get error text
         throw new Error(`HTTP error! status: ${response.status}, ${errorText}`);
       }
