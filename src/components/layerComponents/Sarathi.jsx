@@ -10,8 +10,8 @@ const Sarathi = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.post('https://freighteg.in/freightapi/ULLIPtracking', {
-        company_id: '665580f353ccced94082681b',
+      const response = await axios.post('https://fastagtracking.com/customulip/ulipApi', {
+        company_id: '66b2f12abbef97c004389b88',
         tracking_For: 'SARATHI',
         parameters: {
           dlnumber: dlNumber,
@@ -19,8 +19,7 @@ const Sarathi = () => {
         }
       }, {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxaWtfdXNyIiwiaWF0IjoxNzIxODQwMDI0LCJhcHBzIjoiZGF0YXB1c2gifQ.seQnFT3tjqPfsEPo34eSP-HQi4W8vGvPAwFuW910Y3Sw1mlbgMnLp89VKL9xB9coX2Yf8GvPYmvtjwSPkLx9GQ'
+          'Content-Type': 'application/json'
         }
       });
       setVehicleData(response.data.response[0].response);
@@ -61,7 +60,7 @@ const Sarathi = () => {
                 <div className="flex flex-col">
                   <div className="text-zinc-400 text-sm">DL Number</div>
                   <div className="font-semi-bold text-lg">
-                    {vehicleData.licenseNumber} <span className="text-green-500">({vehicleData.licenseInformation.status})</span>
+                    {vehicleData.licenseInformation.licenseNumber} <span className="text-green-500">({vehicleData.licenseInformation.status})</span>
                   </div>
                 </div>
                 <img src={car1} alt="" className="m-2" />
@@ -92,7 +91,7 @@ const Sarathi = () => {
               <div className="text-2xl font-semibold text-[#5E81F4]">License Information</div>
               <div className="flex flex-col ps-2">
                 <div className="text-zinc-400">License Number</div>
-                <div className="text-lg">{vehicleData.licenseNumber}</div>
+                <div className="text-lg">{vehicleData.licenseInformation.licenseNumber}</div>
                 <div className="text-zinc-400">Issued Authority</div>
                 <div className="text-lg">{vehicleData.licenseInformation.issuedAuthority}</div>
                 <div className="text-zinc-400">Issued Date</div>

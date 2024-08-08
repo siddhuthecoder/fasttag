@@ -1,17 +1,32 @@
-import React, { useState } from 'react';
-import list from '../assets/list.png';
-import Vahan from './layerComponents/Vahan';
-import Fastag from './layerComponents/Fastag';
-import Sarathi from './layerComponents/Sarathi';
-import MyVehicle from './layerComponents/MyVehicle';
-// import Map from './Map/Map';
-import Map from './openstreetMap/Map'
-import { Link } from 'react-router-dom';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet Map with Toll Plazas</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <style>
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
 
-const MainLayout = ({children}) => {
-    const [tab, setTab] = useState("Fastag");
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([21.0, 82.0], 6); // Center the map in a suitable location
 
-    const tollData = [
+        // Add the tile layer from OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+        }).addTo(map);
+
+        // The data from the API response
+        var tollData = [
         {
             "readerReadTime": "2024-08-08 14:13:49.000",
             "tollPlazaName": "Dhank Toll Plaza",
@@ -132,59 +147,19 @@ const MainLayout = ({children}) => {
             "vehicleRegNo": "HR55AQ5994"
         }   // Add other toll plaza data here...
         ];
-    const tabs = [
-        {
-            name: "Fastag",
-            component: <Fastag />,
-            link: "/fastag"
-        },
-        {
-            name: "Vahan",
-            component: <Vahan />,
-            link: "/vahan"
-        },
-        {
-            name: "Sarathi",
-            component: <Sarathi />,
-            link: "/sarathi"
-        },
-        {
-            name: "My Vehicles",
-            component: <MyVehicle />,
-            link: "/MyVehicles"
-        }
-    ];
-    
-    const activeTab = tabs.find(data => data.name === tab)?.component;
 
-    return (
-        <>
-            <div className="w-full grid grid-cols-1 mt-[80px] md:grid-cols-12 gap-5  md:gap-2 ">
-                <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[620px]  md:col-span-4      flex flex-col ">
-                    <div className="flex items-center flex-wrap mt-2 gap-2 md:hidden ">
-                        {tabs.map((data, index) => (
-                            <Link
-                                to={data.link}
-                                key={index}
-                                className={`px-3 py-1 cursor-pointer  text-nowrap border border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
-                                // onClick={() => setTab(data.name)}
-                            >
-                                {data.name}
-                            </Link>
-                        ))}
-                    </div>
-                    <div className="w-full flex flex-col">
-                        {children}
-                    </div>
-                </div>
-                <div className="md:w-[90%] w-[100%] ms-1  mx-auto min-h-[620px]  z-[-0]  md:col-span-8  flex justify-center items-center">
-                    <Map  tollData={tollData}/>
-                </div>
-                
-                
-            </div>
-        </>
-    );
-}
+        // Loop through each toll plaza and add a marker
+        tollData.forEach(function(plaza) {
+            var geocode = plaza.tollPlazaGeocode.split(",");
+            var lat = parseFloat(geocode[0]);
+            var lng = parseFloat(geocode[1]);
 
-export default MainLayout;
+            // Create a marker for each toll plaza
+            var marker = L.marker([lat, lng]).addTo(map);
+
+            // Bind a popup with the toll plaza details
+            marker.bindPopup("<b>" + plaza.tollPlazaName + "</b><br>Vehicle Type: " + plaza.vehicleType + "<br>Vehicle Reg. No: " + plaza.vehicleRegNo + "<br>Read Time: " + plaza.readerReadTime);
+        });
+    </script>
+</body>
+</html>

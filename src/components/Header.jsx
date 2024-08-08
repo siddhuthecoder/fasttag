@@ -55,12 +55,12 @@ const Header = () => {
           <img src={logo} alt="Logo" className="mx-3 cursor-pointer" />
           
         </div>
-        <div className="md:flex items-center gap-2 hidden ">
+        <div className="md:flex items-center gap-4 hidden ">
           {tabs.map((data, index) => (
               <Link
                   to={data.link}
                   key={index}
-                  className={`px-3 py-1 cursor-pointer  text-nowrap border border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
+                  className={`px-3 py-1 cursor-pointer  text-nowrap  border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
                   // onClick={() => setTab(data.name)}
               >
                   {data.name}
@@ -69,7 +69,7 @@ const Header = () => {
         </div>
         <div className="flex items-center gap-2">
           <div className="md:flex hidden items-center mx-2 group relative">
-            <div className=" hover:text-[#5E81F4] font-semibold cursor-pointer">ABOUT</div>
+
             <div className="absolute top-[100%] right-[5%] rounded-md bg-white hidden group-hover:flex overflow-hidden flex-col w-[230px] shadow-lg border z-[3]" style={{ zIndex: "100" }}>
               <div className="flex flex-col divide-y gap-1 w-full">
                 <div className="w-full px-2  text-lg hover:bg-[#5E81F4] hover:text-white  cursor-pointer">Terms and Conditions</div>
@@ -102,11 +102,11 @@ const Header = () => {
             </div>
             <div className="flex-col ps-2 mx-2 hidden md:flex">
               <div className="font-semibold flex items-center">
-                <div className="ps-2 font-semibold text-[#5E81F4] hidden md:block text-1xl">VS Logistics Solution Pvt.Ltd</div>
+                <div className="font-semibold text-[#5E81F4] hidden md:block text-1xl">VS Logistics Solution Pvt.Ltd</div>
               </div>
               <div className="w-full flex items-center justify-between">
-                <div className="bg-[#5E81F4] px-2 rounded-lg font-semibold text-white">Basic</div>
-                <div className="text-[#5E81F4]">Upgrade</div>
+                <div className="bg-[#5E81F4] px-8 py-1 rounded-lg font-semibold text-white">Basic</div>
+                <div className="text-[#5E81F4] text-[20px] px-2">Upgrade</div>
               </div>
             </div>
             <FaChevronDown className="me-1" /> 

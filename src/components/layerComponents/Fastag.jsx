@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IoSearchOutline } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 
-const Vaahan = () => {
+const Fastag = () => {
   const [vehicleNumber, setVehicleNumber] = useState('');
   const [trackingData, setTrackingData] = useState([]);
   const [error, setError] = useState(null);
@@ -10,7 +10,7 @@ const Vaahan = () => {
   const handleSearch = async () => {
     try {
       const payload = {
-        "company_id": "665580f353ccced94082681b",
+        "company_id": "66b2f12abbef97c004389b88",
         "tracking_For": "FASTAG",
         "parameters": {
           "vehiclenumber": vehicleNumber
@@ -19,11 +19,10 @@ const Vaahan = () => {
   
       console.log('Request Payload:', payload); // Log the payload
   
-      const response = await fetch('https://freighteg.in/freightapi/ULLIPtracking', {
+      const response = await fetch('https://fastagtracking.com/customulip/ulipApi', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxaWtfdXNyIiwiaWF0IjoxNzIxODQwMDI0LCJhcHBzIjoiZGF0YXB1c2gifQ.seQnFT3tjqPfsEPo34eSP-HQi4W8vGvPAwFuW910Y3Sw1mlbgMnLp89VKL9xB9coX2Yf8GvPYmvtjwSPkLx9GQ'
         },
         body: JSON.stringify(payload)
       });
@@ -35,14 +34,13 @@ const Vaahan = () => {
   
       const data = await response.json();
       console.log('Tracking data:', data); // Log the data
-      setTrackingData(data.trackingInfo?.locations || []);
+      setTrackingData(data.response || []);
       setError(null);
     } catch (error) {
       console.error('Error fetching tracking data:', error);
       setError('Failed to fetch tracking data.');
     }
   };
-  
 
   return (
     <>  
@@ -56,7 +54,7 @@ const Vaahan = () => {
             onChange={(e) => setVehicleNumber(e.target.value)}
           />
           <div 
-            className="absolute right-0 w-[50px] h-[50px] bg-[#5E81F4] rounded-tr-md rounded-tb-md rounded-br-md flex justify-center items-center cursor-pointer"
+            className="absolute right-0 w-[50px] h-[50px] bg-[#5E81F4] rounded-tr-md rounded-br-md flex justify-center items-center cursor-pointer"
             onClick={handleSearch}
           >
             <IoSearchOutline className="text-white text-2xl" />
@@ -72,10 +70,10 @@ const Vaahan = () => {
                     <FaLocationDot className='text-blue-500' />
                   </div>
                 </div>
-                <div className="text-zinc-400 ps-[20px]">{location.address}</div>
+                <div className="text-zinc-400 ps-[20px]">{location.tollPlazaName}</div>
                 <div className="flex flex-col text-right text-[16px] ">
-                  <div className="text-black font-semibold">{location.date}</div>
-                  <div className="font-semibold">{location.time}</div>
+                  <div className="text-black font-semibold">{location.readerReadTime.split(' ')[0]}</div>
+                  <div className="font-semibold">{location.readerReadTime.split(' ')[1]}</div>
                 </div>
               </div>
             ))
@@ -88,4 +86,4 @@ const Vaahan = () => {
   );
 }
 
-export default Vaahan;
+export default Fastag;

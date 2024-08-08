@@ -23,7 +23,6 @@ SID=N200212&token=Ze5hXOqjPm2sIIwXx2EF6v3vX9d10wFYJWyF6vD764NcBLAxfrA73Upm7k5Flj
 
 POST https://freighteg.in/freightapi/ULLIPtracking
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxaWtfdXNyIiwiaWF0IjoxNzIxODQwMDI0LCJhcHBzIjoiZGF0YXB1c2gifQ.seQnFT3tjqPfsEPo34eSP-HQi4W8vGvPAwFuW910Y3Sw1mlbgMnLp89VKL9xB9coX2Yf8GvPYmvtjwSPkLx9GQ
 
 {
   "company_id": "665580f353ccced94082681b",
@@ -80,3 +79,57 @@ POST https://fastagtracking.com/company
 #   "plan": "66b0fa931ec9b8fa74ae795b",
 #   "expiryDate": "2024-12-31T23:59:59.999Z"
 # }
+### Create a new company
+POST https://fastagtracking.com/customulip/company
+Content-Type: application/json
+
+{
+    "name": "Company Name",
+    "phone": "1234567890",
+    "password": "password",
+    "plan": "66b0fa931ec9b8fa74ae795b",
+    "expiryDate": "2024-12-31T23:59:59Z",
+    "vehicleNumbers": ["ABC1234"]
+}
+
+### Get all companies
+GET https://fastagtracking.com/customulip/company
+
+### Get a specific company by ID
+GET https://fastagtracking.com/customulip/company/66b0faebbd10f1fc2ec12b8d
+
+### Update a specific company by ID
+PUT https://fastagtracking.com/customulip/company/66b0faebbd10f1fc2ec12b8d
+Content-Type: application/json
+
+{
+    "name": "Company2",
+    "phone": "0987654321"
+}
+
+### Get all plans
+GET https://fastagtracking.com/customulip/plans
+
+### Login
+POST https://fastagtracking.com/customulip/login
+Content-Type: application/json
+
+{
+    "phone": "1234567890",
+    "password": "password"
+}
+
+### Delete a specific company by ID
+DELETE https://fastagtracking.com/customulip/company/{company_id}
+
+### ULIP API
+POST https://fastagtracking.com/customulip/ulipApi
+Content-Type: application/json
+
+{
+    "company_id": "66b2f12abbef97c004389b88",
+    "tracking_For": "FASTAG",
+    "parameters": { 
+        "vehiclenumber": "ABC1234"
+    }
+}
