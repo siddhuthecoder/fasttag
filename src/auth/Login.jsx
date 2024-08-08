@@ -15,6 +15,8 @@ const Login = () => {
   const navigate = useNavigate();
   const { userInfo, loading, error } = useSelector((state) => state.user);
 
+  console.log("error :",error)
+
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(loginUser({ phone: number, password }));
