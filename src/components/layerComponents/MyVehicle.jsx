@@ -6,6 +6,9 @@ import mod1 from '../../assets/mod1.png';
 import mod2 from '../../assets/mod2.png';
 import { MdAddCard } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import  Map  from '../openstreetMap/Map';
 
 const VehicleCard = ({ vehicleNumber }) => {
   const navigate = useNavigate();
@@ -19,6 +22,28 @@ const VehicleCard = ({ vehicleNumber }) => {
     navigate(`/vahan/${vehicleNumber}`); // Redirect to Vahan page with vehicleNumber
   };
 
+  const tabs = [
+    {
+        name: "Fastag",
+        // component: <Fastag />,
+        link: "/fastag"
+    },
+    {
+        name: "Vahan",
+        // component: <Vahan />,
+        link: "/vahan"
+    },
+    {
+        name: "Sarathi",
+        // component: <Sarathi />,
+        link: "/sarathi"
+    },
+    {
+        name: "My Vehicles",
+        // component: <MyVehicle />,
+        link: "/MyVehicles"
+    }
+];
   return (
     <div
       className="w-full bg-white rounded-md mt-3 justify-between flex-wrap flex items-center cursor-pointer"
@@ -50,6 +75,30 @@ const VehicleCard = ({ vehicleNumber }) => {
 };
 
 const MyVehicle = () => {
+  const tabs = [
+    {
+        name: "Fastag",
+        // component: <Fastag />,
+        link: "/fastag"
+    },
+    {
+        name: "Vahan",
+        // component: <Vahan />,
+        link: "/vahan"
+    },
+    {
+        name: "Sarathi",
+        // component: <Sarathi />,
+        link: "/sarathi"
+    },
+    {
+        name: "My Vehicles",
+        // component: <MyVehicle />,
+        link: "/MyVehicles"
+    }
+];
+  const location = useLocation()
+  const pathName = location.pathname
   const vehicles = [
     "HR55AQ5884",
     "HR56AQ5885",
@@ -58,10 +107,26 @@ const MyVehicle = () => {
     "HR57AQ5888",
     // Add more vehicle numbers here
   ];
+  
 
   return (
     <>
-      <div className="w-full flex flex-col">
+       <div className="w-full grid grid-cols-1 mt-[80px] md:grid-cols-12 gap-5  md:gap-2 ">
+            <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[620px]  md:col-span-4  flex flex-col ">
+                <div className="flex items-center flex-wrap mt-2 gap-2 md:hidden ">
+                    {tabs?.map((data, index) => (
+                        <Link
+                            to={data?.link}
+                            key={index}
+                            className={`px-3 py-1 cursor-pointer ${pathName == data?.link?"bg-[#E1E1FB]":""}   text-nowrap border border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
+                            // onClick={() => setTab(data.name)}
+                        >
+                            {data?.name}
+                        </Link>
+                    ))}
+                </div>
+                <div className="w-full flex flex-col">
+                <div className="w-full flex flex-col">
         <div className="w-full grid grid-cols-12 gap-1">
           <div className="flex w-full col-span-9 md:col-span-8 mx-auto items-center mt-3 relative">
             <input type="text" className="w-full px-3 h-[52px] rounded-md border" placeholder="Enter Vehicle Number" />
@@ -82,6 +147,16 @@ const MyVehicle = () => {
           ))}
         </div>
       </div>
+                </div>
+            </div>
+            <div className="md:w-[90%] w-[100%] hidden md:flex ms-1  mx-auto min-h-[620px]  z-[-0]  md:col-span-8   justify-center items-center">
+                <Map  tollData={[]}/>
+            </div>
+            
+            
+        </div>
+      {/* child */}
+     
     </>
   );
 };

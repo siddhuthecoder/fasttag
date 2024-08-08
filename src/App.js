@@ -7,12 +7,16 @@ import Register from './auth/Register';
 import ForgetPassword from './auth/ForgetPassword';
 import NewPassword from './auth/NewPassword';
 import OTPForm from './auth/OtpForm';
-
+import Fastag from './components/layerComponents/Fastag';
+import Vahan from './components/layerComponents/Vahan';
+import Sarathi from './components/layerComponents/Sarathi';
+import MyVehicle from './components/layerComponents/MyVehicle';
 import FastagPage from './pages/FastagPage';
 import MyVehiclePage from './pages/MyVehiclePage';
 import SarathiPage from './pages/SarathiPage';
 import VahanPage from './pages/VahanPage';
 import Pricing from './pages/Pricing';
+
 import FastageIdPage from './pages/FastageIdPage';
 import VahanIdPage from './pages/VahanIdPage'
 
@@ -29,11 +33,11 @@ const App = () => {
           <Route path="/forgotPassword" element={<ForgetPassword />} />
           <Route path="/newPassword" element={<NewPassword />} />
           <Route path="/otp" element={<OTPForm />} />
-          <Route path="/fastag" element={<FastagPage />} />
+          <Route path="/fastag" element={<Fastag />} />
           <Route path="/fastag/:id" element={<FastageIdPage />} />
-          <Route path="/sarathi" element={<SarathiPage />} />
-          <Route path="/myVehicles" element={<MyVehiclePage />} />
-          <Route path="/vahan" element={<VahanPage />} />
+          <Route path="/sarathi" element={<Sarathi />} />
+          <Route path="/myVehicles" element={<MyVehicle />} />
+          <Route path="/vahan" element={<Vahan />} />
           <Route path="/vahan/:id" element={<VahanIdPage />} />
           <Route path="/pricing" element={<Pricing />} />
         </Routes>
