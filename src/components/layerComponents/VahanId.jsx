@@ -3,10 +3,42 @@ import axios from 'axios';
 import { IoSearchOutline } from "react-icons/io5";
 import truck from '../../assets/truck.png';
 import { useParams } from 'react-router-dom';
-const Vahan = () => {
+import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import  Map  from '../openstreetMap/Map';
+
+const VahanId = () => {
     const { id } = useParams(); // Get vehicleNumber from URL parameters
   const [vehicleData, setVehicleData] = useState(null);
   const [error, setError] = useState('');
+
+  const location = useLocation()
+  const pathName = location.pathname
+
+  const tabs = [
+    {
+        name: "Fastag",
+        // component: <Fastag />,
+        link: "/fastag"
+    },
+    {
+        name: "Vahan",
+        // component: <Vahan />,
+        link: "/vahan"
+    },
+    {
+        name: "Sarathi",
+        // component: <Sarathi />,
+        link: "/sarathi"
+    },
+    {
+        name: "My Vehicles",
+        // component: <MyVehicle />,
+        link: "/MyVehicles"
+    }
+];
+
+
 
   
   useEffect(() => {
@@ -94,7 +126,22 @@ const Vahan = () => {
 
   return (
     <>
-      <div className="w-full flex flex-col ">
+      <div className="w-full grid grid-cols-1 mt-[80px] md:grid-cols-12 gap-5  md:gap-2 ">
+                <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[620px]  md:col-span-4  flex flex-col ">
+                    <div className="flex items-center flex-wrap mt-2 gap-2 md:hidden ">
+                        {tabs?.map((data, index) => (
+                            <Link
+                                to={data?.link}
+                                key={index}
+                                className={`px-3 py-1 cursor-pointer ${pathName == data?.link?"bg-[#E1E1FB]":""}   text-nowrap border border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
+                                // onClick={() => setTab(data.name)}
+                            >
+                                {data?.name}
+                            </Link>
+                        ))}
+                    </div>
+                    <div className="w-full flex flex-col">
+                    <div className="w-full flex flex-col ">
         
         <div className="flex flex-col w-full rounded-md bg-white h-[70vh] overflow-y-auto mt-3 ps-3">
           {error && (
@@ -324,8 +371,18 @@ const Vahan = () => {
           )}
         </div>
       </div>
+                    </div>
+                </div>
+                <div className="md:w-[90%] w-[100%] ms-1  mx-auto min-h-[620px]  z-[-0]  md:col-span-8  flex justify-center items-center">
+                    <Map  tollData={[]}/>
+                </div>
+                
+                
+            </div>
+      {/* chils */}
+      
     </>
   );
 };
 
-export default Vahan;
+export default VahanId;

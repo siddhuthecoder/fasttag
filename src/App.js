@@ -11,6 +11,7 @@ import Fastag from './components/layerComponents/Fastag';
 import Vahan from './components/layerComponents/Vahan';
 import Sarathi from './components/layerComponents/Sarathi';
 import MyVehicle from './components/layerComponents/MyVehicle';
+import VahanId from './components/layerComponents/VahanId';
 import FastagPage from './pages/FastagPage';
 import MyVehiclePage from './pages/MyVehiclePage';
 import SarathiPage from './pages/SarathiPage';
@@ -38,7 +39,7 @@ const App = () => {
           <Route path="/sarathi" element={<Sarathi />} />
           <Route path="/myVehicles" element={<MyVehicle />} />
           <Route path="/vahan" element={<Vahan />} />
-          <Route path="/vahan/:id" element={<VahanIdPage />} />
+          <Route path="/vahan/:id" element={<VahanId />} />
           <Route path="/pricing" element={<Pricing />} />
         </Routes>
       </Home>
