@@ -2,11 +2,45 @@ import React, { useState, useEffect } from 'react';
 import { IoSearchOutline } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import  Map  from '../openstreetMap/Map';
+
+
 
 const FastagId = () => {
   const { id } = useParams(); // Get vehicleNumber from URL parameters
   const [trackingData, setTrackingData] = useState([]);
   const [error, setError] = useState(null);
+
+
+  const location = useLocation()
+  const pathName = location.pathname
+
+  const tabs = [
+    {
+        name: "Fastag",
+        // component: <Fastag />,
+        link: "/fastag"
+    },
+    {
+        name: "Vahan",
+        // component: <Vahan />,
+        link: "/vahan"
+    },
+    {
+        name: "Sarathi",
+        // component: <Sarathi />,
+        link: "/sarathi"
+    },
+    {
+        name: "My Vehicles",
+        // component: <MyVehicle />,
+        link: "/MyVehicles"
+    }
+];
+
+
 
   useEffect(() => {
     const fetchTrackingData = async () => {
@@ -50,7 +84,22 @@ const FastagId = () => {
 
   return (
     <>  
-      <div className="w-full flex flex-col">
+                  <div className="w-full grid grid-cols-1 mt-[80px] md:grid-cols-12 gap-5  md:gap-2 ">
+                <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[620px]  md:col-span-4  flex flex-col ">
+                    <div className="flex items-center flex-wrap mt-2 gap-2 md:hidden ">
+                        {tabs?.map((data, index) => (
+                            <Link
+                                to={data?.link}
+                                key={index}
+                                className={`px-3 py-1 cursor-pointer ${pathName == data?.link?"bg-[#E1E1FB]":""}   text-nowrap border border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
+                                // onClick={() => setTab(data.name)}
+                            >
+                                {data?.name}
+                            </Link>
+                        ))}
+                    </div>
+                    <div className="w-full flex flex-col">
+                    <div className="w-full flex flex-col">
         <div className="w-full flex flex-col bg-white mt-5 ps-3 rounded-md">
           {error && <div className="text-center text-red-500 py-5">{error}</div>}
           {trackingData.length > 0 ? (
@@ -73,6 +122,16 @@ const FastagId = () => {
           )}
         </div>
       </div>
+                    </div>
+                </div>
+                <div className="md:w-[90%] w-[100%] ms-1  mx-auto min-h-[620px]  z-[-0]  md:col-span-8  flex justify-center items-center">
+                    <Map  tollData={[]}/>
+                </div>
+                
+                
+            </div>
+    {/* -===============child */}
+      
     </>
   );
 };

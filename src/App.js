@@ -12,6 +12,7 @@ import Vahan from './components/layerComponents/Vahan';
 import Sarathi from './components/layerComponents/Sarathi';
 import MyVehicle from './components/layerComponents/MyVehicle';
 import VahanId from './components/layerComponents/VahanId';
+import FastagId from './components/layerComponents/FastagId';
 import FastagPage from './pages/FastagPage';
 import MyVehiclePage from './pages/MyVehiclePage';
 import SarathiPage from './pages/SarathiPage';
@@ -35,7 +36,7 @@ const App = () => {
           <Route path="/newPassword" element={<NewPassword />} />
           <Route path="/otp" element={<OTPForm />} />
           <Route path="/fastag" element={<Fastag />} />
-          <Route path="/fastag/:id" element={<FastageIdPage />} />
+          <Route path="/fastag/:id" element={<FastagId />} />
           <Route path="/sarathi" element={<Sarathi />} />
           <Route path="/myVehicles" element={<MyVehicle />} />
           <Route path="/vahan" element={<Vahan />} />
