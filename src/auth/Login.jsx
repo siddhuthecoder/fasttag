@@ -1,29 +1,74 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../store/authSlice';
+// import { loginUser } from '../store/authSlice';
 import { BsEnvelope } from 'react-icons/bs';
 import { FiShieldOff, FiEye, FiEyeOff } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
 import FormLayer from '../components/FormLayer';
+import axios from 'axios'
+import { signInStart, signInSuccess, signInFailure } from '../store/authSlice';
 
 const Login = () => {
+  const isAuthenticated = useSelector((state) => state.auth.user)
+  const [loading,setLoading] = useState(false)
+  const [error,setError] = useState(null)
+  const [data,setData] = useState({
+    phone:"",
+    password:""
+  })
+
+
+  const handleChange =(e) => {
+    const formData = {...data}
+    formData[e.target.name] = e.target.value
+    setData(formData)
+  }
   const [number, setNumber] = useState('');
   const [password, setPassword] = useState('');
   const [passType, setPassType] = useState('password');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { userInfo, loading, error } = useSelector((state) => state.user);
+  // const { userInfo, loading, error } = useSelector((state) => state.user);
 
-  useEffect(() => {
-    if (error) {
-      alert(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) {
+  //     alert(error);
+  //   }
+  // }, [error]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginUser({ phone: number, password }));
-  };
+    console.log(data)
+    dispatch(signInStart());
+    try {
+        setLoading(true);
+        const response = await axios.post("https://fastagtracking.com/customulip/login", data);
+        
+        if (response.status === 200) {
+            const result = JSON.stringify(response.data);
+            localStorage.setItem("userData", result);
+            dispatch(signInSuccess(response.data));
+            setData({
+                email: '',
+                password: ''
+            });
+            navigate('/');
+            console.log(response.data)
+        }
+    } catch (error) {
+        console.error('Error:', error.message);
+        setError(error.response?.data?.message || 'An error occurred');
+        dispatch(signInFailure(error.response?.data || 'An error occurred'));
+    } finally {
+        setLoading(false);
+    }
+};
+
+useEffect(() => {
+  if(isAuthenticated){
+    navigate("/fastag")
+  }
+})
 
   if (loading) {
     return (
@@ -33,9 +78,9 @@ const Login = () => {
     );
   }
 
-  if (userInfo) {
-    navigate('/fastag');
-  }
+  // if (userInfo) {
+  //   navigate('/fastag');
+  // }
 
   return (
     <FormLayer>
@@ -50,8 +95,8 @@ const Login = () => {
               type="number"
               className="w-[100%] mx-auto bg-[#EAEFFF] rounded-md border ps-[36px] border-[#B5C3FB] h-[50px]"
               placeholder="Phone Number"
-              value={number}
-              onChange={(e) => setNumber(e.target.value)}
+              name="phone"
+              onChange={handleChange}
             />
           </div>
           <div className="flex items-center relative">
@@ -60,8 +105,8 @@ const Login = () => {
               type={passType}
               className="w-[100%] mx-auto bg-[#EAEFFF] rounded-md border ps-[36px] border-[#B5C3FB] h-[50px]"
               placeholder="Password"
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              onChange={handleChange}
             />
             {passType === 'password' ? (  
               <FiEye

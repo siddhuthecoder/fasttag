@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { Routes, Route } from "react-router-dom";
 import Home from './pages/Home';
 import './index.css';
@@ -13,37 +13,60 @@ import Sarathi from './components/layerComponents/Sarathi';
 import MyVehicle from './components/layerComponents/MyVehicle';
 import VahanId from './components/layerComponents/VahanId';
 import FastagId from './components/layerComponents/FastagId';
-import FastagPage from './pages/FastagPage';
-import MyVehiclePage from './pages/MyVehiclePage';
-import SarathiPage from './pages/SarathiPage';
-import VahanPage from './pages/VahanPage';
 import Pricing from './pages/Pricing';
-
-import FastageIdPage from './pages/FastageIdPage';
-import VahanIdPage from './pages/VahanIdPage'
-
+import PrivateRoutes from './PrivateRoutes';
 import Header from './components/Header';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import NotFound from './components/NotFound';
 
 const App = () => {
+  const navigate = useNavigate()
+  const isAuthenticated = useSelector((state) =>state.auth.user)
+
+  
   return (
     <>
-      <Header />
-      <Home>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgotPassword" element={<ForgetPassword />} />
-          <Route path="/newPassword" element={<NewPassword />} />
-          <Route path="/otp" element={<OTPForm />} />
-          <Route path="/fastag" element={<Fastag />} />
-          <Route path="/fastag/:id" element={<FastagId />} />
-          <Route path="/sarathi" element={<Sarathi />} />
-          <Route path="/myVehicles" element={<MyVehicle />} />
-          <Route path="/vahan" element={<Vahan />} />
-          <Route path="/vahan/:id" element={<VahanId />} />
-          <Route path="/pricing" element={<Pricing />} />
-        </Routes>
-      </Home>
+      {
+        isAuthenticated ? (
+          <main>
+              <Header />
+                <Home>
+                  <Routes>
+                    <Route element={<PrivateRoutes />}>
+                      <Route path="/fastag" element={<Fastag />} />
+                      <Route path="/fastag/:id" element={<FastagId />} />
+                      <Route path="/sarathi" element={<Sarathi />} />
+                      <Route path="/myVehicles" element={<MyVehicle />} />
+                      <Route path="/vahan" element={<Vahan />} />
+                      <Route path="/vahan/:id" element={<VahanId />} />
+                      <Route path="/pricing" element={<Pricing />} />
+                    </Route>
+                    <Route path="/" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/forgotPassword" element={<ForgetPassword />} />
+                    <Route path="/newPassword" element={<NewPassword />} />
+                    <Route path="/otp" element={<OTPForm />} />
+                  </Routes>
+              </Home>
+          </main>):(
+            <main>
+              <Home>
+                  <Routes>
+                    
+                    <Route path="/" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/forgotPassword" element={<ForgetPassword />} />
+                    <Route path="/newPassword" element={<NewPassword />} />
+                    <Route path="/otp" element={<OTPForm />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+              </Home>
+            </main>
+          )
+        
+      }
+      
     </>
   );
 }

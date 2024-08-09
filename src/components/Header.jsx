@@ -12,15 +12,23 @@ import MyVehicle from '../components/layerComponents/MyVehicle'
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { signOut } from '../store/authSlice';
 
 
 const Header = () => {
+  const user = useSelector((state) => state.auth.user)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate()
   const location = useLocation()
   const pathName = location.pathname
 
-
+  const handleLogout = () => {
+    dispatch(signOut()); // Dispatch the signOut action
+    navigate('/');  // Redirect to the login page after logout
+  }
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -89,18 +97,18 @@ const Header = () => {
               <div className="w-full flex items-center justify-center mt-4 gap-2">
                 <div className="flex flex-col text-center mx-2">
                   <div className="text-[#5E81F4] font-semibold">Api Hits</div>
-                  <div className="font-semibold">1000</div>
+                  <div className="font-semibold">{user.apiHit}</div>
                 </div>
                 <div className="flex flex-col text-center mx-2">
                   <div className="text-[#5E81F4] font-semibold">Max Hits</div>
-                  <div className="font-semibold">1000</div>
+                  <div className="font-semibold">{user.maxApiHit}</div>
                 </div>
               </div>
               <div className="w-[75%] mx-auto mt-3">
                 <button className="w-full bg-[#EDEDED] py-1 border border-black rounded-md font-semibold" onClick={() => navigate("/pricing")}>Pricing/Plan</button>
               </div>
               <div className="w-[75%] mx-auto mt-3">
-                <button className="w-full bg-[#5E81F4] text-white py-1 rounded-md font-semibold">Log Out</button>
+                <button className="w-full bg-[#5E81F4] text-white py-1 rounded-md font-semibold" onClick={handleLogout}>Log Out</button>
               </div>
             </div>
             <div className="w-[30px] h-[30px] mx-2 rounded-full overflow-hidden">
@@ -108,25 +116,24 @@ const Header = () => {
             </div>
             <div className="flex-col ps-2 mx-2 hidden md:flex">
               <div className="font-semibold flex items-center">
-                <div className="font-semibold text-[#5E81F4] hidden md:block text-1xl">VS Logistics Solution Pvt.Ltd</div>
+                <div className="font-semibold text-[#5E81F4] hidden md:block text-1xl">{user.name}</div>
               </div>
-              <div className="w-full flex items-center justify-between">
-                <div className="bg-[#5E81F4] px-8 py-1 rounded-lg font-semibold text-white">Basic</div>
-                <div className="text-[#5E81F4] text-[20px] px-2">Upgrade</div>
-              </div>
+              
             </div>
             <FaChevronDown className="me-1" /> 
           </div>
+          <button className="px-3 mx-2 hidden md:block py-1 rounded-md bg-[#5E81F4] text-white font-semibold" onClick={() => navigate("/pricing")}>Upgrade</button>
         </div>
+        
       </div>
       {/* Side Menu */}
       {isMenuOpen && (
         <div className="fixed inset-0 top-0 bg-black bg-opacity-50 z-[1000]">
           <div className="absolute flex  flex-col top-0 left-0 w-full max-w-[270px] h-[100vh]  z-[1000] bg-white shadow-md">
               <div className="w-full flex items-center mb-4 justify-between">
-                <div className="flex mt-2">
+                <div className="flex mt-2 items-center">
                   <img src={logo} alt="Logo" className=" scale-[0.6] cursor-pointer" />
-                  <div className=" font-semibold text-[#5E81F4]   text-1xl">VS Logistics Solution Pvt.Ltd</div>
+                  <div className=" font-semibold text-[#5E81F4]   text-1xl">{user.name}</div>
                 </div>
                 <MdOutlineClose className="text-5xl m-2 text-red-500" onClick={toggleMenu} />
               </div>

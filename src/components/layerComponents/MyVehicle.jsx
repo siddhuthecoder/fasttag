@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import Map from '../openstreetMap/Map';
 import Modal from 'react-modal';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const VehicleCard = ({ vehicleNumber, onEdit, onDelete }) => {
   const navigate = useNavigate();
@@ -64,6 +65,7 @@ const VehicleCard = ({ vehicleNumber, onEdit, onDelete }) => {
 };
 
 const MyVehicle = () => {
+  const user = useSelector((state) => state.auth.user)
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -72,14 +74,7 @@ const MyVehicle = () => {
   const [vehicleToDelete, setVehicleToDelete] = useState(null);
   const location = useLocation();
   const pathName = location.pathname;
-  const vehicles = [
-    "HR55AQ5884",
-    "HR56AQ5885",
-    "HR57AQ5886",
-    "HR57AQ5887",
-    "HR57AQ5888",
-    // Add more vehicle numbers here
-  ];
+  const vehicles = [user.vehicleNumbers];
 
   const openAddModal = () => setIsAddModalOpen(true);
   const closeAddModal = () => setIsAddModalOpen(false);

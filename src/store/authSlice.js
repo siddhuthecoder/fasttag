@@ -1,67 +1,37 @@
-// src/features/userSlice.js
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+// src/features/authSlice.js
+import { createSlice } from '@reduxjs/toolkit';
 
-export const loginUser = createAsyncThunk(
-  'user/login',
-  async (credentials, { rejectWithValue }) => {
-    try {
-      const response = await axios.post('https://fastagtracking.com/customulip/login', {
-        phone: credentials.phone,
-        password: credentials.password,
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      });
-    
-      // Assuming the ID is part of the response data
-      const id = response.data._id; 
-      
-      localStorage.setItem('userID', id); // Store the ID in localStorage
-    
-      alert('Login successful');
-      return response.data;
-    } catch (error) {
-      if (error.response) {
-        return rejectWithValue(error.response.data);
-      }
-      return rejectWithValue(error.message);
-    }
-    
-  }
-);
+const initialState = {
+  user: JSON.parse(localStorage.getItem('userData')) || null,
+  loading: false,
+  error: null,
+};
 
-const userSlice = createSlice({
-  name: 'user',
-  initialState: {
-    userInfo: null,
-    loading: false,
-    error: null,
-  },
+const authSlice = createSlice({
+  name: 'auth',
+  initialState,
   reducers: {
-    logout: (state) => {
-      state.userInfo = null;
+    signInStart: (state) => {
+      state.loading = true;
       state.error = null;
+    },
+    signInSuccess: (state, action) => {
+      state.user = action.payload;
+      state.loading = false;
+      state.error = null;
+      localStorage.setItem('userData', JSON.stringify(action.payload)); // Save user data to localStorage
+    },
+    signInFailure: (state, action) => {
+      state.error = action.payload;
       state.loading = false;
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(loginUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(loginUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.userInfo = action.payload;
-      })
-      .addCase(loginUser.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
+    signOut: (state) => {
+      state.user = null;
+      localStorage.removeItem('userData'); // Remove user data from localStorage on sign out
+    },
   },
 });
 
-export const { logout } = userSlice.actions;
-export default userSlice.reducer;
+export const { signInStart, signInSuccess, signInFailure, signOut } = authSlice.actions;
+
+export default authSlice.reducer;
