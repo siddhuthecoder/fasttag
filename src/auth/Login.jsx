@@ -28,6 +28,7 @@ const Login = () => {
   const [passType, setPassType] = useState('password');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [responseData,setResponseData] = useState({})
   // const { userInfo, loading, error } = useSelector((state) => state.user);
 
   // useEffect(() => {
@@ -46,7 +47,9 @@ const Login = () => {
         
         if (response.status === 200) {
             const result = JSON.stringify(response.data);
-            localStorage.setItem("userData", result);
+            setResponseData(response.data)
+            const { password, phone, ...cleanObject } = responseData;
+            localStorage.setItem("userData", responseData);
             dispatch(signInSuccess(response.data));
             setData({
                 email: '',

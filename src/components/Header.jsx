@@ -93,7 +93,8 @@ const Header = () => {
             </div>
           </div>
           <div className="flex items-center cursor-pointer group relative">
-            <div className="absolute top-[100%] right-[5%] rounded-md bg-white hidden group-hover:flex flex-col w-[180px] h-[180px] shadow-lg border z-[3]" style={{ zIndex: "100" }}>
+            <div className="absolute top-[100%] right-[5%] rounded-md bg-white hidden group-hover:flex flex-col w-[180px]  shadow-lg border z-[3]" style={{ zIndex: "100" }}>
+              <div className="text-center font-semibold md:hidden block pt-2 text-lg   text-[]">{user.name}</div>
               <div className="w-full flex items-center justify-center mt-4 gap-2">
                 <div className="flex flex-col text-center mx-2">
                   <div className="text-[#5E81F4] font-semibold">Api Hits</div>
@@ -108,11 +109,11 @@ const Header = () => {
                 <button className="w-full bg-[#EDEDED] py-1 border border-black rounded-md font-semibold" onClick={() => navigate("/pricing")}>Pricing/Plan</button>
               </div>
               <div className="w-[75%] mx-auto mt-3">
-                <button className="w-full bg-[#5E81F4] text-white py-1 rounded-md font-semibold" onClick={handleLogout}>Log Out</button>
+                <button className="w-full bg-[#5E81F4] text-white py-1 rounded-md font-semibold mb-2" onClick={handleLogout}>Log Out</button>
               </div>
             </div>
-            <div className="w-[30px] h-[30px] mx-2 rounded-full overflow-hidden">
-              <img src={per} alt="Profile" className="w-full h-full" />
+            <div className="w-[30px] h-[30px] md:hidden mx-2 bg-blue-200 rounded-full overflow-hidden flex justify-center items-center ">
+              <div className="font-bold text-lg">{user.name[0]}</div>
             </div>
             <div className="flex-col ps-2 mx-2 hidden md:flex">
               <div className="font-semibold flex items-center">

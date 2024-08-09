@@ -41,6 +41,11 @@ const App = () => {
                       <Route path="/vahan" element={<Vahan />} />
                       <Route path="/vahan/:id" element={<VahanId />} />
                       <Route path="/pricing" element={<Pricing />} />
+                      <Route path="/" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/forgotPassword" element={<ForgetPassword />} />
+                    <Route path="/newPassword" element={<NewPassword />} />
+                    <Route path="/otp" element={<OTPForm />} />
                     </Route>
                     <Route path="/" element={<Login />} />
                     <Route path="/register" element={<Register />} />
