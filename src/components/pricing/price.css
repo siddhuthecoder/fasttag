@@ -195,7 +195,7 @@ body {
   font-size: 2rem;
   margin: var(--priceMargin);
 }
-.price span {
+.price .spann {
   font-size: 1rem;
   font-weight: 400;
   color: var(--baseColor);
@@ -279,4 +279,36 @@ body {
   :root {
     --baseSize: 14px;
   }
+}
+.toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  padding: top 10px ;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  margin-top: 20px;
+  right: 10px;
+}
+
+.toggle-button {
+  padding: 10px 20px;
+  background-color: #5E81F4;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  
+}
+
+.toggle-button.active {
+  background-color: #4C69D8;
+}
+
+.custom{
+  color: white;
+}
+.spanwhite{
+  font-size: 1rem;
+  font-weight: 400;
 }

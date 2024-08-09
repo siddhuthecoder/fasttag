@@ -3,176 +3,35 @@ import { IoSearchOutline } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import  Map  from '../openstreetMap/Map';
+import Map from '../openstreetMap/Map';
 
 const Fastag = () => {
   const [vehicleNumber, setVehicleNumber] = useState('');
   const [trackingData, setTrackingData] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false); // Added loading state
+  const location = useLocation();
+  const pathName = location.pathname;
 
-
-  const [tab, setTab] = useState("Fastag");
-    const location = useLocation()
-
-    const pathName = location.pathname
-
-    const tollData = [
-        {
-            "readerReadTime": "2024-08-08 14:13:49.000",
-            "tollPlazaName": "Dhank Toll Plaza",
-            "tollPlazaGeocode": "21.227203,82.42025",
-            "vehicleType": "VC10",
-            "vehicleRegNo": "HR55AQ5994"
-        },
-        {
-            "readerReadTime": "2024-08-08 13:04:04.000",
-            "tollPlazaName": "Chhuhipali Toll Plaza",
-            "tollPlazaGeocode": "21.299821,82.942781",
-            "vehicleType": "VC10",
-            "vehicleRegNo": "HR55AQ5994"
-        },
-        {
-            "readerReadTime": "2024-08-08 11:15:50.000",
-            "tollPlazaName": "Sambalpur Baragarh Tollways",
-            "tollPlazaGeocode": "21.353192,83.684183",
-            "vehicleType": "VC10",
-            "vehicleRegNo": "HR55AQ5994"
-        },
-        {
-            "readerReadTime": "2024-08-08 00:17:16.000",
-            "tollPlazaName": "Pudapada Nildungri Toll Plaza",
-            "tollPlazaGeocode": "21.449859, 84.115361",
-            "vehicleType": "VC10",
-            "vehicleRegNo": "HR55AQ5994"
-        },
-        {
-            "readerReadTime": "2024-08-07 20:12:37.000",
-            "tollPlazaName": "Bideibadkudar Toll Plaza",
-            "tollPlazaGeocode": "21.505816,85.058237",
-            "vehicleType": "VC10",
-            "vehicleRegNo": "HR55AQ5994"
-        },
-        {
-            "readerReadTime": "2024-08-07 19:19:43.000",
-            "tollPlazaName": "Janasanpur Toll Plaza",
-            "tollPlazaGeocode": "21.448549,85.373375",
-            "vehicleType": "VC10",
-            "vehicleRegNo": "HR55AQ5994"
-        },
-        {
-            "readerReadTime": "2024-08-07 16:35:06.000",
-            "tollPlazaName": "Khireitangiri Toll Plaza",
-            "tollPlazaGeocode": "21.705647,85.697266",
-            "vehicleType": "VC10",
-            "vehicleRegNo": "HR55AQ5994"
-        },
-        {
-            "readerReadTime": "2024-08-07 10:54:19.000",
-            "tollPlazaName": "Jharpokharia Toll Plaza",
-            "tollPlazaGeocode": "22.180518, 86.636253",
-            "vehicleType": "VC10",
-            "vehicleRegNo": "HR55AQ5994"
-        },
-        {
-            "readerReadTime": "2024-08-07 06:37:21.000",
-            "tollPlazaName": "Balibhasa Toll Plaza",
-            "tollPlazaGeocode": "22.34462627,87.12665241",
-            "vehicleType": "VC10",
-            "vehicleRegNo": "HR55AQ5994"
-        },
-        {
-            "readerReadTime": "2024-08-07 05:44:25.000",
-            "tollPlazaName": "Debra toll plaza",
-            "tollPlazaGeocode": "22.397144,87.522855",
-            "vehicleType": "VC10",
-            "vehicleRegNo": "HR55AQ5994"
-        },
-        {
-            "readerReadTime": "2024-08-06 22:26:28.000",
-            "tollPlazaName": "Jaladhulagori toll plaza",
-            "tollPlazaGeocode": "22.573188,88.181679",
-            "vehicleType": "VC10",
-            "vehicleRegNo": "HR55AQ5994"
-        },
-        {
-            "readerReadTime": "2024-08-06 06:29:37.000",
-            "tollPlazaName": "Jaladhulagori toll plaza",
-            "tollPlazaGeocode": "22.573188,88.181679",
-            "vehicleType": "VC10",
-            "vehicleRegNo": "HR55AQ5994"
-        },
-        {
-            "readerReadTime": "2024-08-06 05:04:19.000",
-            "tollPlazaName": "Debra toll plaza",
-            "tollPlazaGeocode": "22.397144,87.522855",
-            "vehicleType": "VC10",
-            "vehicleRegNo": "HR55AQ5994"
-        },
-        {
-            "readerReadTime": "2024-08-06 04:26:25.000",
-            "tollPlazaName": "Rampura Plaza",
-            "tollPlazaGeocode": "22.24076,87.39207",
-            "vehicleType": "VC10",
-            "vehicleRegNo": "HR55AQ5994"
-        },
-        {
-            "readerReadTime": "2024-08-05 18:11:45.000",
-            "tollPlazaName": "Laxamannath Plaza",
-            "tollPlazaGeocode": "13.193545,77.64981",
-            "vehicleType": "VC10",
-            "vehicleRegNo": "HR55AQ5994"
-        },
-        {
-            "readerReadTime": "2024-08-05 16:40:20.000",
-            "tollPlazaName": "SERGARH TOLL PLAZA",
-            "tollPlazaGeocode": " 21.429889,86.836645",
-            "vehicleType": "VC10",
-            "vehicleRegNo": "HR55AQ5994"
-        },
-        {
-            "readerReadTime": "2024-08-05 12:00:00.000",
-            "tollPlazaName": "Vijayawada Toll Plaza",
-            "tollPlazaGeocode": "16.506174,80.648015",
-            "vehicleType": "VC10",
-            "vehicleRegNo": "HR55AQ5994"
-        }   // Add other toll plaza data here...
-        ];
-    const tabs = [
-        {
-            name: "Fastag",
-            // component: <Fastag />,
-            link: "/fastag"
-        },
-        {
-            name: "Vahan",
-            // component: <Vahan />,
-            link: "/vahan"
-        },
-        {
-            name: "Sarathi",
-            // component: <Sarathi />,
-            link: "/sarathi"
-        },
-        {
-            name: "My Vehicles",
-            // component: <MyVehicle />,
-            link: "/MyVehicles"
-        }
-    ];
-    
-
+  const tabs = [
+    { name: "Fastag", link: "/fastag" },
+    { name: "Vahan", link: "/vahan" },
+    { name: "Sarathi", link: "/sarathi" },
+    { name: "My Vehicles", link: "/MyVehicles" }
+  ];
+   
   const handleSearch = async () => {
+    const comapny_id=localStorage.getItem('userID')
+    
+    setLoading(true); // Set loading to true when fetch starts
+    const capitalizedVehicleNumber = vehicleNumber.toUpperCase();
     try {
       const payload = {
-        "company_id": "66b2f12abbef97c004389b88",
+        "company_id": comapny_id,
         "tracking_For": "FASTAG",
-        "parameters": {
-          "vehiclenumber": vehicleNumber
-        }
+        "parameters": { "vehiclenumber": capitalizedVehicleNumber }
       };
-  
-      console.log('Request Payload:', payload); // Log the payload
-  
+
       const response = await fetch('https://fastagtracking.com/customulip/ulipApi', {
         method: 'POST',
         headers: {
@@ -180,90 +39,113 @@ const Fastag = () => {
         },
         body: JSON.stringify(payload)
       });
-  
+
       if (!response.ok) {
-        
-        const errorText = await response.text(); // Get error text
+        const errorText = await response.text();
         throw new Error(`HTTP error! status: ${response.status}, ${errorText}`);
       }
-  
+
       const data = await response.json();
-      console.log('Tracking data:', data); // Log the data
       setTrackingData(data.response || []);
       setError(null);
     } catch (error) {
       console.error('Error fetching tracking data:', error);
       setError('Failed to fetch tracking data.');
+    } finally {
+      setLoading(false); // Set loading to false when fetch completes
     }
   };
 
   return (
     <>  
-         <div className="w-full grid grid-cols-1 mt-[80px] md:grid-cols-12 gap-5  md:gap-2 ">
-                <div className="md:w-[90%] flex md:hidden w-[100%] ms-1  mx-auto min-h-[620px]  z-[-0]  md:col-span-8   justify-center items-center">
-                    <Map  tollData={tollData}/>
-                </div>
-                <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[620px]  md:col-span-4  flex flex-col ">
-                    <div className="flex items-center flex-wrap mt-2 gap-2 md:hidden ">
-                        {tabs.map((data, index) => (
-                            <Link
-                                to={data.link}
-                                key={index}
-                                className={`px-3 py-1 cursor-pointer ${pathName == data.link?"bg-[#E1E1FB]":""}   text-nowrap border border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
-                                // onClick={() => setTab(data.name)}
-                            >
-                                {data.name}
-                            </Link>
-                        ))}
+      <div className="w-full grid grid-cols-1 mt-[80px] md:grid-cols-12 gap-5 md:gap-2">
+        <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[620px] md:col-span-4 flex flex-col h-full overflow-hidden">
+          <div className="flex items-center flex-wrap mt-2 gap-2 md:hidden">
+            {tabs.map((data, index) => (
+              <Link
+                to={data.link}
+                key={index}
+                className={`px-3 py-1 cursor-pointer ${pathName === data.link ? "bg-[#E1E1FB]" : ""} text-nowrap border border-black duration-150 rounded-full hover:bg-[#E1E1FB]`}
+              >
+                {data.name}
+              </Link>
+            ))}
+          </div>
+          <div className="w-full flex flex-col h-full overflow-hidden">
+            <div className="flex w-full mx-auto items-center mt-3 relative">
+              <input 
+                type="text" 
+                className="w-full px-3 h-[52px] rounded-md border"  
+                placeholder="Enter Vehicle Number"
+                value={vehicleNumber}
+                onChange={(e) => setVehicleNumber(e.target.value)}
+              />
+              <div 
+                className="absolute right-0 w-[50px] h-[50px] bg-[#5E81F4] rounded-tr-md rounded-br-md flex justify-center items-center cursor-pointer"
+                onClick={handleSearch}
+              >
+                <IoSearchOutline className="text-white text-2xl" />
+              </div>
+            </div>
+            <div className="w-full flex flex-col bg-white mt-5 p-3 rounded-md shadow-lg border border-[#E0E0E0] flex-grow overflow-y-auto">
+              <div className="flex items-center p-3 border-b text-gray-500">
+                <div className="text-xs font-medium">Vehicle Number</div>
+                <div className="text-xs font-medium ml-auto">{vehicleNumber}</div>
+              </div>
+              {loading &&<div className="flex justify-center items-center h-full">
+                   <svg
+                     className="animate-spin h-5 w-5 mr-3 text-blue-500"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                   >
+                     <circle
+                       className="opacity-25"
+                       cx="12"
+                       cy="12"
+                       r="10"
+                       stroke="currentColor"
+                       strokeWidth="4"
+                     ></circle>
+                     <path
+                       className="opacity-75"
+                       fill="currentColor"
+                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                     ></path>
+                   </svg>
+                   Please Wait, Data is Fetching...
+                 </div>} {/* Loading text */}
+              {error && !loading && <div className="text-center text-red-500 py-5">{error}</div>} {/* Error text */}
+              {!loading && trackingData.length > 0 ? (
+               trackingData.map((location, idx) => (
+                <div key={idx} className={`w-full flex items-center justify-between py-3 px-2 ml-4 relative 
+                  border-l-2 border-dashed ${idx !== trackingData.length - 1 ? 'border-b' : ''}`}>
+                  
+                  <div className="absolute left-[-15px] flex items-center">
+                    <div className={`w-[30px] h-[30px] z-[3] rounded-full flex justify-center items-center ${idx === 0 ? 'bg-[#E8F9EE]' : 'bg-[#E5E5FE]'}`}>
+                      <FaLocationDot className='text-blue-500' />
                     </div>
-                    <div className="w-full flex flex-col">
-                    <div className="w-full flex flex-col">
-        <div className="flex w-full mx-auto items-center mt-3 relative">
-          <input 
-            type="text" 
-            className="w-full px-3 h-[52px] rounded-md border"  
-            placeholder="Enter Vehicle Number"
-            value={vehicleNumber}
-            onChange={(e) => setVehicleNumber(e.target.value)}
-          />
-          <div 
-            className="absolute right-0 w-[50px] h-[50px] bg-[#5E81F4] rounded-tr-md rounded-br-md flex justify-center items-center cursor-pointer"
-            onClick={handleSearch}
-          >
-            <IoSearchOutline className="text-white text-2xl" />
+                  </div>
+              
+                  <div className="text-gray-700 ps-[20px]">{location.tollPlazaName}</div>
+                  <div className="flex flex-col text-right text-sm">
+                    <div className="text-black font-semibold mt-5 ">{location.readerReadTime.split(' ')[0]}</div>
+                    <div className="text-gray-400">{location.readerReadTime.split(' ')[1]}</div>
+                  </div>
+              
+                </div>
+              ))
+              
+              ) : (
+                !loading && <div className="text-center text-gray-500 py-5">Enter A Vechile Number</div> // No data message
+              )}
+            </div>
           </div>
         </div>
-        <div className="w-full flex flex-col bg-white mt-5 ps-3 rounded-md">
-          {error && <div className="text-center text-red-500 py-5">{error}</div>}
-          {trackingData.length > 0 ? (
-            trackingData.map((location, idx) => (
-              <div key={idx} className="w-full flex items-center justify-between border-dashed border-t-0 border-r-0 border-b-0 border-[2px] relative">
-                <div className="ms-[-15px] absolute">
-                  <div className={`w-[30px] h-[30px] z-[3] rounded-full flex justify-center items-center ${idx === 0 ? 'bg-[#E8F9EE]' : 'bg-[#E5E5FE]'}`}>
-                    <FaLocationDot className='text-blue-500' />
-                  </div>
-                </div>
-                <div className="text-zinc-400 ps-[20px]">{location.tollPlazaName}</div>
-                <div className="flex flex-col text-right text-[16px] ">
-                  <div className="text-black font-semibold">{location.readerReadTime.split(' ')[0]}</div>
-                  <div className="font-semibold">{location.readerReadTime.split(' ')[1]}</div>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="text-center text-gray-500 py-5">No tracking information available.</div>
-          )}
+        <div className="md:w-[90%] flex w-[100%] ms-1 mx-auto min-h-[620px] z-[-0] md:col-span-8 justify-center items-center">
+          <Map tollData={trackingData}/>
         </div>
       </div>
-                    </div>
-                </div>
-                <div className="md:w-[90%] w-[100%] hidden md:flex ms-1  mx-auto min-h-[620px]  z-[-0]  md:col-span-8   justify-center items-center">
-                    <Map  tollData={tollData}/>
-                </div>
-                
-                
-            </div>
-      
     </>
   );
 }

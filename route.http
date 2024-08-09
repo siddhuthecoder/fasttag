@@ -1,7 +1,6 @@
 ### Create a new company
 POST https://fastagtracking.com/customulip/company
 Content-Type: application/json
-
 {
     "name": "Company Name",
     "phone": "1234567890",
@@ -10,6 +9,7 @@ Content-Type: application/json
     "expiryDate": "2024-12-31T23:59:59Z",
     "vehicleNumbers": ["ABC1234"]
 }
+
 
 ### Get all companies
 GET https://fastagtracking.com/customulip/company

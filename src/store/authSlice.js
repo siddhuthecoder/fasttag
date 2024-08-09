@@ -14,6 +14,13 @@ export const loginUser = createAsyncThunk(
           'Content-Type': 'application/json',
         }
       });
+    
+      // Assuming the ID is part of the response data
+      const id = response.data._id; 
+      
+      localStorage.setItem('userID', id); // Store the ID in localStorage
+    
+      alert('Login successful');
       return response.data;
     } catch (error) {
       if (error.response) {
@@ -21,6 +28,7 @@ export const loginUser = createAsyncThunk(
       }
       return rejectWithValue(error.message);
     }
+    
   }
 );
 

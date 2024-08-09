@@ -1,5 +1,4 @@
-// src/pages/Login.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../store/authSlice';
 import { BsEnvelope } from 'react-icons/bs';
@@ -15,7 +14,11 @@ const Login = () => {
   const navigate = useNavigate();
   const { userInfo, loading, error } = useSelector((state) => state.user);
 
-  console.log("error :",error)
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -57,10 +60,10 @@ const Login = () => {
               type={passType}
               className="w-[100%] mx-auto bg-[#EAEFFF] rounded-md border ps-[36px] border-[#B5C3FB] h-[50px]"
               placeholder="Password"
-              value={password}
+              value={password} 
               onChange={(e) => setPassword(e.target.value)}
             />
-            {passType === 'password' ? (
+            {passType === 'password' ? (  
               <FiEye
                 className="text-2xl absolute right-3 text-zinc-400 cursor-pointer"
                 onClick={() => setPassType('text')}
@@ -86,7 +89,6 @@ const Login = () => {
           <button type="submit" className="w-full rounded-md text-white md:text-2xl font-bold bg-[#8098F9] py-3">
             LOG IN
           </button>
-          {error && <div className="text-red-500">{error}</div>}
           <div className="text-center">
             Don't have an account?{' '}
             <span className="text-[#8098F9] font-semibold cursor-pointer" onClick={() => navigate('/register')}>

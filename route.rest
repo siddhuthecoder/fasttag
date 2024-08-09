@@ -127,9 +127,20 @@ POST https://fastagtracking.com/customulip/ulipApi
 Content-Type: application/json
 
 {
-    "company_id": "66b2f12abbef97c004389b88",
+    "company_id": "66b5974fc5f0a6f365cc32ea",
     "tracking_For": "FASTAG",
     "parameters": { 
         "vehiclenumber": "ABC1234"
     }
+}
+
+###
+### Fastag Tracking API Request
+POST https://fastagtracking.com/customulip/ulipApi
+Content-Type: application/json
+
+{
+    "company_id": "66b5974fc5f0a6f365cc32ea",
+    "tracking_For": "FASTAG",
+    "parameters": { "vehiclenumber": "HR55AL7405" }
 }

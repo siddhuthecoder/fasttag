@@ -28,24 +28,63 @@ const TollPlazaMap = ({ tollData = [] }) => {
     if (mapRef.current && !mapInstanceRef.current) {
       mapInstanceRef.current = L.map(mapRef.current).setView([21.0, 82.0], 6);
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      // Define tile layers for different views
+      const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
-      }).addTo(mapInstanceRef.current);
+        attribution: 'Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      });
+
+    
+     
+
+
+     
+
+      // Add layer control
+      // L.control.layers({
+      //   "Street": streetLayer,
+        
+      // }).addTo(mapInstanceRef.current);
+      
+      // Set default view
+      streetLayer.addTo(mapInstanceRef.current);
     }
 
     if (mapInstanceRef.current) {
+      // Clear existing markers
       mapInstanceRef.current.eachLayer(layer => {
         if (layer instanceof L.Marker) {
           mapInstanceRef.current.removeLayer(layer);
         }
       });
 
-      if (tollData.length > 0) {
-        tollData.forEach(plaza => {
+      // Sort tollData by readerReadTime in descending order
+      const sortedTollData = tollData.sort((a, b) => new Date(b.readerReadTime) - new Date(a.readerReadTime));
+
+      if (sortedTollData.length > 0) {
+        sortedTollData.forEach((plaza, index) => {
           const [lat, lng] = plaza.tollPlazaGeocode.split(',').map(coord => parseFloat(coord));
 
           if (!isNaN(lat) && !isNaN(lng)) {
-            const marker = L.marker([lat, lng]).addTo(mapInstanceRef.current);
+            // Determine marker color (green for the most recent entry, blue for the rest)
+            const markerColor = index === 0 ? 'green' : 'blue';
+
+            const iconHtml = `
+              <div style="position: relative; color: ${markerColor}; font-weight: bold; text-align: center;">
+                ${index + 1}
+                <img src="${markerIcon}" style="filter: hue-rotate(${markerColor === 'green' ? '120deg' : '240deg'});"/>
+              </div>
+            `;
+
+            const customIcon = L.divIcon({
+              html: iconHtml,
+              className: 'custom-marker',
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+            });
+
+            const marker = L.marker([lat, lng], { icon: customIcon }).addTo(mapInstanceRef.current);
 
             marker.bindPopup(
               `<b>${plaza.tollPlazaName}</b><br>
@@ -53,6 +92,11 @@ const TollPlazaMap = ({ tollData = [] }) => {
               Vehicle Reg. No: ${plaza.vehicleRegNo}<br>
               Read Time: ${plaza.readerReadTime}`
             );
+
+            // Open popup for the latest marker by default
+            if (index === 0) {
+              marker.openPopup();
+            }
           } else {
             console.error('Invalid coordinates:', plaza.tollPlazaGeocode);
           }
