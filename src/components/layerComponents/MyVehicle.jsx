@@ -74,7 +74,9 @@ const MyVehicle = () => {
   const [vehicleToDelete, setVehicleToDelete] = useState(null);
   const location = useLocation();
   const pathName = location.pathname;
-  const vehicles = [user.vehicleNumbers];
+  const vehicles = user.vehicleNumbers || [];
+
+  console.log(user.vehicleNumbers)
 
   const openAddModal = () => setIsAddModalOpen(true);
   const closeAddModal = () => setIsAddModalOpen(false);
