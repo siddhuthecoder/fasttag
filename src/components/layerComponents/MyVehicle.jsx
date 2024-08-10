@@ -12,6 +12,7 @@ import Modal from 'react-modal';
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
+import { signInSuccess } from '../../store/authSlice';
 
 const VehicleCard = ({ vehicleNumber, onEdit, onDelete }) => {
   const navigate = useNavigate();
@@ -46,19 +47,23 @@ const VehicleCard = ({ vehicleNumber, onEdit, onDelete }) => {
           <div className="text-zinc-400">{vehicleNumber}</div>
         </div>
         <div className="flex items-center">
-          <button onClick={handleDeleteClick}> <RiDeleteBinLine className="text-2xl ms-3 text-red-500 mx-3 cursor-pointer" /></button>
-          <button onClick={handleEditClick}> <FiEdit className='text-2xl ms-3 text-blue-500 mx-3 cursor-pointer' /></button>
+          <button onClick={handleDeleteClick}>
+            <RiDeleteBinLine className="text-2xl ms-3 text-red-500 mx-3 cursor-pointer" />
+          </button>
+          <button onClick={handleEditClick}>
+            <FiEdit className="text-2xl ms-3 text-blue-500 mx-3 cursor-pointer" />
+          </button>
         </div>
       </div>
       <div className="flex items-center m-2 gap-3">
         <div className="w-[70px] cursor-pointer h-[30px] flex justify-center items-center rounded-full border border-black bg-[#EDEDED]">
-          <img src={mod1} className='w scale-[0.8]' alt="" />
+          <img src={mod1} className="w scale-[0.8]" alt="" />
         </div>
         <div
           className="w-[70px] h-[30px] cursor-pointer flex justify-center mx-2 items-center rounded-full border border-black bg-[#EDEDED]"
           onClick={handleImageClick}
         >
-          <img src={mod2} className='scale-[0.8]' alt="" />
+          <img src={mod2} className="scale-[0.8]" alt="" />
         </div>
       </div>
     </div>
@@ -73,34 +78,31 @@ const MyVehicle = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [newVehicleNumber, setNewVehicleNumber] = useState('');
   const [editVehicleNumber, setEditVehicleNumber] = useState('');
+  const [vehicleToEdit, setVehicleToEdit] = useState(null);
   const [vehicleToDelete, setVehicleToDelete] = useState(null);
   const location = useLocation();
-  const pathName = location.pathname;const [vehicles, setVehicles] = useState(user.vehicleNumbers || []);
+  const pathName = location.pathname;
+  const [vehicles, setVehicles] = useState(user.vehicleNumbers || []);
 
   const updateVehiclesOnServer = async (updatedVehicles) => {
     try {
-      const comapny_id=localStorage.getItem('userID')
-      const response = await axios.put(`https://fastagtracking.com/customulip/company/${comapny_id}`, {
+      const company_id = localStorage.getItem('userID');
+      const response = await axios.put(`https://fastagtracking.com/customulip/company/${company_id}`, {
         vehicleNumbers: updatedVehicles,
       });
       console.log('Vehicle array updated:', response.data);
-  
-      // Update the vehicles state with the new vehicleNumbers from the response
-      setVehicles(response.data.vehicleNumbers);
-  
-      // Update the user state in Redux or wherever it is managed
-      dispatch({ type: 'UPDATE_USER_VEHICLES', payload: response.data.vehicleNumbers });
-  
+      dispatch(signInSuccess(response.data));
+      window.location.reload();
     } catch (error) {
       console.error('Error updating vehicle array:', error);
     }
   };
-  
 
   const openAddModal = () => setIsAddModalOpen(true);
   const closeAddModal = () => setIsAddModalOpen(false);
 
   const openEditModal = (vehicleNumber) => {
+    setVehicleToEdit(vehicleNumber);
     setEditVehicleNumber(vehicleNumber);
     setIsEditModalOpen(true);
   };
@@ -120,12 +122,12 @@ const MyVehicle = () => {
 
   const handleEditSubmit = () => {
     const updatedVehicles = vehicles.map((vehicle) =>
-      vehicle === editVehicleNumber ? newVehicleNumber : vehicle
+      vehicle === vehicleToEdit ? editVehicleNumber : vehicle
     );
+    setVehicles(updatedVehicles);
     updateVehiclesOnServer(updatedVehicles);
     closeEditModal();
   };
-  
 
   const handleDeleteConfirm = () => {
     const updatedVehicles = vehicles.filter((vehicle) => vehicle !== vehicleToDelete);
@@ -161,7 +163,9 @@ const MyVehicle = () => {
               <Link
                 to={data.link}
                 key={index}
-                className={`px-3 py-1 cursor-pointer ${pathName === data.link ? "bg-[#E1E1FB]" : ""} text-nowrap border border-black duration-150 rounded-full hover:bg-[#E1E1FB]`}
+                className={`px-3 py-1 cursor-pointer ${
+                  pathName === data.link ? "bg-[#E1E1FB]" : ""
+                } text-nowrap border border-black duration-150 rounded-full hover:bg-[#E1E1FB]`}
               >
                 {data.name}
               </Link>
@@ -170,13 +174,20 @@ const MyVehicle = () => {
           <div className="w-full flex flex-col">
             <div className="w-full grid grid-cols-12 gap-1">
               <div className="flex w-full col-span-9 md:col-span-8 mx-auto items-center mt-3 relative">
-                <input type="text" className="w-full px-3 h-[52px] rounded-md border" placeholder="Enter Vehicle Number" />
+                <input
+                  type="text"
+                  className="w-full px-3 h-[52px] rounded-md border"
+                  placeholder="Enter Vehicle Number"
+                />
                 <div className="absolute right-0 w-[50px] z-[2] h-[50px] bg-[#5E81F4] rounded-tr-md rounded-br-md flex justify-center items-center">
                   <IoSearchOutline className="text-white text-2xl" />
                 </div>
               </div>
               <div className="col-span-3 md:col-span-4 flex justify-center mt-3 items-center">
-                <button className="w-full flex justify-center items-center rounded-md h-[50px] text-white text-lg font-semibold bg-[#5E81F4]" onClick={openAddModal}>
+                <button
+                  className="w-full flex justify-center items-center rounded-md h-[50px] text-white text-lg font-semibold bg-[#5E81F4]"
+                  onClick={openAddModal}
+                >
                   <span className="hidden md:block">Add Vehicle</span>
                   <MdAddCard />
                 </button>
@@ -215,12 +226,20 @@ const MyVehicle = () => {
             onChange={(e) => setNewVehicleNumber(e.target.value)}
             placeholder="Enter Vehicle Number"
           />
-          <button
-            className="w-full bg-blue-500 text-white py-2 rounded-md"
-            onClick={handleAddSubmit}
-          >
-            Add
-          </button>
+          <div className="flex justify-end">
+            <button
+              className="px-4 py-2 bg-gray-300 rounded-md mr-2"
+              onClick={closeAddModal}
+            >
+              Cancel
+            </button>
+            <button
+              className="px-4 py-2 bg-blue-500 text-white rounded-md"
+              onClick={handleAddSubmit}
+            >
+              Add
+            </button>
+          </div>
         </div>
       </Modal>
 
@@ -240,16 +259,24 @@ const MyVehicle = () => {
             onChange={(e) => setEditVehicleNumber(e.target.value)}
             placeholder="Enter Vehicle Number"
           />
-          <button
-            className="w-full bg-blue-500 text-white py-2 rounded-md"
-            onClick={handleEditSubmit}
-          >
-            Save Changes
-          </button>
+          <div className="flex justify-end">
+            <button
+              className="px-4 py-2 bg-gray-300 rounded-md mr-2"
+              onClick={closeEditModal}
+            >
+              Cancel
+            </button>
+            <button
+              className="px-4 py-2 bg-blue-500 text-white rounded-md"
+              onClick={handleEditSubmit}
+            >
+              Save
+            </button>
+          </div>
         </div>
       </Modal>
 
-      {/* Delete Vehicle Modal */}
+      {/* Delete Confirmation Modal */}
       <Modal
         isOpen={isDeleteModalOpen}
         onRequestClose={closeDeleteModal}
@@ -258,16 +285,16 @@ const MyVehicle = () => {
       >
         <div className="bg-white p-6 rounded-md w-full md:w-1/3">
           <h2 className="text-xl font-semibold mb-4">Delete Vehicle</h2>
-          <p className="mb-4">Are you sure you want to delete this vehicle?</p>
-          <div className="flex justify-end gap-4">
+          <p>Are you sure you want to delete this vehicle?</p>
+          <div className="flex justify-end mt-4">
             <button
-              className="bg-gray-300 text-black py-2 px-4 rounded-md"
+              className="px-4 py-2 bg-gray-300 rounded-md mr-2"
               onClick={closeDeleteModal}
             >
               Cancel
             </button>
             <button
-              className="bg-red-500 text-white py-2 px-4 rounded-md"
+              className="px-4 py-2 bg-red-500 text-white rounded-md"
               onClick={handleDeleteConfirm}
             >
               Delete

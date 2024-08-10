@@ -11,10 +11,10 @@ const Price = () => {
       try {
         const response = await fetch("https://fastagtracking.com/customulip/plans");
         const data = await response.json();
-        
+
         // Separate monthly and yearly plans
-        const monthly = data.filter(plan => plan.type === "monthly");
-        const yearly = data.filter(plan => plan.type === "yearly");
+        const monthly = data.filter((plan) => plan.type === "monthly");
+        const yearly = data.filter((plan) => plan.type === "yearly");
 
         setMonthlyPrices(monthly);
         setYearlyPrices(yearly);
@@ -25,65 +25,94 @@ const Price = () => {
 
     fetchData();
   }, []);
-const handleToggleChange = (event) => {
+
+  const handleToggleChange = (event) => {
     setIsYearly(event.target.checked);
   };
+
   const prices = isYearly ? yearlyPrices : monthlyPrices;
+
+  const calculateDiscount = (actualPrice, offerPrice) => {
+    const discount = ((actualPrice - offerPrice) / actualPrice) * 100;
+    return Math.round(discount);
+  };
 
   return (
     <section className="plans__container mt-[80px]">
       {/* Toggle Button */}
-      {/* <div className="toggle-container">
-        <button 
-          className={`toggle-button ${isYearly ? 'active' : ''}`} 
-          onClick={() => setIsYearly(!isYearly)}>
-          {isYearly ? "Switch to Monthly" : "Switch to Yearly"}
-        </button>
-      </div> */}
-
-<div className="toggle-container">
-        <label className={`toggler ${isYearly ? 'toggler--is-active' : ''}`} htmlFor="switcher">Yearly</label>
+      <div className="toggle-container">
+        <label
+          className={`toggler ${isYearly ? "toggler--is-active" : ""}`}
+          htmlFor="switcher"
+        >
+          Yearly
+        </label>
         <div className="toggle">
-          <input 
-            type="checkbox" 
-            id="switcher" 
-            className="check" 
+          <input
+            type="checkbox"
+            id="switcher"
+            className="check"
             checked={isYearly}
             onChange={handleToggleChange}
           />
           <b className="b switch"></b>
         </div>
-        <label className={`toggler ${!isYearly ? 'toggler--is-active' : ''}`} htmlFor="switcher">Monthly</label>
+        <label
+          className={`toggler ${!isYearly ? "toggler--is-active" : ""}`}
+          htmlFor="switcher"
+        >
+          Monthly
+        </label>
       </div>
-
 
       <div className="plans">
         <div className="planItem__container">
-          {prices.map((plan, index) => (
-            <div key={plan._id} className={`planItem planItem--${plan.name.toLowerCase()}`}>
-              <div className="card">
-                <div className="card__header">
-                <div className={`card__icon ${plan.name === "Basic" ? "symbol symbol--rounded" : plan.name === "Standard" ? "symbol" : "symbol"}`}></div>
-                  <h2>{plan.name}</h2>
+          {prices.map((plan) => {
+            const discountPercentage = calculateDiscount(plan.price, plan.offerprice);
+            return (
+              <div
+                key={plan._id}
+                className={`planItem planItem--${plan.name.toLowerCase()}`}
+              >
+                <div className="card">
+                  <div className="card__header">
+                    <div
+                      className={`card__icon ${
+                        plan.name === "Basic"
+                          ? "symbol symbol--rounded"
+                          : plan.name === "Standard"
+                          ? "symbol"
+                          : "symbol"
+                      }`}
+                    ></div>
+                    <h2>{plan.name}</h2>
+                    {discountPercentage > 0 && (
+                      <div className="discount-badge">{discountPercentage}% OFF</div>
+                    )}
+                  </div>
+                  <div className="card__desc">
+                    Actual Price <span className="actual-price">₹{plan.price}</span>
+                    {/* <span>₹{plan.offerprice}</span> */}
+                  </div>
                 </div>
-                <div className="card__desc">
-                 Offer Price {plan.offerprice } 
+                <div className="price">
+                  ₹{plan.offerprice}
+                  <span className="spann">/ {isYearly ? "year" : "month"}</span>
                 </div>
+                <ul className="featureList">
+                  <li>Upto {plan.apiHitLimit} FASTAG API hits</li>
+                  <li>Upto {plan.apiHitLimit} VAHAN API hits</li>
+                  <li>Upto {plan.apiHitLimit} SARATHI API hits</li>
+                  <li className={plan.name === "Basic" ? "disabled" : ""}>
+                    API for ERP and SAP
+                  </li>
+                </ul>
+                <button className={`button button--blue`}>
+                  <span className="text-white">Get Started</span>
+                </button>
               </div>
-              <div className="price">
-                ₹{plan.price}<span className="spann">/ {isYearly ? "year" : "month"}</span>
-              </div>
-              <ul className="featureList">
-                <li>Upto {plan.apiHitLimit} FASTAG API hits</li>
-                <li>Upto {plan.apiHitLimit} VAHAN API hits</li>
-                <li>Upto {plan.apiHitLimit} SARATHI API hits</li>
-                <li className={plan.name === "Basic" ? "disabled" : ""}>API for ERP and SAP</li>
-              </ul>
-              <button className={`button button--blue`}>
-               <span className="text-white">Get Started</span> 
-              </button>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

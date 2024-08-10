@@ -49,8 +49,10 @@ const Login = () => {
         if (response.status === 200) {
             const result = JSON.stringify(response.data);
             setResponseData(response.data)
-            const { password, phone, ...cleanObject } = responseData;
+            const { password, phone } = responseData;
             localStorage.setItem("userData", responseData);
+            localStorage.setItem("userID", response.data._id);
+            
             dispatch(signInSuccess(response.data));
             setData({
                 email: '',
@@ -131,9 +133,9 @@ useEffect(() => {
                 Remember me
               </label>
             </div>
-            <Link to="/forgotPassword" className="font-semibold text-[#8098F9] cursor-pointer">
+            {/* <Link to="/forgotPassword" className="font-semibold text-[#8098F9] cursor-pointer">
               Forgot Password?
-            </Link>
+            </Link> */}
           </div>
           <button type="submit" className="w-full rounded-md text-white md:text-2xl font-bold bg-[#8098F9] py-3">
             LOG IN
