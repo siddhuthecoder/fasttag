@@ -23,6 +23,7 @@ import TermsPage from './pages/Terms';
 import Terms from './components/Terms';
 import Policy from './components/Policy';
 import Contact from './components/Contact';
+import Header2 from './components/Header2';
 
 
 
@@ -63,6 +64,7 @@ const App = () => {
               </Home>
           </main>):(
             <main>
+              <Header2 />
               <Home>
                   <Routes>
                     

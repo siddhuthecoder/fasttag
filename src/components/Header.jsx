@@ -123,7 +123,7 @@ const Header = () => {
             </div>
             <FaChevronDown className="me-1" /> 
           </div>
-          <button className="px-3 mx-2 hidden md:block py-1 rounded-md bg-[#5E81F4] text-white font-semibold" onClick={() => navigate("/pricing")}>Upgrade</button>
+          <button className="px-3 mx-2 py-1 rounded-md bg-[#5E81F4] text-white font-semibold" onClick={() => navigate("/pricing")}>Upgrade</button>
         </div>
         
       </div>
