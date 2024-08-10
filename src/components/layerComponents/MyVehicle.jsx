@@ -78,8 +78,8 @@ const MyVehicle = () => {
   const pathName = location.pathname;const [vehicles, setVehicles] = useState(user.vehicleNumbers || []);
 
   const updateVehiclesOnServer = async (updatedVehicles) => {
-    try {
-      const response = await axios.put('https://fastagtracking.com/customulip/company/66b5974fc5f0a6f365cc32ea', {
+    try {const comapny_id=localStorage.getItem('userID')
+      const response = await axios.put(`https://fastagtracking.com/customulip/company/${comapny_id}`, {
         vehicleNumbers: updatedVehicles,
       });
       console.log('Vehicle array updated:', response.data);
