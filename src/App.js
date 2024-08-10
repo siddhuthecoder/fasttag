@@ -52,6 +52,7 @@ const App = () => {
                     <Route path="/forgotPassword" element={<ForgetPassword />} />
                     <Route path="/newPassword" element={<NewPassword />} />
                     <Route path="/otp" element={<OTPForm />} />
+                    
                   </Routes>
               </Home>
           </main>):(

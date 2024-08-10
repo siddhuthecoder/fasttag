@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { loginUser } from '../store/authSlice';
+import { MdOutlinePhone } from "react-icons/md";
 import { BsEnvelope } from 'react-icons/bs';
 import { FiShieldOff, FiEye, FiEyeOff } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
@@ -93,9 +94,9 @@ useEffect(() => {
         <hr className="mx-[100px] my-[15px]" />
         <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
           <div className="flex items-center">
-            <BsEnvelope className="text-2xl me-[-36px] z-[1] text-[#71717A]" />
+            <MdOutlinePhone className="text-2xl me-[-36px] z-[1] text-[#71717A]" />
             <input
-              type="number"
+             type='text'
               className="w-[100%] mx-auto bg-[#EAEFFF] rounded-md border ps-[36px] border-[#B5C3FB] h-[50px]"
               placeholder="Phone Number"
               name="phone"

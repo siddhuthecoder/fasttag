@@ -10,7 +10,8 @@ import { Link } from 'react-router-dom';
 import Map from '../openstreetMap/Map';
 import Modal from 'react-modal';
 import { useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 
 const VehicleCard = ({ vehicleNumber, onEdit, onDelete }) => {
   const navigate = useNavigate();
@@ -65,7 +66,8 @@ const VehicleCard = ({ vehicleNumber, onEdit, onDelete }) => {
 };
 
 const MyVehicle = () => {
-  const user = useSelector((state) => state.auth.user)
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -73,10 +75,26 @@ const MyVehicle = () => {
   const [editVehicleNumber, setEditVehicleNumber] = useState('');
   const [vehicleToDelete, setVehicleToDelete] = useState(null);
   const location = useLocation();
-  const pathName = location.pathname;
-  const vehicles = user.vehicleNumbers || [];
+  const pathName = location.pathname;const [vehicles, setVehicles] = useState(user.vehicleNumbers || []);
 
-  console.log(user.vehicleNumbers)
+  const updateVehiclesOnServer = async (updatedVehicles) => {
+    try {
+      const response = await axios.put('https://fastagtracking.com/customulip/company/66b5974fc5f0a6f365cc32ea', {
+        vehicleNumbers: updatedVehicles,
+      });
+      console.log('Vehicle array updated:', response.data);
+  
+      // Update the vehicles state with the new vehicleNumbers from the response
+      setVehicles(response.data.vehicleNumbers);
+  
+      // Update the user state in Redux or wherever it is managed
+      dispatch({ type: 'UPDATE_USER_VEHICLES', payload: response.data.vehicleNumbers });
+  
+    } catch (error) {
+      console.error('Error updating vehicle array:', error);
+    }
+  };
+  
 
   const openAddModal = () => setIsAddModalOpen(true);
   const closeAddModal = () => setIsAddModalOpen(false);
@@ -94,18 +112,24 @@ const MyVehicle = () => {
   const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
   const handleAddSubmit = () => {
-    alert(`Entered Vehicle Number: ${newVehicleNumber}`);
+    const updatedVehicles = [...vehicles, newVehicleNumber];
+    updateVehiclesOnServer(updatedVehicles);
     closeAddModal();
   };
 
   const handleEditSubmit = () => {
-    alert(`Updated Vehicle Number: ${editVehicleNumber}`);
+    const updatedVehicles = vehicles.map((vehicle) =>
+      vehicle === editVehicleNumber ? newVehicleNumber : vehicle
+    );
+    updateVehiclesOnServer(updatedVehicles);
     closeEditModal();
   };
+  
 
   const handleDeleteConfirm = () => {
-    alert(`Deleted Vehicle Number: ${vehicleToDelete}`);
-    closeDeleteModal(); 
+    const updatedVehicles = vehicles.filter((vehicle) => vehicle !== vehicleToDelete);
+    updateVehiclesOnServer(updatedVehicles);
+    closeDeleteModal();
   };
 
   const tabs = [
@@ -181,19 +205,21 @@ const MyVehicle = () => {
         className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
         ariaHideApp={false}
       >
-        <div className="bg-white p-6 rounded-md w-full max-w-md">
-          <h2 className="text-2xl mb-4">Add Vehicle</h2>
+        <div className="bg-white p-6 rounded-md w-full md:w-1/3">
+          <h2 className="text-xl font-semibold mb-4">Add Vehicle</h2>
           <input
             type="text"
-            className="w-full px-4 py-2 border rounded-md mb-4"
-            placeholder="Enter Vehicle Number"
+            className="w-full px-3 py-2 border rounded-md mb-4"
             value={newVehicleNumber}
             onChange={(e) => setNewVehicleNumber(e.target.value)}
+            placeholder="Enter Vehicle Number"
           />
-          <div className="flex justify-end gap-4">
-            <button className="px-4 py-2 bg-gray-300 rounded-md" onClick={closeAddModal}>Cancel</button>
-            <button className="px-4 py-2 bg-blue-500 text-white rounded-md" onClick={handleAddSubmit}>Submit</button>
-          </div>
+          <button
+            className="w-full bg-blue-500 text-white py-2 rounded-md"
+            onClick={handleAddSubmit}
+          >
+            Add
+          </button>
         </div>
       </Modal>
 
@@ -204,18 +230,21 @@ const MyVehicle = () => {
         className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
         ariaHideApp={false}
       >
-        <div className="bg-white p-6 rounded-md w-full max-w-md">
-          <h2 className="text-2xl mb-4">Edit Vehicle</h2>
+        <div className="bg-white p-6 rounded-md w-full md:w-1/3">
+          <h2 className="text-xl font-semibold mb-4">Edit Vehicle</h2>
           <input
             type="text"
-            className="w-full px-4 py-2 border rounded-md mb-4"
+            className="w-full px-3 py-2 border rounded-md mb-4"
             value={editVehicleNumber}
             onChange={(e) => setEditVehicleNumber(e.target.value)}
+            placeholder="Enter Vehicle Number"
           />
-          <div className="flex justify-end gap-4">
-            <button className="px-4 py-2 bg-gray-300 rounded-md" onClick={closeEditModal}>Cancel</button>
-            <button className="px-4 py-2 bg-blue-500 text-white rounded-md" onClick={handleEditSubmit}>Submit</button>
-          </div>
+          <button
+            className="w-full bg-blue-500 text-white py-2 rounded-md"
+            onClick={handleEditSubmit}
+          >
+            Save Changes
+          </button>
         </div>
       </Modal>
 
@@ -226,12 +255,22 @@ const MyVehicle = () => {
         className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
         ariaHideApp={false}
       >
-        <div className="bg-white p-6 rounded-md w-full max-w-md">
-          <h2 className="text-2xl mb-4">Confirm Deletion</h2>
-          <p className="mb-4">Are you sure you want to delete the vehicle with number {vehicleToDelete}?</p>
+        <div className="bg-white p-6 rounded-md w-full md:w-1/3">
+          <h2 className="text-xl font-semibold mb-4">Delete Vehicle</h2>
+          <p className="mb-4">Are you sure you want to delete this vehicle?</p>
           <div className="flex justify-end gap-4">
-            <button className="px-4 py-2 bg-gray-300 rounded-md" onClick={closeDeleteModal}>Cancel</button>
-            <button className="px-4 py-2 bg-red-500 text-white rounded-md" onClick={handleDeleteConfirm}>Delete</button>
+            <button
+              className="bg-gray-300 text-black py-2 px-4 rounded-md"
+              onClick={closeDeleteModal}
+            >
+              Cancel
+            </button>
+            <button
+              className="bg-red-500 text-white py-2 px-4 rounded-md"
+              onClick={handleDeleteConfirm}
+            >
+              Delete
+            </button>
           </div>
         </div>
       </Modal>
