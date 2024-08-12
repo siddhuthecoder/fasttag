@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./price.css";
+import axios from "axios";
 
 const Price = () => {
   const [monthlyPrices, setMonthlyPrices] = useState([]);
@@ -12,7 +13,6 @@ const Price = () => {
         const response = await fetch("https://fastagtracking.com/customulip/plans");
         const data = await response.json();
 
-        // Separate monthly and yearly plans
         const monthly = data.filter((plan) => plan.type === "monthly");
         const yearly = data.filter((plan) => plan.type === "yearly");
 
@@ -37,9 +37,90 @@ const Price = () => {
     return Math.round(discount);
   };
 
+  const handleGetStarted = async (planName) => {
+    const planType = isYearly ? "Yearly" : "Monthly";
+    alert(`Plan: ${planName}, Type: ${planType}`);
+  //  alert( process.env.REACT_APP_RAZORPAY_KEY_ID)
+  //  console.log(process.env);
+
+    if (window.confirm("Are you sure you want to buy this item?")) {
+      try {
+        const token = "your_token"; // Replace with your authentication token
+        const product = prices.find((plan) => plan.name === planName); // Get the selected plan
+        console.log(product);
+        
+        const {
+          data: { order },
+        } = await axios.post(
+          `http://localhost:5001/orders/payment`,
+          { planId: product._id },
+          {
+            headers: {
+             
+            },
+          }
+        );
+
+        const options = {
+          key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+          amount: order.amount,
+          currency: "INR",
+          name: product.name,
+          description: product.description,
+          order_id: order.id,
+          handler: async function (response) {
+            try {
+              const res = await axios.post(
+                `${process.env.REACT_APP_BACKEND_URL}/orders`,
+                {
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  order_id: order.id,
+                  totalPrice: order.amount,
+                  razorpay_signature: response.razorpay_signature,
+                  products: product
+                },
+              );
+
+              alert(res.data.message || "Order Received!");
+            } catch (error) {
+              alert(
+                error.response?.data?.message ||
+                  error.message ||
+                  "Payment verification failed. Please try again."
+              );
+            }
+          },
+          prefill: {
+            name: "", // Fill if you have user name
+            email: "", // Fill if you have user email
+            contact: "", // Fill if you have user contact
+          },
+          theme: {
+            color: "#5E81F4",
+          },
+        };
+
+        if (window.Razorpay) {
+          const razor = new window.Razorpay(options);
+
+          razor.on("payment.failed", function (response) {
+            console.log("Payment failed response:", response);
+            alert(`Payment failed: ${response.error.description}`);
+          });
+
+          razor.open();
+        } else {
+          console.error("Razorpay SDK not loaded.");
+        }
+      } catch (error) {
+        console.error("Error in payment process:", error);
+        alert("An error occurred. Please try again.");
+      }
+    }
+  };
+
   return (
     <section className="plans__container mt-[80px]">
-      {/* Toggle Button */}
       <div className="toggle-container">
         <label
           className={`toggler ${isYearly ? "toggler--is-active" : ""}`}
@@ -72,7 +153,7 @@ const Price = () => {
             return (
               <div
                 key={plan._id}
-                className={`planItem planItem--${plan.name.toLowerCase()}`}
+                className={`planItem planItem--${plan.name === "Premium" ? "entp" : ""}`}
               >
                 <div className="card">
                   <div className="card__header">
@@ -82,7 +163,7 @@ const Price = () => {
                           ? "symbol symbol--rounded"
                           : plan.name === "Standard"
                           ? "symbol"
-                          : "symbol"
+                          : ""
                       }`}
                     ></div>
                     <h2>{plan.name}</h2>
@@ -92,7 +173,6 @@ const Price = () => {
                   </div>
                   <div className="card__desc">
                     Actual Price <span className="actual-price">₹{plan.price}</span>
-                    {/* <span>₹{plan.offerprice}</span> */}
                   </div>
                 </div>
                 <div className="price">
@@ -107,7 +187,10 @@ const Price = () => {
                     API for ERP and SAP
                   </li>
                 </ul>
-                <button className={`button button--blue`}>
+                <button
+                  className="button button--blue"
+                  onClick={() => handleGetStarted(plan.name)}
+                >
                   <span className="text-white">Get Started</span>
                 </button>
               </div>

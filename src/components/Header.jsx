@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo2.png';
 import { TiThMenu } from "react-icons/ti";
 import { FaPhoneAlt } from "react-icons/fa";
 import per from '../assets/person.png';
@@ -66,7 +66,8 @@ const Header = () => {
             className='text-2xl  cursor-pointer mx-2 md:hidden'  
             onClick={toggleMenu} 
           />
-          <img src={logo} alt="Logo" className="mx-3 cursor-pointer" />
+         <Link to='/'> <img src={logo} alt="Logo" className="mx-3 cursor-pointer" width={60} height={60} /></Link>
+         <Link to='/'>   <h5 className='text-lg font-semibold ' >Faastagtracking.com</h5></Link>
           
         </div>
         <div className="md:flex items-center gap-4 hidden ">
@@ -88,7 +89,7 @@ const Header = () => {
               <div className="flex flex-col divide-y gap-1 w-full">
                 <div className="w-full px-2  text-lg hover:bg-[#5E81F4] hover:text-white  cursor-pointer">Terms and Conditions</div>
                 <div className="w-full px-2  text-lg hover:bg-[#5E81F4] hover:text-white  cursor-pointer">Privacy Policy</div>
-                <div className="w-full px-2  text-lg hover:bg-[#5E81F4] hover:text-white  cursor-pointer">Contact Us</div>
+                <div className="w-full px-2  text-lg hover:bg-[#5E81F4] hover:text-white  cursor-pointer">About Us</div>
               </div>
             </div>
           </div>
@@ -106,15 +107,18 @@ const Header = () => {
                 </div>
               </div>
               <div className="w-[75%] mx-auto mt-3">
-                <button className="w-full bg-[#EDEDED] py-1 border border-black rounded-md font-semibold" onClick={() => navigate("/pricing")}>Pricing/Plan</button>
+                <button className="w-full bg-[#EDEDED] py-1 border border-black rounded-md font-semibold" onClick={() => navigate("/pricing")}>{localStorage.getItem('plan')}</button>
               </div>
               <div className="w-[75%] mx-auto mt-3">
                 <button className="w-full bg-[#5E81F4] text-white py-1 rounded-md font-semibold mb-2" onClick={handleLogout}>Log Out</button>
               </div>
             </div>
+          <button className="px-3 mx-2 py-1 rounded-md bg-[#5E81F4] text-white font-semibold" onClick={() => navigate("/pricing")}>Upgrade</button>
+            
             <div className="w-[30px] h-[30px] md:hidden mx-2 bg-blue-200 rounded-full overflow-hidden flex justify-center items-center ">
               <div className="font-bold text-lg">{user.name[0]}</div>
             </div>
+            
             <div className="flex-col ps-2 mx-2 hidden md:flex">
               <div className="font-semibold flex items-center">
                 <div className="font-semibold text-[#5E81F4] hidden md:block text-1xl">{user.name}</div>
@@ -123,7 +127,6 @@ const Header = () => {
             </div>
             <FaChevronDown className="me-1" /> 
           </div>
-          <button className="px-3 mx-2 py-1 rounded-md bg-[#5E81F4] text-white font-semibold" onClick={() => navigate("/pricing")}>Upgrade</button>
         </div>
         
       </div>
@@ -146,7 +149,7 @@ const Header = () => {
                 }
                 <div className="font-semibold mt-2 ps-3 hover:text-[#5E81F4]" onClick={toggleMenu}>Privacy Policy</div>
                 <div className="font-semibold mt-2 ps-3 hover:text-[#5E81F4]" onClick={toggleMenu}>Terms and Conditions</div>
-                <div className="font-semibold mt-2 ps-3 hover:text-[#5E81F4]" onClick={toggleMenu}>Contact Us</div>
+                <div className="font-semibold mt-2 ps-3 hover:text-[#5E81F4]" onClick={toggleMenu}>About Us</div>
 
               </div>
               <div className="w-full flex flex-col">

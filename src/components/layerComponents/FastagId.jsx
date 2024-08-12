@@ -57,7 +57,9 @@ const Fastag = () => {
       setError(null);
     } catch (error) {
       console.error('Error fetching tracking data:', error);
-      setError('Failed to fetch tracking data.');
+      // setError('Failed to fetch tracking data.');
+      setError(`Your Vehicle Number ${vehicleNumber} does not cross any toll plaza in past 3 days or There is A server Error From Government Side .`);
+      
     } finally {
       setLoading(false); // Set loading to false when fetch completes
     }
@@ -79,30 +81,34 @@ const Fastag = () => {
             ))}
           </div>
           <div className="w-full flex flex-col h-full overflow-hidden">
-            <div className="w-full flex flex-col bg-white mt-5 p-3 rounded-md shadow-lg border border-[#E0E0E0] flex-grow overflow-y-auto">
-              <div className="flex items-center p-3 border-b text-gray-500">
+          <div className="w-full flex flex-col bg-white mt-5 p-3 rounded-md shadow-lg border border-[#E0E0E0] flex-grow overflow-y-auto">
+          <div className="flex items-center p-3 border-b text-gray-500">
                 <div className="text-xs font-medium">Vehicle Number</div>
                 <div className="text-xs font-medium ml-auto">{id}</div>
               </div>
               {loading && <div className="text-center text-gray-500 py-5">Loading...</div>} {/* Loading text */}
               {error && !loading && <div className="text-center text-red-500 py-5">{error}</div>} {/* Error text */}
               {!loading && trackingData.length > 0 ? (
-                trackingData.map((location, idx) => (
-                  <div key={idx} className="w-full flex items-center justify-between py-3 px-2 border-dashed border-t-0 border-r-0 border-b-0 border-l-2 relative">
+                 trackingData.map((location, idx) => (
+                  <div key={idx} className={`w-full flex items-center justify-between py-3 px-2 ml-4 relative 
+                    border-l-2 border-dashed ${idx !== trackingData.length - 1 ? 'border-b' : ''}`}>
+                    
                     <div className="absolute left-[-15px] flex items-center">
                       <div className={`w-[30px] h-[30px] z-[3] rounded-full flex justify-center items-center ${idx === 0 ? 'bg-[#E8F9EE]' : 'bg-[#E5E5FE]'}`}>
                         <FaLocationDot className='text-blue-500' />
                       </div>
                     </div>
-                    <div className="text-gray-700 ps-[40px]">{location.tollPlazaName}</div>
+                
+                    <div className="text-gray-700 ps-[20px]">{location.tollPlazaName}</div>
                     <div className="flex flex-col text-right text-sm">
-                      <div className="text-black font-semibold">{location.readerReadTime.split(' ')[0]}</div>
-                      <div className="font-semibold">{location.readerReadTime.split(' ')[1]}</div>
+                      <div className="text-black font-semibold mt-5 ">{location.readerReadTime.split(' ')[0]}</div>
+                      <div className="text-gray-400">{location.readerReadTime.split(' ')[1]}</div>
                     </div>
+                
                   </div>
                 ))
               ) : (
-                !loading && <div className="text-center text-gray-500 py-5">No tracking information available.</div> // No data message
+                !loading && !error &&  <div className="text-center text-gray-500 py-5">No tracking information available.</div> // No data message
               )}
             </div>
           </div>

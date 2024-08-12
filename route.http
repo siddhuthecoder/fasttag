@@ -47,8 +47,9 @@ Content-Type: application/json
 
 {
     "company_id": "66b2f12abbef97c004389b88",
-    "tracking_For": "FASTAG",
+    "tracking_For": "SARATHI",
     "parameters": { 
-        "vehiclenumber": "ABC1234"
+        "dlnumber": "AP03020190043439",
+    "dob": "1980-09-10"
     }
 }

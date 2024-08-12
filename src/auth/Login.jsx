@@ -40,35 +40,55 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(data)
+    console.log(data);
     dispatch(signInStart());
+  
     try {
-        setLoading(true);
-        const response = await axios.post("https://fastagtracking.com/customulip/login", data);
-        
-        if (response.status === 200) {
-            const result = JSON.stringify(response.data);
-            setResponseData(response.data)
-            const { password, phone } = responseData;
-            localStorage.setItem("userData", responseData);
-            localStorage.setItem("userID", response.data._id);
-            
-            dispatch(signInSuccess(response.data));
-            setData({
-                email: '',
-                password: ''
-            });
-            navigate('/');
-            console.log(response.data)
+      setLoading(true);
+  
+      // Step 1: Call the login API
+      const loginResponse = await axios.post("https://fastagtracking.com/customulip/login", data);
+  
+      if (loginResponse.status === 200) {
+        const userData = loginResponse.data;
+        const { phone, password, plan } = userData;
+  
+        // Save user data in localStorage
+        localStorage.setItem("userData", JSON.stringify(userData));
+        localStorage.setItem("userID", userData._id);
+  
+        // Dispatch success action
+        dispatch(signInSuccess(userData));
+  
+        // Step 2: Fetch the plans
+        const plansResponse = await axios.get("https://fastagtracking.com/customulip/plans");
+  
+        if (plansResponse.status === 200) {
+          const plans = plansResponse.data;
+  
+          // Step 3: Find the matching plan based on the plan ID
+          const userPlan = plans.find((p) => p._id === plan);
+  
+          if (userPlan) {
+            // Step 4: Alert the plan name
+            // alert(`Your plan is: ${userPlan.name}`);
+            localStorage.setItem('plan',userPlan.name)
+          }
         }
+  
+        // Reset the form and navigate to the home page
+        setData({ phone: '', password: '' });
+        navigate('/');
+      }
     } catch (error) {
-        console.error('Error:', error.message);
-        setError(error.response?.data?.message || 'An error occurred');
-        dispatch(signInFailure(error.response?.data || 'An error occurred'));
+      console.error('Error:', error.message);
+      setError(error.response?.data?.message || 'An error occurred');
+      dispatch(signInFailure(error.response?.data || 'An error occurred'));
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
-};
+  };
+  
 
 useEffect(() => {
   if(isAuthenticated){

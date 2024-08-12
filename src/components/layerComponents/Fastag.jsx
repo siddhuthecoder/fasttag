@@ -50,7 +50,7 @@ const Fastag = () => {
       setError(null);
     } catch (error) {
       console.error('Error fetching tracking data:', error);
-      setError('Failed to fetch tracking data.');
+      setError(`Your Vehicle Number ${capitalizedVehicleNumber} does not cross any toll plaza in past 3 days or There is A server Error From Government Side .`);
     } finally {
       setLoading(false); // Set loading to false when fetch completes
     }
@@ -137,7 +137,7 @@ const Fastag = () => {
               ))
               
               ) : (
-                !loading && <div className="text-center text-gray-500 py-5">Enter A Vechile Number</div> // No data message
+                !loading && !error &&  <div className="text-center text-gray-500 py-5">Enter A Vechile Number</div> // No data message
               )}
             </div>
           </div>
