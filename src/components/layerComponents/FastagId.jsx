@@ -24,12 +24,15 @@ const Fastag = () => {
 
   // Fetch data on component mount or when ID changes
   useEffect(() => {
+    console.log("useEffect triggered");
     if (id) {
       handleSearch(id);
     }
-  }, [id]);
+  }, [id]); // Add id to the dependency array
+  
 
   const handleSearch = async (vehicleNumber) => {
+    console.log("handleSearch called with", vehicleNumber);
     setLoading(true); // Set loading to true when fetch starts
     const comapny_id=localStorage.getItem('userID')
     try {
@@ -108,7 +111,7 @@ const Fastag = () => {
                   </div>
                 ))
               ) : (
-                !loading && !error &&  <div className="text-center text-gray-500 py-5">No tracking information available.</div> // No data message
+                !loading && !error && <div className="text-center text-gray-500 py-5">No tracking information available.</div> // No data message
               )}
             </div>
           </div>

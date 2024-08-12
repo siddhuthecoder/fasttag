@@ -6,6 +6,7 @@ import 'leaflet/dist/leaflet.css';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import carIcon from '../../assets/truck.png'; // Import the car.png image
 
 // Configure the default icon
 const DefaultIcon = L.icon({
@@ -33,12 +34,6 @@ const TollPlazaMap = ({ tollData = [] }) => {
         maxZoom: 18,
         attribution: 'Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       });
-
-    
-     
-
-
-     
 
       // Add layer control
       // L.control.layers({
@@ -68,20 +63,22 @@ const TollPlazaMap = ({ tollData = [] }) => {
           if (!isNaN(lat) && !isNaN(lng)) {
             // Determine marker color (green for the most recent entry, blue for the rest)
             const markerColor = index === 0 ? 'green' : 'blue';
+            const iconImage = index === 0 ? carIcon : markerIcon;
 
+            // Apply different width and height for the car image
             const iconHtml = `
               <div style="position: relative; color: ${markerColor}; font-weight: bold; text-align: center;">
                 ${index + 1}
-                <img src="${markerIcon}" style="filter: hue-rotate(${markerColor === 'green' ? '120deg' : '240deg'});"/>
+                <img src="${iconImage}"/>
               </div>
             `;
 
             const customIcon = L.divIcon({
               html: iconHtml,
               className: 'custom-marker',
-              iconSize: [25, 41],
-              iconAnchor: [12, 41],
-              popupAnchor: [1, -34],
+              iconSize: [40, 60], // Adjust iconSize according to new image dimensions
+              iconAnchor: [20, 60], // Adjust iconAnchor to center the image
+              popupAnchor: [1, -60], // Adjust popupAnchor to match new dimensions
             });
 
             const marker = L.marker([lat, lng], { icon: customIcon }).addTo(mapInstanceRef.current);

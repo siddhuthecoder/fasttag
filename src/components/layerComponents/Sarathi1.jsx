@@ -5,13 +5,10 @@ import car1 from "../../assets/car1.png";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Map from "../openstreetMap/Map";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { format } from "date-fns";
 
 const Sarathi = () => {
   const [dlNumber, setDlNumber] = useState("");
-  const [dob, setDob] = useState(null);
+  const [dob, setDob] = useState("");
   const [vehicleData, setVehicleData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -27,7 +24,7 @@ const Sarathi = () => {
 
   const handleSearch = async () => {
     const capitalizedVehicleNumber = dlNumber.toUpperCase();
-    const comapny_id = localStorage.getItem('userID');
+    const comapny_id=localStorage.getItem('userID')
     setLoading(true);
     setError(null);
     try {
@@ -36,7 +33,7 @@ const Sarathi = () => {
         {
           company_id: comapny_id,
           tracking_For: "SARATHI",
-          parameters: { dlnumber: capitalizedVehicleNumber, dob: format(dob, 'yyyy-MM-dd') },
+          parameters: { dlnumber: capitalizedVehicleNumber, dob: dob },
         },
         {
           headers: { "Content-Type": "application/json" },
@@ -50,11 +47,6 @@ const Sarathi = () => {
       setLoading(false);
     }
   };
-
-  // Generate years from 1980 to the current year
-  const startYear = 1900;
-  const endYear = new Date().getFullYear();
-  const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => endYear - i);
 
   return (
     <>
@@ -81,23 +73,16 @@ const Sarathi = () => {
               value={dlNumber}
               onChange={(e) => setDlNumber(e.target.value)}
             />
-            <div className="flex w-full mx-auto items-center bg-white rounded-md mt-3 relative">
-              <DatePicker
-                selected={dob}
-                onChange={(date) => setDob(date)}
-                dateFormat="yyyy-MM-dd"
-                placeholderText="Enter Date of Birth as per driving license"
-                className="w-full px-3 h-[52px] rounded-md focus:outline-none"
-                minDate={new Date('1900-01-01')}
-                maxDate={new Date()}
-                showYearDropdown
-                scrollableYearDropdown
-                showMonthDropdown
-                yearDropdownItemNumber={50} // Adjust this number based on your requirement
-                yearDropdown
+            <div className="flex w-full mx-auto items-center mt-3 relative">
+              <input
+                type="text"
+                className="w-full px-3 h-[52px] rounded-md border"
+                placeholder="Enter Date of Birth as per driving license"
+                value={dob}
+                onChange={(e) => setDob(e.target.value)}
               />
               <div
-                className="absolute right-0 w-[50px] z-[2] h-[50px] bg-[#5E81F4] rounded-tr-md rounded-br-md flex justify-center items-center cursor-pointer"
+                className="absolute right-0 w-[50px] z-[2] h-[50px] bg-[#5E81F4] rounded-tr-md rounded-tb-md rounded-br-md flex justify-center items-center cursor-pointer"
                 onClick={handleSearch}
               >
                 <IoSearchOutline className="text-white text-2xl" />
@@ -134,7 +119,7 @@ const Sarathi = () => {
                 </div>
               ) : vehicleData ? (
                 <>
-                 <div className="w-full flex items-center justify-between">
+                  <div className="w-full flex items-center justify-between">
                     <div className="flex flex-col">
                       <div className="text-lg font-bold">DL Number</div>
                       <div className="font-semi-bold text-zinc-500">
@@ -165,8 +150,10 @@ const Sarathi = () => {
                       <div>
                         <div className="text-lg font-bold">Date of Birth</div>
                         <div className="text-zinc-500 font-semibold">
-                        {vehicleData.personalInformation.dateOfBirth && vehicleData.personalInformation.dateOfBirth.replace(/\*/g, "")}
-
+                          {vehicleData.personalInformation.dateOfBirth.replace(
+                            /\*/g,
+                            ""
+                          )}
                         </div>
                       </div>
                       <div>
@@ -185,7 +172,10 @@ const Sarathi = () => {
                       <div>
                         <div className="text-lg font-bold">Mobile Number</div>
                         <div className="text-zinc-500 font-semibold">
-                        {vehicleData.personalInformation.mobilenumber && vehicleData.personalInformation.mobilenumber.replace(/\*/g, "")}
+                          {vehicleData.personalInformation.mobileNumber.replace(
+                            /\*/g,
+                            ""
+                          )}
                         </div>
                       </div>
                       <div>
@@ -252,15 +242,15 @@ const Sarathi = () => {
                   </div>
                 </>
               ) : (
-                <div className="flex justify-center items-center h-full text-gray-500">
-                  No data available. Please search for a record.
+                <div className="flex justify-center items-center h-full">
+                  No data available
                 </div>
               )}
             </div>
           </div>
         </div>
-        <div className="hidden md:block md:col-span-8">
-          <Map />
+        <div className="md:w-[90%] w-[100%] ms-1 mx-auto min-h-[620px] z-[-0] md:col-span-8 hidden md:flex justify-center items-center">
+          <Map tollData={[]} />
         </div>
       </div>
     </>

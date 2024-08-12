@@ -93,6 +93,7 @@ const Header2 = () => {
                 <img
                   src={logo}
                   alt="Logo"
+                  width={80}
                   className=" scale-[0.6] cursor-pointer"
                 />
                 <div className=" font-semibold text-[#5E81F4]   text-1xl"></div>

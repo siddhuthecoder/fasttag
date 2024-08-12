@@ -67,7 +67,7 @@ const Header = () => {
             onClick={toggleMenu} 
           />
          <Link to='/'> <img src={logo} alt="Logo" className="mx-3 cursor-pointer" width={60} height={60} /></Link>
-         <Link to='/'>   <h5 className='text-lg font-semibold ' >Faastagtracking.com</h5></Link>
+         <Link to='/'>   <h5 className='text-lg font-semibold hidden ' >Faastagtracking.com</h5></Link>
           
         </div>
         <div className="md:flex items-center gap-4 hidden ">
@@ -136,7 +136,7 @@ const Header = () => {
           <div className="absolute flex  flex-col top-0 left-0 w-full max-w-[270px] h-[100vh]  z-[1000] bg-white shadow-md">
               <div className="w-full flex items-center mb-4 justify-between">
                 <div className="flex mt-2 items-center">
-                  <img src={logo} alt="Logo" className=" scale-[0.6] cursor-pointer" />
+                  <img src={logo} alt="Logo" className=" scale-[0.6] cursor-pointer " width={80} />
                   <div className=" font-semibold text-[#5E81F4]   text-1xl">{user.name}</div>
                 </div>
                 <MdOutlineClose className="text-5xl m-2 text-red-500" onClick={toggleMenu} />
