@@ -86,7 +86,7 @@ const ApiHistory = () => {
             </button>
             <button className="bg-white rounded-md mx-2 shadow-xl py-1 px-4 text-zinc-500 flex items-center">
               <CiFilter />
-              <span className="ps-2">Filter</span>
+              <span className="ps-2">Add Filter</span>
             </button>
           </div>
         </div>
