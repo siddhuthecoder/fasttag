@@ -38,11 +38,11 @@ const Header = () => {
 
 
   const tabs = [
-  //   {
-  //     name: "Dashboard",
-  //     component: <Layout />,
-  //     link: "/dashboard"
-  // },
+    {
+      name: "Dashboard",
+      component: <Layout />,
+      link: "/dashboard"
+  },
     {
         name: "Fastag",
         component: <Fastag />,
