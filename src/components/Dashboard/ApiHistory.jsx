@@ -78,7 +78,7 @@ const ApiHistory = () => {
     <>
       <div className="w-full flex flex-col ps-2 mt-4">
         <div className="w-full flex items-center justify-between">
-          <div className="text-[#5E81F4] text-2xl font-semibold">Api Hit History</div>
+          <div className="text-[#5E81F4] text-2xl font-bold">Api Hit History</div>
           <div className="flex items-center gap-2">
             <button className="bg-white rounded-md mx-2 shadow-xl py-1 px-4 text-zinc-500 flex items-center">
               <LuArrowUpDown />
@@ -101,7 +101,7 @@ const ApiHistory = () => {
 
           {currentData.map((item, index) => (
             <>
-              <div key={item.id} className="w-full flex items-center text-lg bg-[#F2F5FA]  justify-around">
+              <div key={item.id} className={`w-full flex items-center    text-lg bg-[#F2F5FA]  justify-around`}>
                 <div className="px-3 py-2 min-w-[30px] max-w-[30px] text-sm sm:text-md md:text-lg text-center">
                   {startIndex + index + 1}
                 </div>
@@ -117,7 +117,7 @@ const ApiHistory = () => {
                 </div>
                 
               </div>
-              <hr className="mx-2 mb-1" />
+              <hr className={`${index === currentData.length-1 ? "hidden":""}`} />
             </>
           ))}
           <div className="w-[80%] mx-auto my-2 flex bg-[#F2F5FA] justify-between    ">

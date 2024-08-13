@@ -4,43 +4,45 @@ import i2 from '../../assets/i2.png'
 import i3 from '../../assets/i3.png'
 import { useSelector } from 'react-redux'
 
-
 const Info = () => {
     const user = useSelector((state) => state.auth.user)
   return (
-    <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
-        <div className="py-2 bg-white rounded-md flex flex-col ps-2">
-            <div className="text-nowrap text-2xl font-semibold">{user.name}</div>
-            <div className="w-full flex items-center gap-2 mt-2">
-                <button className="px-4 py-1 rounded-md bg-[#5E81F4] text-white font-semibold">Basic</button>
-                <div className="text-zinc-400">Expiry Date : 00-00-0000</div>
+    <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="py-4 bg-white rounded-md flex flex-col justify-between w-full   p-4 shadow-md">
+            <div className="text-xl md:text-2xl font-semibold truncate">{user.name}</div>
+            <div className="w-full flex items-center gap-2 mt-4">
+                <button className="px-4 py-2 rounded-md bg-[#5E81F4] text-white text-sm md:text-base font-semibold">Basic</button>
+                <div className="text-zinc-400 text-sm md:text-base">Expiry Date: 00-00-0000</div>
             </div>
         </div>
-        <div className="py-2 bg-white rounded-md flex justify-between gap-1 ps-2">
-            <div className="flex flex-col py-1">
-                <div className="text-2xl font-semibold text-zinc-500">Api Hit Limit</div>
-                <div className="font-bold text-2xl pt-1">{user.maxApiHit}</div>
+
+        <div className="py-4 bg-white rounded-md flex justify-between items-center w-full   p-4 shadow-md">
+            <div className="flex flex-col">
+                <div className="font-semibold text-lg md:text-xl text-zinc-500">Api Hit Limit</div>
+                <div className="font-bold text-2xl md:text-3xl pt-2">{user.maxApiHit}</div>
             </div>
-            <div className="flex w-[50px] h-[50px] rounded-md mx-5 justify-center items-center bg-[#FEFCF6]">
-                <img src={i1} alt="" />
-            </div>
-        </div>
-        <div className="py-2 bg-white rounded-md flex justify-between gap-1 ps-2">
-            <div className="flex flex-col py-1">
-                <div className="text-2xl font-semibold text-zinc-500">Total Api Hit </div>
-                <div className="font-bold text-2xl pt-1">{user.apiHit}</div>
-            </div>
-            <div className="flex w-[50px] h-[50px] rounded-md mx-5 justify-center items-center bg-[#F7FDFA]">
-                <img src={i2} alt="" />
+            <div className="flex w-[50px] h-[50px] rounded-md justify-center items-center bg-[#FEFCF6]">
+                <img src={i1} alt="API Hit Limit" />
             </div>
         </div>
-        <div className="py-2 bg-white rounded-md flex justify-between gap-1 ps-2">
-            <div className="flex flex-col py-1">
-                <div className="text-2xl font-semibold text-zinc-500">Remaining Api Hits </div>
-                <div className="font-bold text-2xl pt-1">{user.maxApiHit - user.apiHit}</div>
+
+        <div className="py-4 bg-white rounded-md flex justify-between items-center w-full   p-4 shadow-md">
+            <div className="flex flex-col">
+                <div className="font-semibold text-lg md:text-xl text-zinc-500">Total Api Hit</div>
+                <div className="font-bold text-2xl md:text-3xl pt-2">{user.apiHit}</div>
             </div>
-            <div className="flex w-[50px] h-[50px] rounded-md mx-5 justify-center items-center bg-[#FFDED2]">
-                <img src={i3} alt="" />
+            <div className="flex w-[50px] h-[50px] rounded-md justify-center items-center bg-[#F7FDFA]">
+                <img src={i2} alt="Total API Hit" />
+            </div>
+        </div>
+
+        <div className="py-4 bg-white rounded-md flex justify-between items-center w-full   p-4 shadow-md">
+            <div className="flex flex-col">
+                <div className="font-semibold text-lg md:text-xl text-zinc-500">Remaining Api Hits</div>
+                <div className="font-bold text-2xl md:text-3xl pt-2">{user.maxApiHit - user.apiHit}</div>
+            </div>
+            <div className="flex w-[50px] h-[50px] rounded-md justify-center items-center bg-[#FFDED2]">
+                <img src={i3} alt="Remaining API Hits" />
             </div>
         </div>
     </div>
