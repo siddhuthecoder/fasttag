@@ -1,3 +1,4 @@
+
 import React,{useEffect} from 'react';
 import { Routes, Route } from "react-router-dom";
 import Home from './pages/Home';
@@ -20,10 +21,10 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import NotFound from './components/NotFound';
 import TermsPage from './pages/Terms';
-import Dashboard from './pages/Dashboard'
 import Terms from './components/Terms';
 import Policy from './components/Policy';
 import Contact from './components/Contact';
+import Dashboard from './pages/Dashboard';
 import Header2 from './components/Header2';
 
 

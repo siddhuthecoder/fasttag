@@ -3,12 +3,12 @@ import MainLayout from '../components/MainLayout'
 import Layout from '../components/Dashboard/Layout'
 
 
-const FastagPage = () => {
+const Dashboard = () => {
   return (
-    <MainLayout>
+    // <MainLayout>
         <Layout />
-    </MainLayout>
+    // </MainLayout>
   )
 }
 
-export default FastagPage
+export default Dashboard
