@@ -76,7 +76,7 @@ const ApiHistory = () => {
 
   return (
     <>
-      <div className="w-full flex flex-col ps-2 mt-4">
+      <div className="w-full flex flex-col ps-2 mt-4 mb-4">
         <div className="w-full flex items-center justify-between">
           <div className="text-[#5E81F4] text-2xl font-bold">Api Hit History</div>
           <div className="flex items-center gap-2">
