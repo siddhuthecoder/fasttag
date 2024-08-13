@@ -69,6 +69,8 @@ const Vahan = () => {
       const data = {
         vehicleNumber:
           xmlDoc.getElementsByTagName("rc_regn_no")[0]?.textContent || "N/A",
+          vehicleStatus: xmlDoc.getElementsByTagName("rc_status")[0]?.textContent || "N/A",
+
         registrationDate:
           xmlDoc.getElementsByTagName("rc_regn_dt")[0]?.textContent || "N/A",
         registrationUpto:
@@ -186,7 +188,7 @@ const Vahan = () => {
       console.error("Response status:", error.response?.status);
       console.error("Response headers:", error.response?.headers);
       setError(
-        "Error fetching vehicle data. Please check the console for more details."
+      ` ${error.response?.data.error}` 
       );
     } finally {
       setLoading(false);
@@ -266,7 +268,13 @@ const Vahan = () => {
                         <div className="text-lg font-bold">Vehicle Number</div>
                         <div className="font-semibold text-zinc-500 text-lg">
                           {vehicleData.vehicleNumber}{" "}
-                          <span className="text-green-600">(Active)</span>
+       
+                          <span style={{ color: vehicleData.vehicleStatus === "ACTIVE" ? "green" : "red" }}>
+  ({vehicleData.vehicleStatus})
+</span>
+
+  {/* ({new Date(vehicleData.registrationUpto) > new Date() ? "Active" : "Inactive"}) */}
+
                         </div>
                       </div>
                       <img src={truck} className="m-2" alt="" />
@@ -327,44 +335,49 @@ const Vahan = () => {
                       Document Details
                     </div>
                     <div className="w-full grid grid-cols-2 gap-4 mt-1">
-                      <div className="flex flex-col">
-                        <div className="text-lg font-bold ">PUCC Up To:</div>
-                        <div className="font-semibold text-zinc-500">
-                          {vehicleData.puccUpto}
-                        </div>
-                      </div>
-                      
-                      <div className="flex flex-col">
-                        <div className="text-lg font-bold ">Permit Upto:</div>
-                        <div className="text-zinc-500 font-semibold">
-                          {vehicleData.permitValidUpto}
-                        </div>
-                      </div>
-                      <div className="flex flex-col">
-                        <div className="text-lg font-bold ">Tax Up To:</div>
-                        <div className="font-semibold text-zinc-500">
-                          {vehicleData.taxUpto}
-                        </div>
-                      </div>
-                      <div className="flex flex-col ">
-                        <div className="text-lg font-bold ">Insurance Up To:</div>
-                        <div className="font-semibold text-zinc-500">
-                          {vehicleData.insuranceUpto}
-                        </div>
-                      </div>
-                      <div className=" flex flex-col ">
-                        <div className="text-lg font-bold  ">NP Up To:</div>
-                        <div className="font-semibold text-zinc-500">
-                          {vehicleData.npUpto}
-                        </div>
-                      </div>
-                      <div className="flex flex-col mt-1">
-                        <div className="text-lg font-bold ">Fit Up To:</div>
-                        <div className="font-semibold text-zinc-500">
-                          {vehicleData.fitUpto}
-                        </div>
-                      </div>
-                    </div>
+  <div className="flex flex-col">
+    <div className="text-lg font-bold">PUCC Up To:</div>
+    <div className={`font-semibold ${new Date(vehicleData.puccUpto) < new Date() ? 'text-red-500' : 'text-green-500'}`}>
+      {vehicleData.puccUpto}
+    </div>
+  </div>
+
+  <div className="flex flex-col">
+    <div className="text-lg font-bold">Permit Upto:</div>
+    <div className={`font-semibold ${new Date(vehicleData.permitValidUpto) < new Date() ? 'text-red-500' : 'text-green-500'}`}>
+      {vehicleData.permitValidUpto}
+    </div>
+  </div>
+
+  <div className="flex flex-col">
+    <div className="text-lg font-bold">Tax Up To:</div>
+    <div className={`font-semibold ${new Date(vehicleData.taxUpto) < new Date() ? 'text-red-500' : 'text-green-500'}`}>
+      {vehicleData.taxUpto}
+    </div>
+  </div>
+
+  <div className="flex flex-col">
+    <div className="text-lg font-bold">Insurance Up To:</div>
+    <div className={`font-semibold ${new Date(vehicleData.insuranceUpto) < new Date() ? 'text-red-500' : 'text-green-500'}`}>
+      {vehicleData.insuranceUpto}
+    </div>
+  </div>
+
+  <div className="flex flex-col">
+    <div className="text-lg font-bold">National permit Up To:</div>
+    <div className={`font-semibold ${new Date(vehicleData.npUpto) < new Date() ? 'text-red-500' : 'text-green-500'}`}>
+      {vehicleData.npUpto}
+    </div>
+  </div>
+
+  <div className="flex flex-col mt-1">
+    <div className="text-lg font-bold">Fitness Up To:</div>
+    <div className={`font-semibold ${new Date(vehicleData.fitUpto) < new Date() ? 'text-red-500' : 'text-green-500'}`}>
+      {vehicleData.fitUpto}
+    </div>
+  </div>
+</div>
+
 
                     {/* <div className="w-full flex flex-col mt-1">
                 <div className="text-zinc-400">Father's Name:</div>

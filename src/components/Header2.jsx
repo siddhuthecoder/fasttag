@@ -34,6 +34,10 @@ const Header2 = () => {
 
   const tabs = [
     {
+      name:"Home",
+      link:"/"
+    },
+    {
       name: "Privacy Policy",
       // component: <Fastag />,
       link: "/privacy",
@@ -107,11 +111,11 @@ const Header2 = () => {
               {tabs.map((data) => (
                 <Link
                   to={data.link}
-                  className="font-semibold mt-2 ps-3 hover:text-[#5E81F4]"
+                  className="font-semibold mt-2 ps-3 pt-5  pb-3 hover:text-[#5E81F4]"
                   onClick={toggleMenu}
-                ></Link>
+                >{data.name}</Link>
               ))}
-              <div
+              {/* <div
                 className="font-semibold mt-2 ps-3 hover:text-[#5E81F4]"
                 onClick={toggleMenu}
               >
@@ -128,7 +132,7 @@ const Header2 = () => {
                 onClick={toggleMenu}
               >
                 About Us
-              </div>
+              </div> */}
             </div>
             <div className="w-full flex flex-col"></div>
           </div>

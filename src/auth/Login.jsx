@@ -92,7 +92,7 @@ const Login = () => {
 
 useEffect(() => {
   if(isAuthenticated){
-    navigate("/fastag")
+    navigate("/dashboard")
   }
 })
 

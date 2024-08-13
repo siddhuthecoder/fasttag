@@ -20,6 +20,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import NotFound from './components/NotFound';
 import TermsPage from './pages/Terms';
+import Dashboard from './pages/Dashboard'
 import Terms from './components/Terms';
 import Policy from './components/Policy';
 import Contact from './components/Contact';
@@ -48,6 +49,7 @@ const App = () => {
                       <Route path="/vahan" element={<Vahan />} />
                       <Route path="/vahan/:id" element={<VahanId />} />
                       <Route path="/pricing" element={<Pricing />} />
+                      <Route path='/dashboard' element={<Dashboard/>}/>
                       <Route path="/" element={<Login />} />
                     {/* <Route path="/fillDetails" element={<Register />} />
                     <Route path="/register" element={<ForgetPassword />} />
@@ -59,7 +61,6 @@ const App = () => {
                     <Route path="/register" element={<ForgetPassword />} />
                     <Route path="/newPassword" element={<NewPassword />} />
                     <Route path="/otp" element={<OTPForm />} /> */}
-                    
                   </Routes>
               </Home>
           </main>):(

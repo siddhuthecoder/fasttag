@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { IoSearchOutline } from "react-icons/io5";
 import truck from "../../assets/truck.png";
@@ -14,7 +14,7 @@ const VahanId = () => {
 
   const location = useLocation();
   const pathName = location.pathname;
-
+  const requestMade = useRef(false);
   const tabs = [
     {
       name: "Fastag",
@@ -40,7 +40,7 @@ const VahanId = () => {
 
   useEffect(() => {
     const handleSearch = async () => {
-      const comapny_id=localStorage.getItem('userID')
+      const comapny_id = localStorage.getItem("userID");
       try {
         const response = await axios.post(
           "https://fastagtracking.com/customulip/ulipApi",
@@ -68,6 +68,9 @@ const VahanId = () => {
         const data = {
           vehicleNumber:
             xmlDoc.getElementsByTagName("rc_regn_no")[0]?.textContent || "N/A",
+          vehicleStatus:
+            xmlDoc.getElementsByTagName("rc_status")[0]?.textContent || "N/A",
+
           registrationDate:
             xmlDoc.getElementsByTagName("rc_regn_dt")[0]?.textContent || "N/A",
           registrationUpto:
@@ -196,12 +199,14 @@ const VahanId = () => {
         console.error("Response data:", error.response?.data);
         console.error("Response status:", error.response?.status);
         console.error("Response headers:", error.response?.headers);
-        setError(
-          "Error fetching vehicle data. Please check the console for more details."
-        );
+        setError(`${error.response?.data.error}  `);
       }
     };
-    handleSearch();
+    if (id && !requestMade.current) {
+      handleSearch(id);
+
+      requestMade.current = true; // Set the flag to true after the request
+    }
   }, []);
 
   return (
@@ -237,13 +242,24 @@ const VahanId = () => {
                         <div className="text-lg font-bold">Vehicle Number</div>
                         <div className="font-semibold text-zinc-500">
                           {vehicleData.vehicleNumber}{" "}
-                          <span className="text-green-600">(Active)</span>
+                          <span
+                            style={{
+                              color:
+                                vehicleData.vehicleStatus === "ACTIVE"
+                                  ? "green"
+                                  : "red",
+                            }}
+                          >
+                            ({vehicleData.vehicleStatus})
+                          </span>
                         </div>
                       </div>
                       <img src={truck} className="m-2" alt="" />
                     </div>
                     <div className="w-full flex flex-col">
-                      <div className="text-lg font-bold">Registration Date: </div>
+                      <div className="text-lg font-bold">
+                        Registration Date:{" "}
+                      </div>
                       <div className="font-semibold text-zinc-500">
                         {vehicleData.registrationDate}
                       </div>
@@ -276,7 +292,9 @@ const VahanId = () => {
                         </div>
                       </div>
                       <div className="flex flex-col">
-                        <div className="text-lg font-bold ">Fuel Description:</div>
+                        <div className="text-lg font-bold ">
+                          Fuel Description:
+                        </div>
                         <div className="font-semibold text-zinc-500">
                           {vehicleData.fuelDesc}
                         </div>
@@ -288,7 +306,9 @@ const VahanId = () => {
                         </div>
                       </div>
                       <div className="flex flex-col">
-                        <div className="text-lg font-bold ">Emission Norms:</div>
+                        <div className="text-lg font-bold ">
+                          Emission Norms:
+                        </div>
                         <div className="font-semibold text-zinc-500">
                           {vehicleData.normsDesc}
                         </div>
@@ -299,39 +319,81 @@ const VahanId = () => {
                     </div>
                     <div className="w-full grid grid-cols-2 gap-4 mt-1">
                       <div className="flex flex-col">
-                        <div className="text-lg font-bold ">PUCC Up To:</div>
-                        <div className="font-semibold text-zinc-500">
+                        <div className="text-lg font-bold">PUCC Up To:</div>
+                        <div
+                          className={`font-semibold ${
+                            new Date(vehicleData.puccUpto) < new Date()
+                              ? "text-red-500"
+                              : "text-green-500"
+                          }`}
+                        >
                           {vehicleData.puccUpto}
                         </div>
                       </div>
-                      
+
                       <div className="flex flex-col">
-                        <div className="text-lg font-bold ">Permit Upto:</div>
-                        <div className="text-zinc-500 font-semibold">
+                        <div className="text-lg font-bold">Permit Upto:</div>
+                        <div
+                          className={`font-semibold ${
+                            new Date(vehicleData.permitValidUpto) < new Date()
+                              ? "text-red-500"
+                              : "text-green-500"
+                          }`}
+                        >
                           {vehicleData.permitValidUpto}
                         </div>
                       </div>
+
                       <div className="flex flex-col">
-                        <div className="text-lg font-bold ">Tax Up To:</div>
-                        <div className="font-semibold text-zinc-500">
+                        <div className="text-lg font-bold">Tax Up To:</div>
+                        <div
+                          className={`font-semibold ${
+                            new Date(vehicleData.taxUpto) < new Date()
+                              ? "text-red-500"
+                              : "text-green-500"
+                          }`}
+                        >
                           {vehicleData.taxUpto}
                         </div>
                       </div>
-                      <div className="flex flex-col ">
-                        <div className="text-lg font-bold ">Insurance Up To:</div>
-                        <div className="font-semibold text-zinc-500">
+
+                      <div className="flex flex-col">
+                        <div className="text-lg font-bold">
+                          Insurance Up To:
+                        </div>
+                        <div
+                          className={`font-semibold ${
+                            new Date(vehicleData.insuranceUpto) < new Date()
+                              ? "text-red-500"
+                              : "text-green-500"
+                          }`}
+                        >
                           {vehicleData.insuranceUpto}
                         </div>
                       </div>
-                      <div className=" flex flex-col ">
-                        <div className="text-lg font-bold  ">NP Up To:</div>
-                        <div className="font-semibold text-zinc-500">
+
+                      <div className="flex flex-col">
+                        <div className="text-lg font-bold">Nationl Permit Up To:</div>
+                        <div
+                          className={`font-semibold ${
+                            new Date(vehicleData.npUpto) < new Date()
+                              ? "text-red-500"
+                              : "text-green-500"
+                          }`}
+                        >
                           {vehicleData.npUpto}
                         </div>
                       </div>
+
                       <div className="flex flex-col mt-1">
-                        <div className="text-lg font-bold ">Fit Up To:</div>
-                        <div className="font-semibold text-zinc-500">
+                        <div className="text-lg font-bold">Fitness Up To:</div>
+                        <div
+                          className={`font-semibold ${
+                            new Date(vehicleData.fitUpto) < new Date()
+                              ? "text-red-500"
+                              : "text-green-500"
+                          }`}
+                        >
                           {vehicleData.fitUpto}
                         </div>
                       </div>

@@ -53,3 +53,12 @@ Content-Type: application/json
     "dob": "1980-09-10"
     }
 }
+
+####
+### Get History by ID
+POST https://fastagtracking.com/customulip/historybyid
+Content-Type: application/json
+
+{
+    "companyId": "66b2f12abbef97c004389b88"
+}

@@ -45,7 +45,7 @@ const Price = () => {
 
     if (window.confirm("Are you sure you want to buy this item?")) {
       try {
-        const token = "your_token"; // Replace with your authentication token
+         // Replace with your authentication token
         const product = prices.find((plan) => plan.name === planName); // Get the selected plan
         console.log(product);
         
@@ -77,7 +77,7 @@ const Price = () => {
                   order_id: order.id,
                   totalPrice: order.amount,
                   razorpay_signature: response.razorpay_signature,
-                  products: product
+                  productId: product._id
                 },
               );
 

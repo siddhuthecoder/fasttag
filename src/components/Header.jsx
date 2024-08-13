@@ -9,12 +9,14 @@ import Fastag from '../components/layerComponents/Fastag'
 import Vahan from '../components/layerComponents/Vahan'
 import Sarathi from '../components/layerComponents/Sarathi'
 import MyVehicle from '../components/layerComponents/MyVehicle'
+// import Dashboard from '../components/Layout'
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { signOut } from '../store/authSlice';
+import Layout from './Dashboard/Layout';
 
 
 const Header = () => {
@@ -36,6 +38,11 @@ const Header = () => {
 
 
   const tabs = [
+  //   {
+  //     name: "Dashboard",
+  //     component: <Layout />,
+  //     link: "/dashboard"
+  // },
     {
         name: "Fastag",
         component: <Fastag />,
@@ -147,9 +154,9 @@ const Header = () => {
                     <Link to={data.link} className="font-semibold mt-2 ps-3 hover:text-[#5E81F4]" onClick={toggleMenu}>{data.name}</Link>
                   ))
                 }
-                <div className="font-semibold mt-2 ps-3 hover:text-[#5E81F4]" onClick={toggleMenu}>Privacy Policy</div>
-                <div className="font-semibold mt-2 ps-3 hover:text-[#5E81F4]" onClick={toggleMenu}>Terms and Conditions</div>
-                <div className="font-semibold mt-2 ps-3 hover:text-[#5E81F4]" onClick={toggleMenu}>About Us</div>
+                {/* <div className="font-semibold mt-2 ps-3 hover:text-[#5E81F4]" onClick={toggleMenu}> <Link to='Privacy' >Privacy Policy </Link></div>
+                <div className="font-semibold mt-2 ps-3 hover:text-[#5E81F4]" onClick={toggleMenu}><Link to='Terms' >Terms and Conditions</Link></div>
+                <div className="font-semibold mt-2 ps-3 hover:text-[#5E81F4]" onClick={toggleMenu}><Link to='Contact' >About Us</Link></div> */}
 
               </div>
               <div className="w-full flex flex-col">

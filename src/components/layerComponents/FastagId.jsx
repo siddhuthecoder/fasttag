@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { IoSearchOutline } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import { useLocation, useParams } from 'react-router-dom';
@@ -8,12 +8,15 @@ import Map from '../openstreetMap/Map';
 const Fastag = () => {
   const [trackingData, setTrackingData] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false); // Added loading state
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
   const pathName = location.pathname;
 
   // Get ID from URL parameters
   const { id } = useParams();
+
+  // Flag to track if API request has been made
+  const requestMade = useRef(false);
 
   const tabs = [
     { name: "Fastag", link: "/fastag" },
@@ -25,16 +28,18 @@ const Fastag = () => {
   // Fetch data on component mount or when ID changes
   useEffect(() => {
     console.log("useEffect triggered");
-    if (id) {
-      handleSearch(id);
+    if (id && !requestMade.current) {
+    handleSearch(id);
+      
+      requestMade.current = true; // Set the flag to true after the request
     }
-  }, [id]); // Add id to the dependency array
-  
+    // handleSearch(id);
+  }, [id]);
 
   const handleSearch = async (vehicleNumber) => {
     console.log("handleSearch called with", vehicleNumber);
     setLoading(true); // Set loading to true when fetch starts
-    const comapny_id=localStorage.getItem('userID')
+    const comapny_id = localStorage.getItem('userID');
     try {
       const payload = {
         "company_id": comapny_id,
@@ -60,9 +65,8 @@ const Fastag = () => {
       setError(null);
     } catch (error) {
       console.error('Error fetching tracking data:', error);
-      // setError('Failed to fetch tracking data.');
-      setError(`Your Vehicle Number ${vehicleNumber} does not cross any toll plaza in past 3 days or There is A server Error From Government Side .`);
       
+      setError(` Your Vehicle Number ${vehicleNumber} does not cross any toll plaza in past 3 days or There is A server Error From Government Side . `);
     } finally {
       setLoading(false); // Set loading to false when fetch completes
     }
@@ -117,7 +121,7 @@ const Fastag = () => {
           </div>
         </div>
         <div className="md:w-[90%] flex w-[100%]  ms-1 mx-auto min-h-[620px] z-[-0] md:col-span-8 justify-center items-center">
-          <Map tollData={trackingData}/>
+          <Map tollData={trackingData || []}/>
         </div>
       </div>
     </>

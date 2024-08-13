@@ -27,7 +27,7 @@ const Sarathi = () => {
 
   const handleSearch = async () => {
     const capitalizedVehicleNumber = dlNumber.toUpperCase();
-    const comapny_id = localStorage.getItem('userID');
+    const comapny_id = localStorage.getItem("userID");
     setLoading(true);
     setError(null);
     try {
@@ -36,7 +36,10 @@ const Sarathi = () => {
         {
           company_id: comapny_id,
           tracking_For: "SARATHI",
-          parameters: { dlnumber: capitalizedVehicleNumber, dob: format(dob, 'yyyy-MM-dd') },
+          parameters: {
+            dlnumber: capitalizedVehicleNumber,
+            dob: format(dob, "yyyy-MM-dd"),
+          },
         },
         {
           headers: { "Content-Type": "application/json" },
@@ -44,7 +47,7 @@ const Sarathi = () => {
       );
       setVehicleData(response.data.response[0].response);
     } catch (error) {
-      setError("Error fetching data. Please try again.");
+      setError(`${error.response?.data.error}`);
       setVehicleData(null);
     } finally {
       setLoading(false);
@@ -54,12 +57,15 @@ const Sarathi = () => {
   // Generate years from 1980 to the current year
   const startYear = 1900;
   const endYear = new Date().getFullYear();
-  const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => endYear - i);
+  const years = Array.from(
+    { length: endYear - startYear + 1 },
+    (_, i) => endYear - i
+  );
 
   return (
     <>
       <div className="w-full grid grid-cols-1 mt-[80px] md:grid-cols-12 gap-5 md:gap-2">
-        <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[620px] md:col-span-3 flex flex-col">
+        <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[620px] md:col-span-4 flex flex-col">
           <div className="flex items-center flex-wrap mt-2 gap-2 md:hidden">
             {tabs.map((data, index) => (
               <Link
@@ -86,9 +92,9 @@ const Sarathi = () => {
                 selected={dob}
                 onChange={(date) => setDob(date)}
                 dateFormat="yyyy-MM-dd"
-                placeholderText="Enter Date of Birth as per driving license"
+                placeholderText="Enter Date of Birth"
                 className="w-full px-3 h-[52px] rounded-md focus:outline-none"
-                minDate={new Date('1900-01-01')}
+                minDate={new Date("1900-01-01")}
                 maxDate={new Date()}
                 showYearDropdown
                 scrollableYearDropdown
@@ -96,32 +102,11 @@ const Sarathi = () => {
                 yearDropdownItemNumber={50} // Adjust this number based on your requirement
                 yearDropdown
               />
-<<<<<<< HEAD
               <div
                 className="absolute right-0 w-[50px] z-[2] h-[50px] bg-[#5E81F4] rounded-tr-md rounded-br-md flex justify-center items-center cursor-pointer"
                 onClick={handleSearch}
               >
                 <IoSearchOutline className="text-white text-2xl" />
-=======
-              <div className="flex w-full items-center  cursor-text rounded-md bg-white relative">
-                <DatePicker
-                  selected={dob}
-                  onChange={(date) => setDob(date)}
-                  dateFormat="yyyy-MM-dd"
-                  placeholderText="Enter Date of Birth"
-                  className="w-full px-3 focus:outline-none h-[52px]  rounded-md "
-                  style={{
-                    width: "400px",  // Set the desired width
-                    minWidth: "300px"
-                  }}
-                />
-                <div
-                  className="absolute right-0 w-[50px] z-[2]  h-[50px] bg-[#5E81F4] rounded-tr-md rounded-tb-md rounded-br-md flex justify-center items-center cursor-pointer"
-                  onClick={handleSearch}
-                >
-                  <IoSearchOutline className="text-white text-2xl" />
-                </div>
->>>>>>> f6ef83ac25d866fd8ea8907aa8fb4344dc74007e
               </div>
             </div>
             <div className="mt-3 w-full bg-white rounded-md h-[450px] overflow-y-scroll flex flex-col ps-3">
@@ -155,7 +140,7 @@ const Sarathi = () => {
                 </div>
               ) : vehicleData ? (
                 <>
-                 <div className="w-full flex items-center justify-between">
+                  <div className="w-full flex items-center justify-between">
                     <div className="flex flex-col">
                       <div className="text-lg font-bold">DL Number</div>
                       <div className="font-semi-bold text-zinc-500">
@@ -186,8 +171,11 @@ const Sarathi = () => {
                       <div>
                         <div className="text-lg font-bold">Date of Birth</div>
                         <div className="text-zinc-500 font-semibold">
-                        {vehicleData.personalInformation.dateOfBirth && vehicleData.personalInformation.dateOfBirth.replace(/\*/g, "")}
-
+                          {vehicleData.personalInformation.dateOfBirth &&
+                            vehicleData.personalInformation.dateOfBirth.replace(
+                              /\*/g,
+                              ""
+                            )}
                         </div>
                       </div>
                       <div>
@@ -206,7 +194,11 @@ const Sarathi = () => {
                       <div>
                         <div className="text-lg font-bold">Mobile Number</div>
                         <div className="text-zinc-500 font-semibold">
-                        {vehicleData.personalInformation.mobilenumber && vehicleData.personalInformation.mobilenumber.replace(/\*/g, "")}
+                          {vehicleData.personalInformation.mobilenumber &&
+                            vehicleData.personalInformation.mobilenumber.replace(
+                              /\*/g,
+                              ""
+                            )}
                         </div>
                       </div>
                       <div>
@@ -230,7 +222,9 @@ const Sarathi = () => {
                         </div>
                       </div>
                       <div>
-                        <div className="text-lg font-bold">Issued Authority</div>
+                        <div className="text-lg font-bold">
+                          Issued Authority
+                        </div>
                         <div className="text-zinc-500 font-semibold">
                           {vehicleData.licenseInformation.issuedAuthority}
                         </div>
@@ -261,8 +255,14 @@ const Sarathi = () => {
                       <div key={index} className="mb-2">
                         <div className="font-bold text-lg">
                           {drivingClass.class}{" "}
-                          <span className="text-green-500 font-semibold">
-                            ({drivingClass.status})
+                          <span
+                            className={`font-semibold ${
+                              drivingClass.status === "Active"
+                                ? "text-green-500"
+                                : "text-red-500"
+                            }`}
+                          >
+                           ( {drivingClass.status})
                           </span>
                         </div>
                         <div className="text-zinc-400">
@@ -280,12 +280,8 @@ const Sarathi = () => {
             </div>
           </div>
         </div>
-<<<<<<< HEAD
-        <div className="hidden md:block md:col-span-8">
-=======
-        <div className="md:col-span-9 min-h-[700px] h-[500px] max-h-[500px] mt-[10px] ms-[12px] md:mt-[50px] md:ms-[20px] rounded-2xl flex overflow-hidden">
->>>>>>> f6ef83ac25d866fd8ea8907aa8fb4344dc74007e
-          <Map />
+        <div className="md:w-[90%] w-[100%] ms-1 mx-auto min-h-[620px] z-[-0] md:col-span-8 hidden md:flex justify-center items-center">
+          <Map tollData={[]} />
         </div>
       </div>
     </>
