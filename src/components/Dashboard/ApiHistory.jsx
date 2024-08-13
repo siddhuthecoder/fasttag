@@ -69,6 +69,7 @@ const ApiHistory = () => {
   const handleChangePage = (newPage) => {
     setCurrentPage(newPage);
   };
+  // console.log(index != currentData.length )
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const currentData = data.slice(startIndex, startIndex + ITEMS_PER_PAGE);
@@ -90,7 +91,7 @@ const ApiHistory = () => {
           </div>
         </div>
 
-        <div className="w-full flex bg-white mt-5 flex-col divide-y  overflow-auto">
+        <div className="w-full flex bg-[#F2F5FA] mt-5 flex-col  rounded-tr-lg rounded-tl-lg rounded-lg overflow-auto">
           <div className="w-full flex sticky top-0 bg-white items-center font-semibold text-lg justify-around">
             <div className="px-3 py-2 min-w-[30px] max-w-[30px] text-sm sm:text-md md:text-lg text-center">S.No</div>
             <div className="px-3 py-2 min-w-[100px] text-sm sm:text-md md:text-lg text-center">Ulip Api type</div>
@@ -99,43 +100,48 @@ const ApiHistory = () => {
           </div>
 
           {currentData.map((item, index) => (
-            <div key={item.id} className="w-full flex items-center text-lg bg-[#F2F5FA] text-zinc-400 font-semibold justify-around">
-              <div className="px-3 py-2 min-w-[30px] max-w-[30px] text-sm sm:text-md md:text-lg text-center">
-                {startIndex + index + 1}
-              </div>
-              <div className="px-3 py-2 min-w-[100px] text-sm sm:text-md md:text-lg flex justify-center items-center">
-                <div className={`rounded flex justify-center items-center-md bg-${item.ulipApi === 'VAHAN' ? '[#C2E8E7]' : item.ulipApi === 'SARATHI' ? '[#F2E5D3] text-sm' : '[#D6CCF8]'} px-3 py-1 text-${item.ulipApi === 'VAHAN' ? '[#00B69B]' : item.type === 'SARATHI' ? '[#F2A735]' : '[#6226EF]'}`}>
-                  <div className="">{item.ulipApi}</div>
+            <>
+              <div key={item.id} className="w-full flex items-center text-lg bg-[#F2F5FA]  justify-around">
+                <div className="px-3 py-2 min-w-[30px] max-w-[30px] text-sm sm:text-md md:text-lg text-center">
+                  {startIndex + index + 1}
                 </div>
+                <div className="px-3 py-2 min-w-[100px] text-sm sm:text-md md:text-lg flex justify-center items-center">
+                  <div className={`rounded flex justify-center items-center-md ${item.ulipApi === 'VAHAN' ? 'bg-[#C2E8E7]' : item.ulipApi === 'SARATHI' ? 'bg-[#F2E5D3] text-sm' : 'bg-[#D6CCF8]'} px-3 py-1 text-${item.ulipApi === 'VAHAN' ? '[#00B69B]' : item.type === 'SARATHI' ? '[#F2A735]' : '[#6226EF]'}`}>
+                    <div className="">{item.ulipApi}</div>
+                  </div>
+                </div>
+                <div className="px-3 py-2 min-w-[100px] max-w-[100px] text-wrap text-sm sm:text-md md:text-lg text-center">{item.vehicleNumber}</div>
+                <div className="px-3 py-2 min-w-[100px] text-sm sm:text-md md:text-lg flex flex-col text-right pe-2">
+                  <div className="">{item.createdAt.slice(0,10)}</div>
+                  <div className="">{item.createdAt.slice(11,19)}</div>
+                </div>
+                
               </div>
-              <div className="px-3 py-2 min-w-[100px] max-w-[100px] text-wrap text-sm sm:text-md md:text-lg text-center">{item.vehicleNumber}</div>
-              <div className="px-3 py-2 min-w-[100px] text-sm sm:text-md md:text-lg flex flex-col text-right pe-2">
-                <div className="">{item.createdAt.slice(0,10)}</div>
-                <div className="">{item.createdAt.slice(11,19)}</div>
-              </div>
-            </div>
+              <hr className="mx-2 mb-1" />
+            </>
           ))}
-        </div>
-
-        <div className="w-full flex justify-between  my-3  mt-4">
+          <div className="w-[80%] mx-auto my-2 flex bg-[#F2F5FA] justify-between    ">
           <button
             onClick={() => handleChangePage(currentPage - 1)}
             disabled={currentPage === 1}
             className="mx-2 py-1 px-3 bg-white rounded-md border text-gray-700 flex items-center rounded disabled:opacity-50"
           >
             <FaAngleLeft className="me-1" />
-            <span>Prev .</span>
+            <span>Prev Date</span>
           </button>
-          <div className="mx-2 py-1 px-3 text-gray-700">{`Page ${currentPage} of ${totalPages}`}</div>
+          {/* <div className="mx-2 py-1 px-3 text-gray-700">{`Page ${currentPage} of ${totalPages}`}</div> */}
           <button
             onClick={() => handleChangePage(currentPage + 1)}
             disabled={currentPage === totalPages}
             className="mx-2 py-1 px-3 flex items-center bg-white rounded-md border text-gray-700  disabled:opacity-50"
           >
-            <span>Next</span>
+            <span>Next Date</span>
             <FaAngleRight className="ms-1"/>
           </button>
         </div>
+        </div>
+
+        
       </div>
     </>
   );
