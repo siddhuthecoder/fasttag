@@ -31,7 +31,7 @@ const Layout = () => {
               {/* <ApiHistory />
               <ApiHistory /> */}
               <Link to='/searchhistory'> <button className="px-4 py-2 rounded-md bg-[#5E81F4] text-white text-sm md:text-base font-semibold">Search History</button></Link>
-              <Link to='transcationhistory'> <button className="px-4 py-2 rounded-md bg-[#5E81F4] text-white text-sm md:text-base font-semibold">Transcation History</button></Link>
+              <Link to='/transaction'> <button className="px-4 py-2 rounded-md bg-[#5E81F4] text-white text-sm md:text-base font-semibold">Transcation History</button></Link>
           </div>
         </div>
     </>
