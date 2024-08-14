@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { IoSearchOutline } from "react-icons/io5";
+// import { IoSearchOutline } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import { useLocation, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Map from '../openstreetMap/Map';
-
+import { useDispatch } from 'react-redux';
+import { signInSuccess } from '../../store/authSlice';
 const Fastag = () => {
   const [trackingData, setTrackingData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const dispatch=useDispatch();
   const location = useLocation();
   const pathName = location.pathname;
 
@@ -57,12 +59,25 @@ const Fastag = () => {
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(`HTTP error! status: ${response.status}, ${errorText}`);
+        setError(`HTTP error! status: ${response.status}, ${errorText}`);
       }
 
       const data = await response.json();
       setTrackingData(data.response || []);
       setError(null);
+      
+      const companyResponse = await fetch(`https://fastagtracking.com/customulip/company/${comapny_id}`);
+      if (!companyResponse.ok) {
+        const errorText = await companyResponse.text();
+        setError(`HTTP error! status: ${companyResponse.status}, ${errorText}`);
+      }
+
+      const companyData = await companyResponse.json();
+      
+      dispatch(signInSuccess(companyData));
+      
+      
+      
     } catch (error) {
       console.error('Error fetching tracking data:', error);
       

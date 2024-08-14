@@ -5,7 +5,8 @@ import truck from "../../assets/truck.png";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Map from "../openstreetMap/Map";
-
+import { useDispatch } from 'react-redux';
+import { signInSuccess } from '../../store/authSlice';
 const Vahan = () => {
   const [vehicleNumber, setVehicleNumber] = useState("");
   const [vehicleData, setVehicleData] = useState(null);
@@ -13,6 +14,7 @@ const Vahan = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
   const pathName = location.pathname;
+  const dispatch=useDispatch()
 
   const tabs = [
     {
@@ -182,6 +184,15 @@ const Vahan = () => {
       console.log(data);
       setVehicleData(data);
       setError("");
+      const companyResponse = await fetch(`https://fastagtracking.com/customulip/company/${comapny_id}`);
+      if (!companyResponse.ok) {
+        const errorText = await companyResponse.text();
+        setError(`HTTP error! status: ${companyResponse.status}, ${errorText}`);
+      }
+
+      const companyData = await companyResponse.json();
+      
+      dispatch(signInSuccess(companyData));
     } catch (error) {
       console.error("Error fetching vehicle data:", error.message);
       console.error("Response data:", error.response?.data);
@@ -192,6 +203,11 @@ const Vahan = () => {
       );
     } finally {
       setLoading(false);
+    }
+  };
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
     }
   };
 
@@ -205,7 +221,7 @@ const Vahan = () => {
                 to={data?.link}
                 key={index}
                 className={`px-3 py-1 cursor-pointer ${
-                  pathName == data?.link ? "bg-[#E1E1FB]" : ""
+                  pathName === data?.link ? "bg-[#E1E1FB]" : ""
                 }   text-nowrap border border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
                 // onClick={() => setTab(data.name)}
               >
@@ -226,6 +242,7 @@ const Vahan = () => {
                 <div
                   className="absolute right-0 w-[50px] z-[2] h-[50px] bg-[#5E81F4] rounded-tr-md rounded-tb-md rounded-br-md flex justify-center items-center cursor-pointer"
                   onClick={handleSearch}
+                  onKeyPress={handleKeyPress}
                 >
                   <IoSearchOutline className="text-white text-2xl" />
                 </div>

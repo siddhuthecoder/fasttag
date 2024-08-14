@@ -33,7 +33,12 @@ const ApiHistory = () => {
   const [loading,setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1);
 
+  const truncateText = (text, maxLength) => {
+    return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+};
+
   const fetchData = async () => {
+    const company_id=localStorage.getItem('userID')
     setLoading(true)
     try {
       const response = await fetch('https://fastagtracking.com/customulip/historybyid', {
@@ -42,7 +47,7 @@ const ApiHistory = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          companyId: '66b2f12abbef97c004389b88',
+          companyId: company_id,
         }),
       });
 
@@ -76,42 +81,42 @@ const ApiHistory = () => {
 
   return (
     <>
-      <div className="w-full flex flex-col ps-2 mt-4 mb-4">
+      <div className="w-full flex flex-col ps-2  mt-4 mb-4">
         <div className="w-full flex items-center justify-between">
-          <div className="text-[#5E81F4] text-2xl font-bold">Api Hit History</div>
-          <div className="flex items-center gap-2">
+          <div className="text-[#5E81F4] text-2xl font-bold">Search history</div>
+          {/* <div className="flex items-center gap-2">
             <button className="bg-white rounded-md mx-2 shadow-xl py-1 px-4 text-zinc-500 flex items-center">
               <LuArrowUpDown />
-              <span className="ps-2">Sort</span>
+              <span className="ps-2 font-semibold">Sort</span>
             </button>
             <button className="bg-white rounded-md mx-2 shadow-xl py-1 px-4 text-zinc-500 flex items-center">
               <CiFilter />
-              <span className="ps-2"><span className="hidden md:block">Add</span> Filter</span>
+              <div className="ps-2 flex font-semibold items-center"><span className="hidden md:block pe-2">Add</span> <span> Filter</span></div>
             </button>
-          </div>
+          </div> */}
         </div>
 
         <div className="w-full flex bg-[#F2F5FA] mt-5 flex-col  rounded-tr-lg rounded-tl-lg rounded-lg overflow-auto">
           <div className="w-full flex sticky top-0 bg-white items-center font-semibold text-lg justify-around">
-            <div className="px-3 py-2 min-w-[30px] max-w-[30px] text-sm sm:text-md md:text-lg text-center">S.No</div>
-            <div className="px-3 py-2 min-w-[100px] text-sm sm:text-md md:text-lg text-center">Ulip Api type</div>
-            <div className="px-3 py-2 min-w-[100px] text-sm sm:text-md md:text-lg text-center">Vehicle Number</div>
-            <div className="px-3 py-2 min-w-[100px] text-sm sm:text-md md:text-lg text-center">Created At</div>
+            <div className="px-3 py-2 min-w-[30px] max-w-[30px] text-sm  text-center">S.No</div>
+            <div className="px-3 py-2 min-w-[100px] text-sm  text-center">Search type</div>
+            <div className="px-3 py-2 min-w-[100px] text-sm  text-center">Vehicle Number</div>
+            <div className="px-3 py-2 min-w-[100px] text-sm  text-center">Created At</div>
           </div>
 
           {currentData.map((item, index) => (
             <>
               <div key={item.id} className={`w-full flex items-center    text-lg bg-[#F2F5FA]  justify-around`}>
-                <div className="px-3 py-2 min-w-[30px] max-w-[30px] text-sm sm:text-md md:text-lg text-center">
+                <div className="px-3 py-2 min-w-[30px] max-w-[30px] text-sm  text-center">
                   {startIndex + index + 1}
                 </div>
-                <div className="px-3 py-2 min-w-[100px] text-sm sm:text-md md:text-lg flex justify-center items-center">
-                  <div className={`rounded flex justify-center items-center-md ${item.ulipApi === 'VAHAN' ? 'bg-[#C2E8E7]' : item.ulipApi === 'SARATHI' ? 'bg-[#F2E5D3] text-sm' : 'bg-[#D6CCF8]'} px-3 py-1 text-${item.ulipApi === 'VAHAN' ? '[#00B69B]' : item.type === 'SARATHI' ? '[#F2A735]' : '[#6226EF]'}`}>
+                <div className="px-3 py-2 min-w-[100px] text-sm  flex justify-center items-center">
+                  <div className={`rounded flex justify-center text-sm items-center-md ${item.ulipApi === 'VAHAN' ? 'bg-[#C2E8E7]' : item.ulipApi === 'SARATHI' ? 'bg-[#F2E5D3] ' : 'bg-[#D6CCF8]'} px-3 py-1 text-${item.ulipApi === 'VAHAN' ? '[#00B69B]' : item.type === 'SARATHI' ? '[#F2A735]' : '[#6226EF]'}`}>
                     <div className="">{item.ulipApi}</div>
                   </div>
                 </div>
-                <div className="px-3 py-2 min-w-[100px] max-w-[100px] text-wrap text-sm sm:text-md md:text-lg text-center">{item.vehicleNumber}</div>
-                <div className="px-3 py-2 min-w-[100px] text-sm sm:text-md md:text-lg flex flex-col text-right pe-2">
+                <div className="px-3 py-2 min-w-[100px] max-w-[100px] text-wrap text-sm  text-center">{truncateText(item.vehicleNumber,9)}</div>
+                <div className="px-3 py-2 min-w-[100px] text-sm  flex flex-col text-right pe-2">
                   <div className="">{item.createdAt.slice(0,10)}</div>
                   <div className="">{item.createdAt.slice(11,19)}</div>
                 </div>

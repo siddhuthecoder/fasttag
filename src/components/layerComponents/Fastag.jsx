@@ -4,14 +4,17 @@ import { FaLocationDot } from "react-icons/fa6";
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Map from '../openstreetMap/Map';
+import { useDispatch } from 'react-redux';
+import { signInSuccess } from '../../store/authSlice';
 
 const Fastag = () => {
   const [vehicleNumber, setVehicleNumber] = useState('');
   const [trackingData, setTrackingData] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false); // Added loading state
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
   const pathName = location.pathname;
+  const dispatch = useDispatch();
 
   const tabs = [
     { name: "Fastag", link: "/fastag" },
@@ -19,15 +22,15 @@ const Fastag = () => {
     { name: "Sarathi", link: "/sarathi" },
     { name: "My Vehicles", link: "/MyVehicles" }
   ];
-   
+  
   const handleSearch = async () => {
-    const comapny_id=localStorage.getItem('userID')
+    const companyId = localStorage.getItem('userID');
     
-    setLoading(true); // Set loading to true when fetch starts
+    setLoading(true);
     const capitalizedVehicleNumber = vehicleNumber.toUpperCase();
     try {
       const payload = {
-        "company_id": comapny_id,
+        "company_id": companyId,
         "tracking_For": "FASTAG",
         "parameters": { "vehiclenumber": capitalizedVehicleNumber }
       };
@@ -48,11 +51,28 @@ const Fastag = () => {
       const data = await response.json();
       setTrackingData(data.response || []);
       setError(null);
+
+      // Fetch additional company data
+      const companyResponse = await fetch(`https://fastagtracking.com/customulip/company/${companyId}`);
+      if (!companyResponse.ok) {
+        const errorText = await companyResponse.text();
+        setError(`HTTP error! status: ${companyResponse.status}, ${errorText}`);
+      }
+
+      const companyData = await companyResponse.json();
+      
+      dispatch(signInSuccess(companyData));
     } catch (error) {
       console.error('Error fetching tracking data:', error);
-      setError(`Your Vehicle Number ${capitalizedVehicleNumber} does not cross any toll plaza in past 3 days or There is A server Error From Government Side .`);
+      setError(`Your Vehicle Number ${capitalizedVehicleNumber} does not cross any toll plaza in past 3 days or There is A server Error From Government Side.`);
     } finally {
-      setLoading(false); // Set loading to false when fetch completes
+      setLoading(false);
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
     }
   };
 
@@ -79,6 +99,7 @@ const Fastag = () => {
                 placeholder="Enter Vehicle Number"
                 value={vehicleNumber}
                 onChange={(e) => setVehicleNumber(e.target.value)}
+                onKeyPress={handleKeyPress}
               />
               <div 
                 className="absolute right-0 w-[50px] h-[50px] bg-[#5E81F4] rounded-tr-md rounded-br-md flex justify-center items-center cursor-pointer"
@@ -114,8 +135,8 @@ const Fastag = () => {
                      ></path>
                    </svg>
                    Please Wait, Data is Fetching...
-                 </div>} {/* Loading text */}
-              {error && !loading && <div className="text-center text-red-500 py-5">{error}</div>} {/* Error text */}
+                 </div>}
+              {error && !loading && <div className="text-center text-red-500 py-5">{error}</div>}
               {!loading && trackingData.length > 0 ? (
                trackingData.map((location, idx) => (
                 <div key={idx} className={`w-full flex items-center justify-between py-3 px-2 ml-4 relative 
@@ -137,7 +158,7 @@ const Fastag = () => {
               ))
               
               ) : (
-                !loading && !error &&  <div className="text-center text-gray-500 py-5">Enter A Vechile Number</div> // No data message
+                !loading && !error &&  <div className="text-center text-gray-500 py-5">Enter A Vehicle Number</div>
               )}
             </div>
           </div>

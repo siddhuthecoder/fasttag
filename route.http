@@ -62,3 +62,21 @@ Content-Type: application/json
 {
     "companyId": "66b2f12abbef97c004389b88"
 }
+###
+POST https://fastagtracking.com/customulip/razorpayorder
+Content-Type: application/json
+
+{
+    "amount": 50000,
+    "currency": "INR",
+    "receipt": "receipt#1",
+    "partial_payment": false,
+    "first_payment_min_amount": 0,
+    "notes": {
+        "company_id": "66b9e54ee5a3c38ab3b8be7c",
+        "payment_for": "subscription",
+        "quantity": 1,
+        "gst": 18,
+        "Total_amount": 59000
+    }
+}

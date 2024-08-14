@@ -56,9 +56,9 @@ const Header2 = () => {
 
   return (
     <>
-      <div className="w-full border flex items-center shadow fixed top-0 z-[3] justify-between bg-white h-[80px]">
+      <div className="w-full border flex items-center shadow fixed top-0 z-[3]  justify-between bg-white h-[60px]">
       <div className="flex items-center justify-between w-full">
-      <Link to='/'><img src={logo} alt="Logo" className="mx-3 cursor-pointer" width={60} height={60} /></Link> 
+      <Link to='/'><img src={logo} alt="Logo" className="mx-3 cursor-pointer" width={40} height={40} /></Link> 
       {/* <h5 className='text-lg font-semibold ' >Faastagtracking.com</h5> */}
   <TiThMenu
     className="text-2xl cursor-pointer mx-2 md:hidden"

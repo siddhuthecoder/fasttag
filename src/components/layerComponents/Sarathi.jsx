@@ -8,6 +8,8 @@ import Map from "../openstreetMap/Map";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
+import { useDispatch } from 'react-redux';
+import { signInSuccess } from '../../store/authSlice';
 
 const Sarathi = () => {
   const [dlNumber, setDlNumber] = useState("");
@@ -17,6 +19,7 @@ const Sarathi = () => {
   const [error, setError] = useState(null);
   const location = useLocation();
   const pathName = location.pathname;
+  const dispatch = useDispatch();
 
   const tabs = [
     { name: "Fastag", link: "/fastag" },
@@ -46,11 +49,28 @@ const Sarathi = () => {
         }
       );
       setVehicleData(response.data.response[0].response);
+
+      const companyResponse = await fetch(`https://fastagtracking.com/customulip/company/${comapny_id}`);
+      if (!companyResponse.ok) {
+        const errorText = await companyResponse.text();
+        setError(`HTTP error! status: ${companyResponse.status}, ${errorText}`);
+      }
+
+      const companyData = await companyResponse.json();
+
+      dispatch(signInSuccess(companyData));
     } catch (error) {
       setError(`${error.response?.data.error}`);
       setVehicleData(null);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Handle key press
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
     }
   };
 
@@ -86,6 +106,7 @@ const Sarathi = () => {
               placeholder="Enter Driving License Number"
               value={dlNumber}
               onChange={(e) => setDlNumber(e.target.value)}
+              onKeyPress={handleKeyPress} // Add onKeyPress event
             />
             <div className="flex w-full mx-auto items-center bg-white rounded-md mt-3 relative">
               <DatePicker
@@ -101,6 +122,7 @@ const Sarathi = () => {
                 showMonthDropdown
                 yearDropdownItemNumber={50} // Adjust this number based on your requirement
                 yearDropdown
+                onKeyPress={handleKeyPress} // Add onKeyPress event
               />
               <div
                 className="absolute right-0 w-[50px] z-[2] h-[50px] bg-[#5E81F4] rounded-tr-md rounded-br-md flex justify-center items-center cursor-pointer"
@@ -192,96 +214,32 @@ const Sarathi = () => {
                         </div>
                       </div>
                       <div>
-                        <div className="text-lg font-bold">Mobile Number</div>
+                        <div className="text-lg font-bold">
+                          Contact Information
+                        </div>
                         <div className="text-zinc-500 font-semibold">
-                          {vehicleData.personalInformation.mobilenumber &&
-                            vehicleData.personalInformation.mobilenumber.replace(
-                              /\*/g,
-                              ""
-                            )}
+                          {vehicleData.personalInformation.mobile}
                         </div>
                       </div>
                       <div>
-                        <div className="text-lg font-bold">Gender</div>
+                        <div className="text-lg font-bold">Address</div>
                         <div className="text-zinc-500 font-semibold">
-                          {vehicleData.personalInformation.gender}
+                          {vehicleData.personalInformation.address}
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <hr className="mx-3 my-1" />
-                  <div className="text-2xl font-semibold text-[#5E81F4]">
-                    License Information
-                  </div>
-                  <div className="flex flex-col ps-2">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <div className="text-lg font-bold">License Number</div>
-                        <div className="text-zinc-500 font-semibold">
-                          {vehicleData.licenseInformation.licenseNumber}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-lg font-bold">
-                          Issued Authority
-                        </div>
-                        <div className="text-zinc-500 font-semibold">
-                          {vehicleData.licenseInformation.issuedAuthority}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-lg font-bold">Issued Date</div>
-                        <div className="text-zinc-500 font-semibold">
-                          {vehicleData.licenseInformation.issuedDate}
-                        </div>
-                      </div>
-
-                      <div>
-                        <div className="text-lg font-bold">
-                          Validity (Transport)
-                        </div>
-                        <div className="text-zinc-500 font-semibold">
-                          {vehicleData.licenseInformation.validity.transport}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <hr className="mx-3 my-1" />
-                  <div className="text-2xl font-semibold text-[#5E81F4]">
-                    Driving Classes
-                  </div>
-                  <div className="flex flex-col ps-2">
-                    {vehicleData.drivingClasses.map((drivingClass, index) => (
-                      <div key={index} className="mb-2">
-                        <div className="font-bold text-lg">
-                          {drivingClass.class}{" "}
-                          <span
-                            className={`font-semibold ${
-                              drivingClass.status === "Active"
-                                ? "text-green-500"
-                                : "text-red-500"
-                            }`}
-                          >
-                           ( {drivingClass.status})
-                          </span>
-                        </div>
-                        <div className="text-zinc-400">
-                          Issued: {drivingClass.issued}
-                        </div>
-                      </div>
-                    ))}
                   </div>
                 </>
               ) : (
-                <div className="flex justify-center items-center h-full text-gray-500">
-                  No data available. Please search for a record.
+                <div className="flex justify-center items-center h-full">
+                  Enter DL Number and DOB
                 </div>
               )}
             </div>
           </div>
         </div>
-        <div className="md:w-[90%] w-[100%] ms-1 mx-auto min-h-[620px] z-[-0] md:col-span-8 hidden md:flex justify-center items-center">
-          <Map tollData={[]} />
+        <div className="hidden md:flex items-center md:col-span-8">
+          <Map />
         </div>
       </div>
     </>

@@ -3,21 +3,25 @@ import "./price.css";
 import axios from "axios";
 
 const Price = () => {
-  const [monthlyPrices, setMonthlyPrices] = useState([]);
-  const [yearlyPrices, setYearlyPrices] = useState([]);
-  const [isYearly, setIsYearly] = useState(false);
+  const [plans, setPlans] = useState([]);
+  const [selectedPlanTypes, setSelectedPlanTypes] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://fastagtracking.com/customulip/plans");
+        const response = await fetch(
+          "https://fastagtracking.com/customulip/plans"
+        );
         const data = await response.json();
+        setPlans(data);
 
-        const monthly = data.filter((plan) => plan.type === "monthly");
-        const yearly = data.filter((plan) => plan.type === "yearly");
-
-        setMonthlyPrices(monthly);
-        setYearlyPrices(yearly);
+        const initialSelectedPlanTypes = {};
+        data.forEach((plan) => {
+          if (!initialSelectedPlanTypes[plan.name]) {
+            initialSelectedPlanTypes[plan.name] = "monthly";
+          }
+        });
+        setSelectedPlanTypes(initialSelectedPlanTypes);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -26,11 +30,12 @@ const Price = () => {
     fetchData();
   }, []);
 
-  const handleToggleChange = (event) => {
-    setIsYearly(event.target.checked);
+  const handlePlanTypeChange = (planName, planType) => {
+    setSelectedPlanTypes((prevState) => ({
+      ...prevState,
+      [planName]: planType,
+    }));
   };
-
-  const prices = isYearly ? yearlyPrices : monthlyPrices;
 
   const calculateDiscount = (actualPrice, offerPrice) => {
     const discount = ((actualPrice - offerPrice) / actualPrice) * 100;
@@ -38,29 +43,51 @@ const Price = () => {
   };
 
   const handleGetStarted = async (planName) => {
-    const planType = isYearly ? "Yearly" : "Monthly";
-    alert(`Plan: ${planName}, Type: ${planType}`);
-  //  alert( process.env.REACT_APP_RAZORPAY_KEY_ID)
-  //  console.log(process.env);
+    const selectedType = selectedPlanTypes[planName];
+    // alert(`Plan: ${planName}, Type: ${selectedType}`);
+    const companyId=localStorage.getItem('userID')
 
     if (window.confirm("Are you sure you want to buy this item?")) {
       try {
-         // Replace with your authentication token
-        const product = prices.find((plan) => plan.name === planName); // Get the selected plan
-        console.log(product);
-        
-        const {
-          data: { order },
-        } = await axios.post(
-          `http://localhost:5001/orders/payment`,
-          { planId: product._id },
+        const product = plans.find(
+          (plan) => plan.name === planName && plan.type === selectedType
+        );
+
+        if (!product) {
+          alert("Plan not found. Please try again.");
+          return;
+        }
+
+        const orderData = {
+          amount: product.offerprice * 100, // Razorpay accepts amount in paisa
+          currency: "INR",
+          receipt: `receipt_${product._id}`,
+          partial_payment: false,
+          first_payment_min_amount: 0,
+          notes: {
+            company_id: companyId,
+            payment_for: "subscription",
+            quantity: 1,
+            gst: 18,
+            total_amount: product.offerprice * 1.18,
+          },
+        };
+
+        const response = await axios.post(
+          'https://fastagtracking.com/customulip/razorpayorder',
+          orderData,
           {
             headers: {
-             
+              'Content-Type': 'application/json',
             },
           }
         );
-
+         
+        const order=response.data;
+        alert(order)
+        
+       
+       
         const options = {
           key: process.env.REACT_APP_RAZORPAY_KEY_ID,
           amount: order.amount,
@@ -70,18 +97,24 @@ const Price = () => {
           order_id: order.id,
           handler: async function (response) {
             try {
-              const res = await axios.post(
-                `${process.env.REACT_APP_BACKEND_URL}/orders`,
+              const verificationData = {
+                order_id: order.id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              };
+
+              const verifyResponse = await axios.post(
+                'https://fastagtracking.com/verifyPayment',
+                verificationData,
                 {
-                  razorpay_payment_id: response.razorpay_payment_id,
-                  order_id: order.id,
-                  totalPrice: order.amount,
-                  razorpay_signature: response.razorpay_signature,
-                  productId: product._id
-                },
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                }
               );
 
-              alert(res.data.message || "Order Received!");
+              alert(verifyResponse.data.message || "Payment Verified Successfully!");
             } catch (error) {
               alert(
                 error.response?.data?.message ||
@@ -121,78 +154,119 @@ const Price = () => {
 
   return (
     <section className="plans__container mt-[80px]">
-      <div className="toggle-container">
-        <label
-          className={`toggler ${isYearly ? "toggler--is-active" : ""}`}
-          htmlFor="switcher"
-        >
-          Yearly
-        </label>
-        <div className="toggle">
-          <input
-            type="checkbox"
-            id="switcher"
-            className="check"
-            checked={isYearly}
-            onChange={handleToggleChange}
-          />
-          <b className="b switch"></b>
-        </div>
-        <label
-          className={`toggler ${!isYearly ? "toggler--is-active" : ""}`}
-          htmlFor="switcher"
-        >
-          Monthly
-        </label>
-      </div>
-
       <div className="plans">
         <div className="planItem__container">
-          {prices.map((plan) => {
-            const discountPercentage = calculateDiscount(plan.price, plan.offerprice);
+          {Object.keys(selectedPlanTypes).map((planName) => {
+            const plan = plans.find(
+              (p) =>
+                p.name === planName &&
+                p.type === selectedPlanTypes[planName]
+            );
+
+            const discountPercentage = plan
+              ? calculateDiscount(plan.price, plan.offerprice)
+              : 0;
+
             return (
               <div
-                key={plan._id}
-                className={`planItem planItem--${plan.name === "Premium" ? "entp" : ""}`}
+                key={plan ? plan._id : planName}
+                className={`planItem planItem--${
+                  plan && plan.name === "Premium" ? "entp" : ""
+                }`}
               >
                 <div className="card">
                   <div className="card__header">
                     <div
                       className={`card__icon ${
-                        plan.name === "Basic"
+                        plan && plan.name === "Basic"
                           ? "symbol symbol--rounded"
-                          : plan.name === "Standard"
+                          : plan && plan.name === "Standard"
                           ? "symbol"
                           : ""
                       }`}
                     ></div>
-                    <h2>{plan.name}</h2>
-                    {discountPercentage > 0 && (
-                      <div className="discount-badge">{discountPercentage}% OFF</div>
+                    <h2>{planName}</h2>
+                    {plan && discountPercentage > 0 && (
+                      <div className="discount-badge">
+                        {discountPercentage}% OFF
+                      </div>
                     )}
                   </div>
+                  <div className="plan-buttons">
+                    <button
+                      className={`plan-button ${
+                        selectedPlanTypes[planName] === "monthly"
+                          ? "plan-button--active"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        handlePlanTypeChange(planName, "monthly")
+                      }
+                    >
+                      Monthly
+                    </button>
+                    <button
+                      className={`plan-button ${
+                        selectedPlanTypes[planName] === "quaterly"
+                          ? "plan-button--active"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        handlePlanTypeChange(planName, "quaterly")
+                      }
+                    >
+                      Quarterly
+                    </button>
+                    <button
+                      className={`plan-button ${
+                        selectedPlanTypes[planName] === "yearly"
+                          ? "plan-button--active"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        handlePlanTypeChange(planName, "yearly")
+                      }
+                    >
+                      Yearly
+                    </button>
+                  </div>
                   <div className="card__desc">
-                    Actual Price <span className="actual-price">₹{plan.price}</span>
+                    {plan ? (
+                      <>
+                        Actual Price{" "}
+                        <span className="actual-price">₹{plan.price}</span>
+                      </>
+                    ) : (
+                      "Not Available"
+                    )}
                   </div>
                 </div>
-                <div className="price">
-                  ₹{plan.offerprice}
-                  <span className="spann">/ {isYearly ? "year" : "month"}</span>
-                </div>
-                <ul className="featureList">
-                  <li>Upto {plan.apiHitLimit} FASTAG API hits</li>
-                  <li>Upto {plan.apiHitLimit} VAHAN API hits</li>
-                  <li>Upto {plan.apiHitLimit} SARATHI API hits</li>
-                  <li className={plan.name === "Basic" ? "disabled" : ""}>
-                    API for ERP and SAP
-                  </li>
-                </ul>
-                <button
-                  className="button button--blue"
-                  onClick={() => handleGetStarted(plan.name)}
-                >
-                  <span className="text-white">Get Started</span>
-                </button>
+                {plan && (
+                  <>
+                    <div className="price">
+                      ₹{plan.offerprice}
+                      <span className="spann">
+                        / {selectedPlanTypes[planName]}
+                      </span>
+                    </div>
+                    <ul className="featureList">
+                      <li>Upto {plan.apiHitLimit} FASTAG Search</li>
+                      <li>Upto {plan.apiHitLimit} VAHAN Search</li>
+                      <li>Upto {plan.apiHitLimit} SARATHI Search</li>
+                      <li
+                        className={plan.name === "Basic" ? "disabled" : ""}
+                      >
+                        API for ERP and SAP
+                      </li>
+                    </ul>
+                    <button
+                      className="button button--blue"
+                      onClick={() => handleGetStarted(planName)}
+                    >
+                      <span className="text-white">Get Now</span>
+                    </button>
+                  </>
+                )}
               </div>
             );
           })}

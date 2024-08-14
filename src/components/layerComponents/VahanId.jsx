@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { IoSearchOutline } from "react-icons/io5";
+// import { IoSearchOutline } from "react-icons/io5";
 import truck from "../../assets/truck.png";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Map from "../openstreetMap/Map";
-
+import { useDispatch } from 'react-redux';
+import { signInSuccess } from '../../store/authSlice';
 const VahanId = () => {
   const { id } = useParams(); // Get vehicleNumber from URL parameters
   const [vehicleData, setVehicleData] = useState(null);
   const [error, setError] = useState("");
-
+  const dispatch=useDispatch()
   const location = useLocation();
   const pathName = location.pathname;
   const requestMade = useRef(false);
@@ -194,6 +195,13 @@ const VahanId = () => {
         console.log(data);
         setVehicleData(data);
         setError("");
+        const companyResponse = await fetch(`https://fastagtracking.com/customulip/company/${comapny_id}`);
+      if (!companyResponse.ok) {
+        const errorText = await companyResponse.text();
+        setError(`HTTP error! status: ${companyResponse.status}, ${errorText}`);
+      }
+      const companyData = await companyResponse.json();
+      dispatch(signInSuccess(companyData));
       } catch (error) {
         console.error("Error fetching vehicle data:", error.message);
         console.error("Response data:", error.response?.data);
@@ -219,7 +227,7 @@ const VahanId = () => {
                 to={data?.link}
                 key={index}
                 className={`px-3 py-1 cursor-pointer ${
-                  pathName == data?.link ? "bg-[#E1E1FB]" : ""
+                  pathName === data?.link ? "bg-[#E1E1FB]" : ""
                 }   text-nowrap border border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
                 // onClick={() => setTab(data.name)}
               >

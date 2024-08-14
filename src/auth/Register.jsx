@@ -49,7 +49,7 @@ const FillDetails = () => {
       vehicleNumbers: [],
       plan: '66b596f6e999e25b6217b388',
       expiryDate: expireDate.toISOString(),
-      maxApiHit: 50,
+      maxApiHit: 10,
       apiHit: 0,
     };
 

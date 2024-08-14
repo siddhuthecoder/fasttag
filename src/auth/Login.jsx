@@ -8,6 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import FormLayer from '../components/FormLayer';
 import axios from 'axios'
 import { signInStart, signInSuccess, signInFailure } from '../store/authSlice';
+import FAQAccordion from './FAQS';
 
 const Login = () => {
   const isAuthenticated = useSelector((state) => state.auth.user)
@@ -109,6 +110,7 @@ useEffect(() => {
   // }
 
   return (
+    <>
     <FormLayer>
       <div className="flex w-[90%] mx-auto max-w-[400px] flex-col">
         <div className="font-semibold text-2xl md:text-[40px]">Login to your Account</div>
@@ -169,6 +171,8 @@ useEffect(() => {
         </form>
       </div>
     </FormLayer>
+    <FAQAccordion/>
+    </>
   );
 };
 
