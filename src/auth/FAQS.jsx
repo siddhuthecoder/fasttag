@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import './styles.css'; // Ensure to import your CSS here
+import { FaPlus, FaMinus } from 'react-icons/fa';
 
 const FAQAccordion = () => {
   const accordionsData = [
@@ -91,7 +92,7 @@ const Accordion = ({ accordion }) => {
       <div className="accordion__header" onClick={toggleAccordion}>
         <h2 className="accordion__question">{accordion.question}</h2>
         <span className="accordion__icon">
-          <i className={isOpen ? 'ri-subtract-fill' : 'ri-add-line'}></i>
+          {isOpen ? <FaMinus /> : <FaPlus />}
         </span>
       </div>
       <div
@@ -104,6 +105,7 @@ const Accordion = ({ accordion }) => {
         <p className="accordion__answer">{accordion.answer}</p>
       </div>
     </div>
+
   );
 };
 

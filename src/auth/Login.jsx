@@ -171,7 +171,7 @@ useEffect(() => {
         </form>
       </div>
     </FormLayer>
-    <FAQAccordion/>
+    {/* <FAQAccordion/> */}
     </>
   );
 };

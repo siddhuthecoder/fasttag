@@ -1,6 +1,6 @@
 import React from 'react'
 import auth from '../assets/auth.png'
-
+import FAQAccordion from '../auth/FAQS'
 const FormLayer = ({children}) => {
   return (
     <>
@@ -12,7 +12,9 @@ const FormLayer = ({children}) => {
         </div>
         <div className="h-screen flex justify-center items-center bg-white">
             {children}
+            
         </div>
+      <FAQAccordion/>
       </div>
     </>
   )
