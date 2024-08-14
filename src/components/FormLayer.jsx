@@ -10,11 +10,13 @@ const FormLayer = ({children}) => {
             <img src={auth} alt="" className="" />
           </div>
         </div>
-        <div className="h-screen flex justify-center items-center bg-white">
-            {children}
-            
+        <div className="max-h-screen flex-col  overflow-y-scroll flex  bg-white">
+            <div className="w-full flex justify-center items-center min-h-screen">
+              {children}
+            </div>
+            <FAQAccordion />
         </div>
-      <FAQAccordion/>
+      
       </div>
     </>
   )
