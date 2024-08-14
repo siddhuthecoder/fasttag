@@ -2,6 +2,7 @@ import React from 'react'
 import Info from './Info'
 import ApiHistory from './ApiHistory'
 import { Link } from 'react-router-dom';
+import SearchHistory from './../../pages/SearchHistory';
 
 const Layout = () => {
   const tabs = [
@@ -27,8 +28,10 @@ const Layout = () => {
           {/* <div className="font-semibold text-2xl py-2">Dashboard</div> */}
           <Info />
           <div className="w-full grid gird-cols-1  mt-3 lg:grid-cols-2 gap-3">
-              <ApiHistory />
-              <ApiHistory />
+              {/* <ApiHistory />
+              <ApiHistory /> */}
+              <Link to='/searchhistory'> <button className="px-4 py-2 rounded-md bg-[#5E81F4] text-white text-sm md:text-base font-semibold">Search History</button></Link>
+              <Link to='transcationhistory'> <button className="px-4 py-2 rounded-md bg-[#5E81F4] text-white text-sm md:text-base font-semibold">Transcation History</button></Link>
           </div>
         </div>
     </>

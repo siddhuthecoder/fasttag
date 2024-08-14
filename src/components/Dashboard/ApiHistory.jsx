@@ -25,7 +25,7 @@ import { FaAngleRight } from "react-icons/fa6";
 //   // Add more data as needed
 // ];
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 8;
 
 const ApiHistory = () => {
   const [data,setData] = useState([])
@@ -82,8 +82,8 @@ const ApiHistory = () => {
   return (
     <>
       <div className="w-full flex flex-col ps-2  mt-4 mb-4">
-        <div className="w-full flex items-center justify-between">
-          <div className="text-[#5E81F4] text-2xl font-bold">Search history</div>
+        <div className="w-full flex items-center justify-between ">
+          <div className="text-[#5E81F4]  mt-9 text-2xl font-bold pt-5  ">Search history</div>
           {/* <div className="flex items-center gap-2">
             <button className="bg-white rounded-md mx-2 shadow-xl py-1 px-4 text-zinc-500 flex items-center">
               <LuArrowUpDown />
@@ -95,7 +95,6 @@ const ApiHistory = () => {
             </button>
           </div> */}
         </div>
-
         <div className="w-full flex bg-[#F2F5FA] mt-5 flex-col  rounded-tr-lg rounded-tl-lg rounded-lg overflow-auto">
           <div className="w-full flex sticky top-0 bg-white items-center font-semibold text-lg justify-around">
             <div className="px-3 py-2 min-w-[30px] max-w-[30px] text-sm  text-center">S.No</div>
@@ -132,7 +131,7 @@ const ApiHistory = () => {
             className="mx-2 py-1 px-3 bg-white rounded-md border text-gray-700 flex items-center rounded disabled:opacity-50"
           >
             <FaAngleLeft className="me-1" />
-            <span>Prev Date</span>
+            <span>Previous </span>
           </button>
           {/* <div className="mx-2 py-1 px-3 text-gray-700">{`Page ${currentPage} of ${totalPages}`}</div> */}
           <button
@@ -140,7 +139,7 @@ const ApiHistory = () => {
             disabled={currentPage === totalPages}
             className="mx-2 py-1 px-3 flex items-center bg-white rounded-md border text-gray-700  disabled:opacity-50"
           >
-            <span>Next Date</span>
+            <span>Next </span>
             <FaAngleRight className="ms-1"/>
           </button>
         </div>

@@ -25,6 +25,8 @@ import Terms from './components/Terms';
 import Policy from './components/Policy';
 import Contact from './components/Contact';
 import Header2 from './components/Header2';
+import SearchHistory from './pages/SearchHistory';
+import TransactionHistory from './pages/TransactionHistory';
 
 
 
@@ -50,6 +52,8 @@ const App = () => {
                       <Route path="/vahan/:id" element={<VahanId />} />
                       <Route path="/pricing" element={<Pricing />} />
                       <Route path='/dashboard' element={<Dashboard/>}/>
+                      <Route path='/searchhistory' element={<SearchHistory/>}/>
+                      <Route path='/transcationhistory' element={<SearchHistory/>}/>
                       <Route path="/" element={<Login />} />
                     {/* <Route path="/fillDetails" element={<Register />} />
                     <Route path="/register" element={<ForgetPassword />} />
