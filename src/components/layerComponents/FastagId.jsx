@@ -91,7 +91,8 @@ const Fastag = () => {
   return (
     <>  
       <div className="w-full grid grid-cols-1 mt-[60px] md:grid-cols-12 gap-5 md:gap-2  md:pt-0 pt-3  md:pb-0 ">
-        <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[620px] md:col-span-4 flex flex-col h-full overflow-hidden">
+        <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[620px
+         md:col-span-4 flex flex-col h-full overflow-hidden">
           <div className="flex items-center flex-wrap mt-2 gap-2 md:hidden">
           {tabs.map((data, index) => (
               <Link
@@ -104,11 +105,15 @@ const Fastag = () => {
             ))}
           </div>
           <div className="w-full flex flex-col h-full overflow-hidden">
-          <div className="w-full flex flex-col bg-white mt-5 p-3 rounded-md shadow-lg border border-[#E0E0E0] flex-grow overflow-y-auto">
-          <div className="flex items-center p-3 border-b text-gray-500">
-                <div className="text-xs font-medium">Vehicle Number</div>
-                <div className="text-xs font-medium ml-auto">{id}</div>
-              </div>
+                <div className="w-full md:hidden mt-2 ">
+                  <Map tollData={trackingData} />
+                </div>
+              <div className="w-full flex flex-col bg-white mt-5 p-3 rounded-md shadow-lg border border-[#E0E0E0] flex-grow overflow-y-auto">
+                <div className="flex items-center p-3 border-b text-gray-500">
+                  <div className="text-xs font-medium">Vehicle Number</div>
+                  <div className="text-xs font-medium ml-auto">{id}</div>
+                </div>
+                
               {loading && <div className="text-center text-gray-500 py-5">Loading...</div>} {/* Loading text */}
               {error && !loading && <div className="text-center text-red-500 py-5">{error}</div>} {/* Error text */}
               {!loading && trackingData.length > 0 ? (
@@ -133,10 +138,10 @@ const Fastag = () => {
               ) : (
                 !loading && !error && <div className="text-center text-gray-500 py-5">No tracking information available.</div> // No data message
               )}
-            </div>
+              </div>
           </div>
         </div>
-        <div className="md:w-[90%] flex w-[100%]  ms-1 mx-auto min-h-[620px] z-[-0] md:col-span-8 justify-center items-center">
+        <div className="md:w-[90%] hidden md:flex w-[100%]  ms-1 mx-auto min-h-[620px] z-[-0] md:col-span-8 justify-center items-center">
           <Map tollData={trackingData || []}/>
         </div>
       </div>
