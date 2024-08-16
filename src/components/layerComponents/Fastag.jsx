@@ -86,7 +86,7 @@ const Fastag = () => {
               <Link
                 to={data.link}
                 key={index}
-                className={`px-[5.5px] py-1  text-[13.5px] cursor-pointer ${pathName === data.link ? "bg-[#E1E1FB]" : ""} text-nowrap border border-black duration-150 rounded-full hover:bg-[#E1E1FB] `}
+                className={`px-[7px] py-1  text-[13.5px] cursor-pointer ${pathName === data.link ? "bg-[#E1E1FB]" : ""} text-nowrap border border-black duration-150 rounded-full hover:bg-[#E1E1FB] `}
               >
                 {data.name}
               </Link>
@@ -112,8 +112,8 @@ const Fastag = () => {
             <div className="w-full md:hidden mt-2 ">
               <Map tollData={trackingData} />
             </div>
-            <div className="w-full flex flex-col bg-white mt-5 md:p-3 p-1 rounded-md shadow-lg border border-[#E0E0E0] flex-grow overflow-y-auto">
-              <div className="flex items-center md:p-3 p-1 border-b text-gray-500">
+            <div className="w-full flex flex-col bg-white mt-5 md:p-3 p-2 rounded-md shadow-lg border border-[#E0E0E0] flex-grow overflow-y-auto">
+            <div className="flex items-center md:p-3 p-2 border-b text-gray-500">
                 <div className="text-xs font-medium">Vehicle Number</div>
                 <div className="text-xs font-medium ml-auto">{vehicleNumber.toUpperCase()}</div>
               </div>
