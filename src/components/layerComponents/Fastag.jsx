@@ -80,7 +80,7 @@ const Fastag = () => {
   return (
     <>  
       <div className="w-full grid grid-cols-1 mt-[60px] md:grid-cols-12 gap-5 md:gap-2  mx-auto  md:pt-0 pt-3  md:pb-0 ">
-        <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[82vh] md:col-span-4 flex flex-col h-full overflow-hidden">
+        <div className="md:w-[90%] ms-2 w-[100%] mx-auto md:max-h-[82vh] md:col-span-4 flex flex-col h-full overflow-hidden">
           <div className="flex items-center flex-wrap mt-2 gap-1 md:hidden">
           {tabs.map((data, index) => (
               <Link
