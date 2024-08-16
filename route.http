@@ -67,7 +67,7 @@ POST https://fastagtracking.com/customulip/razorpayorder
 Content-Type: application/json
 
 {
-    "amount": 50000,
+    "amount": 100,
     "currency": "INR",
     "receipt": "receipt#1",
     "partial_payment": false,
@@ -77,6 +77,18 @@ Content-Type: application/json
         "payment_for": "subscription",
         "quantity": 1,
         "gst": 18,
-        "Total_amount": 59000
+        "Total_amount": 1.19
     }
+}
+
+
+### Verification Request
+POST https://fastagtracking.com/verifyPayment
+Content-Type: application/json
+
+{
+    "order_id": "{{order_id}}",
+    "razorpay_order_id": "{{razorpay_order_id}}",
+    "razorpay_payment_id": "{{razorpay_payment_id}}",
+    "razorpay_signature": "{{razorpay_signature}}"
 }

@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { loginUser } from '../store/authSlice';
 import { MdOutlinePhone } from "react-icons/md";
-import { BsEnvelope } from 'react-icons/bs';
+// import { BsEnvelope } from 'react-icons/bs';
 import { FiShieldOff, FiEye, FiEyeOff } from 'react-icons/fi';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import FormLayer from '../components/FormLayer';
 import axios from 'axios'
 import { signInStart, signInSuccess, signInFailure } from '../store/authSlice';
-import FAQAccordion from './FAQS';
+// import FAQAccordion from './FAQS';
 
 const Login = () => {
   const isAuthenticated = useSelector((state) => state.auth.user)
@@ -112,9 +112,9 @@ useEffect(() => {
   return (
     <>
     <FormLayer>
-      <div className="flex w-[90%] mx-auto max-w-[400px] flex-col">
+      <div className="flex w-[90%] mx-auto max-w-[410px] flex-col">
         <div className="font-semibold text-2xl md:text-[40px]">Login to your Account</div>
-        <p className="text-[#71717A] pt-3 md:text-[20px]">Welcome back! Select method to log in:</p>
+        <p className="text-[#71717A] pt-3 md:text-[20px]">Welcome back! </p>
         <hr className="mx-[100px] my-[15px]" />
         <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
           <div className="flex items-center">
