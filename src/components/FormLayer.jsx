@@ -11,7 +11,7 @@ const FormLayer = ({children}) => {
           </div>
         </div>
         <div className="max-h-screen flex-col  overflow-y-scroll flex  bg-white">
-            <div className="w-full flex justify-center items-center min-h-screen">
+            <div className="w-full flex justify-center items-center min-h-[80vh]">
               {children}
             </div>
             <FAQAccordion />

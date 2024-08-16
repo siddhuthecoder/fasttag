@@ -114,7 +114,7 @@ const ApiHistory = () => {
                     <div className="">{item.ulipApi}</div>
                   </div>
                 </div>
-                <div className="px-3 py-2 min-w-[100px] max-w-[100px] text-wrap text-sm  text-center">{truncateText(item.vehicleNumber,9)}</div>
+                <div className="px-3 py-2 min-w-[100px] max-w-[100px] text-wrap text-sm  text-center">{item.vehicleNumber}</div> 
                 <div className="px-3 py-2 min-w-[100px] text-sm  flex flex-col text-right pe-2">
                   <div className="">{item.createdAt.slice(0,10)}</div>
                   <div className="">{item.createdAt.slice(11,19)}</div>

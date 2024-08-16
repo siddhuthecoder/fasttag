@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./price.css";
 import axios from "axios";
-
+import img from '../../assets/logo.jpg'
 const Price = () => {
   const [plans, setPlans] = useState([]);
   const [selectedPlanTypes, setSelectedPlanTypes] = useState({});
@@ -44,111 +44,134 @@ const Price = () => {
 
   const handleGetStarted = async (planName) => {
     const selectedType = selectedPlanTypes[planName];
-    // alert(`Plan: ${planName}, Type: ${selectedType}`);
-    const companyId=localStorage.getItem('userID')
+    const companyId = localStorage.getItem("userID");
 
-    if (window.confirm("Are you sure you want to buy this item?")) {
-      try {
-        const product = plans.find(
-          (plan) => plan.name === planName && plan.type === selectedType
-        );
+    try {
+      const product = plans.find(
+        (plan) => plan.name === planName && plan.type === selectedType
+      );
 
-        if (!product) {
-          alert("Plan not found. Please try again.");
-          return;
-        }
+      if (!product) {
+        alert("Plan not found. Please try again.");
+        return;
+      }
 
-        const orderData = {
-          amount: product.offerprice * 100, // Razorpay accepts amount in paisa
-          currency: "INR",
-          receipt: `receipt_${product._id}`,
-          partial_payment: false,
-          first_payment_min_amount: 0,
-          notes: {
-            company_id: companyId,
-            payment_for: "subscription",
-            quantity: 1,
-            gst: 18,
-            total_amount: product.offerprice * 1.18,
+      const orderData = {
+        amount: product.offerprice * 100, // Razorpay accepts amount in paisa
+        currency: "INR",
+        receipt: `receipt_${product._id}`,
+        partial_payment: false,
+        first_payment_min_amount: 0,
+        notes: {
+          company_id: companyId,
+          payment_for: "subscription",
+          quantity: 1,
+          gst: 18,
+          total_amount: product.offerprice * 1.18,
+        },
+      };
+
+      const response = await axios.post(
+        "https://fastagtracking.com/customulip/razorpayorder",
+        orderData,
+        {
+          headers: {
+            "Content-Type": "application/json",
           },
-        };
+        }
+      );
 
-        const response = await axios.post(
-          'https://fastagtracking.com/customulip/razorpayorder',
-          orderData,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-         
-        const order=response.data;
-        alert(order)
-        
-       
-       
-        const options = {
-          key: process.env.REACT_APP_RAZORPAY_KEY_ID,
-          amount: order.amount,
-          currency: "INR",
-          name: product.name,
-          description: product.description,
-          order_id: order.id,
-          handler: async function (response) {
-            try {
-              const verificationData = {
-                order_id: order.id,
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-              };
+      const order = response.data;
 
-              const verifyResponse = await axios.post(
-                'https://fastagtracking.com/verifyPayment',
-                verificationData,
+      const options = {
+        key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: "INR",
+        name: 'Fastagtracking',
+        image:'https://fastagtracking.com/static/media/logo2.c6341f740d920f8131f9.png',
+        description: product.name,
+        order_id: order.id,
+        handler: async function (response) {
+          try {
+            const verificationData = {
+              order_id: order.id,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            };
+
+            const verifyResponse = await axios.post(
+              "https://fastagtracking.com/verifyPayment",
+              verificationData,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+
+            if (verifyResponse.data.success) {
+              // Fetch the current API hits
+              const userResponse = await axios.get(
+                `https://fastagtracking.com/customulip/company/${companyId}`
+              );
+
+              const { maxApiHit, apiHit } = userResponse.data;
+
+              // Update the API hits
+              const newMaxApiHit = (maxApiHit-apiHit) + product.apiHitLimit;
+              const newApiHit = apiHit + product.apiHitLimit;
+
+              await axios.put(
+                `https://fastagtracking.com/customulip/company/${companyId}`,
+                {
+                  maxApiHit: newMaxApiHit,
+                  apiHit: 0,
+                },
                 {
                   headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                   },
                 }
               );
 
-              alert(verifyResponse.data.message || "Payment Verified Successfully!");
-            } catch (error) {
-              alert(
-                error.response?.data?.message ||
-                  error.message ||
-                  "Payment verification failed. Please try again."
-              );
+              alert("Payment Verified Successfully!");
+            } else {
+              alert(verifyResponse.data.message || "Payment verification failed.");
             }
-          },
-          prefill: {
-            name: "", // Fill if you have user name
-            email: "", // Fill if you have user email
-            contact: "", // Fill if you have user contact
-          },
-          theme: {
-            color: "#5E81F4",
-          },
-        };
+          } catch (error) {
+            alert(
+              error.response?.data?.message ||
+                error.message ||
+                "Payment verification failed. Please try again."
+            );
+          }
+        },
+        prefill: {
+          name: "", // Fill if you have user name
+          email: "", // Fill if you have user email
+          contact: "", // Fill if you have user contact
+        },
+        theme: {
+          color: "#5E81F4",
+        },
+      };
 
-        if (window.Razorpay) {
-          const razor = new window.Razorpay(options);
+      if (window.Razorpay) {
+        const razor = new window.Razorpay(options);
 
-          razor.on("payment.failed", function (response) {
-            console.log("Payment failed response:", response);
-            alert(`Payment failed: ${response.error.description}`);
-          });
+        razor.on("payment.failed", function (response) {
+          console.log("Payment failed response:", response);
+          alert(`Payment failed: ${response.error.description}`);
+        });
 
-          razor.open();
-        } else {
-          console.error("Razorpay SDK not loaded.");
-        }
-      } catch (error) {
-        console.error("Error in payment process:", error);
-        alert("An error occurred. Please try again.");
+        razor.open();
+      } else {
+        console.error("Razorpay SDK not loaded.");
       }
+    } catch (error) {
+      console.error("Error in payment process:", error);
+      alert("An error occurred. Please try again.");
     }
   };
 
