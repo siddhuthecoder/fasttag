@@ -3,7 +3,9 @@
 @tailwind utilities;
 
 
-
+*{
+    /* border: 1px solid green; */
+}
 
 .gradient-border{
     border-image-source: linear-gradient(90deg,80% #444CE7,20% #ffffff);
@@ -14,6 +16,6 @@ body{
 }
 
 ::-webkit-scrollbar {
-    width: 12px; /* Width of vertical scrollbar */
-    height: 12px; 
+    width: 2px; /* Width of vertical scrollbar */
+    /* height: 12px;  */
 }
