@@ -19,7 +19,7 @@ const Layout = () => {
   ];
   return (
     <>
-        <div className=" w-full md:w-[80%] mx-auto mt-[80px] flex flex-col ps-2 pt-2">
+        <div className=" w-full md:w-[80%]  mx-auto mt-[70px] flex flex-col ps-2 md:pt-0 ">
         <div className="flex items-center flex-wrap mt-2 gap-2 md:hidden">
         {tabs.map((data, index) => (
               <Link
@@ -31,7 +31,7 @@ const Layout = () => {
               </Link>
             ))}
           </div>
-          <div className="font-semibold text-3xl  md:pb-9 py-5 text-[#242e4c] py-2">Dashboard</div>
+          <div className="font-semibold text-3xl  md:pb-9 py-5 text-[#242e4c] ">Dashboard</div>
           <Info />
           <div className="pt-9 mt-3 pb-3 ">
               {/* <ApiHistory />

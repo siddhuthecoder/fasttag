@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import './TollPlazaMap.css'; // Import the CSS file here
 
 // Import the marker icon images
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
@@ -35,12 +36,6 @@ const TollPlazaMap = ({ tollData = [] }) => {
         attribution: 'Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       });
 
-      // Add layer control
-      // L.control.layers({
-      //   "Street": streetLayer,
-        
-      // }).addTo(mapInstanceRef.current);
-      
       // Set default view
       streetLayer.addTo(mapInstanceRef.current);
     }
@@ -109,7 +104,7 @@ const TollPlazaMap = ({ tollData = [] }) => {
     };
   }, [tollData]);
 
-  return <div ref={mapRef} id="map" style={{ height: '600px', width: '100%' }} />;
+  return <div ref={mapRef} id="map" />;
 };
 
 export default TollPlazaMap;

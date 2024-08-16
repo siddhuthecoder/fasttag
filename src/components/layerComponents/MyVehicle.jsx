@@ -44,7 +44,7 @@ const VehicleCard = ({ vehicleNumber, onEdit, onDelete }) => {
       <div className="flex w-full justify-between md:justify-start md:w-auto items-center gap-1">
         <div className="flex flex-col ps-2 my-2">
           <div className="font-semibold text-lg">Vehicle Number</div>
-          <div className="text-zinc-400">{vehicleNumber}</div>
+          <div className="text-zinc-400">{vehicleNumber.toUpperCase()}</div>
         </div>
         <div className="flex items-center">
           <button onClick={handleDeleteClick}>
@@ -115,14 +115,24 @@ const MyVehicle = () => {
   const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
   const handleAddSubmit = () => {
-    const updatedVehicles = [...vehicles, newVehicleNumber];
+    const upperCaseVehicle = newVehicleNumber.toUpperCase();
+    if (vehicles.includes(upperCaseVehicle)) {
+      alert('This vehicle is already in the list.');
+      return;
+    }
+    const updatedVehicles = [...vehicles, upperCaseVehicle];
     updateVehiclesOnServer(updatedVehicles);
     closeAddModal();
   };
 
   const handleEditSubmit = () => {
+    const upperCaseVehicle = editVehicleNumber.toUpperCase();
+    if (vehicles.includes(upperCaseVehicle) && upperCaseVehicle !== vehicleToEdit) {
+      alert('This vehicle is already in the list.');
+      return;
+    }
     const updatedVehicles = vehicles.map((vehicle) =>
-      vehicle === vehicleToEdit ? editVehicleNumber : vehicle
+      vehicle === vehicleToEdit ? upperCaseVehicle : vehicle
     );
     setVehicles(updatedVehicles);
     updateVehiclesOnServer(updatedVehicles);
@@ -157,7 +167,7 @@ const MyVehicle = () => {
 
   return (
     <>
-      <div className="w-full grid grid-cols-1 mt-[60px] md:grid-cols-12 gap-5 md:gap-2">
+      <div className="w-full grid grid-cols-1 mt-[60px] md:grid-cols-12 gap-5 md:gap-2  md:pt-0 pt-3  md:pb-0 pb-2">
         <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[620px] md:col-span-4 flex flex-col">
           <div className="flex items-center flex-wrap mt-2 gap-2 md:hidden">
           {tabs.map((data, index) => (
@@ -204,12 +214,10 @@ const MyVehicle = () => {
             </div>
           </div>
         </div>
-        <div className="md:w-[90%] w-[100%] hidden md:flex ms-1 mx-auto min-h-[620px] z-[-0] md:col-span-8 justify-center items-center">
+        <div className="md:w-[90%] w-[100%] ms-1 md:mt-2 mx-auto min-h-[620px] z-[-0] md:col-span-8 hidden md:flex justify-center items-center">
           <Map tollData={[]} />
         </div>
       </div>
-
-      {/* Add Vehicle Modal */}
       <Modal
         isOpen={isAddModalOpen}
         onRequestClose={closeAddModal}

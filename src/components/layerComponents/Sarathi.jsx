@@ -85,7 +85,7 @@ const Sarathi = () => {
 
   return (
     <>
-      <div className="w-full grid grid-cols-1 mt-[60px] md:grid-cols-12 gap-5 md:gap-2">
+      <div className="w-full grid grid-cols-1 mt-[60px] md:grid-cols-12 gap-5 md:gap-2  md:pt-0 pt-3  md:pb-0 pb-2">
         <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[620px] md:col-span-4 flex flex-col">
           <div className="flex items-center flex-wrap mt-2 gap-2 md:hidden">
           {tabs.map((data, index) => (
@@ -237,8 +237,8 @@ const Sarathi = () => {
             </div>
           </div>
         </div>
-        <div className="hidden md:flex items-center md:col-span-8">
-          <Map />
+        <div className="md:w-[90%] w-[100%] ms-1 mx-auto min-h-[620px] z-[-0] md:col-span-8 hidden md:flex justify-center items-center">
+          <Map tollData={[]} />
         </div>
       </div>
     </>

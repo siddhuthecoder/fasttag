@@ -214,7 +214,7 @@ const Vahan = () => {
 
   return (
     <>
-      <div className="w-full grid grid-cols-1 mt-[60px] md:grid-cols-12 gap-5  md:gap-2 ">
+      <div className="w-full grid grid-cols-1 mt-[60px] md:grid-cols-12 gap-5  md:gap-2  md:pt-0 pt-3  md:pb-0 pb-2">
         <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[620px]  md:col-span-4  flex flex-col ">
           <div className="flex items-center flex-wrap mt-2 gap-2 md:hidden ">
           {tabs.map((data, index) => (
