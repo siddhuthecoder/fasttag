@@ -27,8 +27,7 @@ import Contact from './components/Contact';
 import Header2 from './components/Header2';
 import SearchHistory from './pages/SearchHistory';
 import TransactionHistory from './pages/TransactionHistory';
-
-
+import Layout from './components/admin/Layout';
 
 const App = () => {
   const navigate = useNavigate()
@@ -55,6 +54,7 @@ const App = () => {
                       <Route path='/searchhistory' element={<SearchHistory/>}/>
                       <Route path='/transaction' element={<TransactionHistory/>}/>
                       <Route path="/" element={<Login />} />
+                      <Route path="/layout" element={<Layout />} />
                     {/* <Route path="/fillDetails" element={<Register />} />
                     <Route path="/register" element={<ForgetPassword />} />
                     <Route path="/newPassword" element={<NewPassword />} />
