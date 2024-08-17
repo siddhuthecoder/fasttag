@@ -98,8 +98,8 @@ const Fastag = () => {
                 type="text" 
                 className="w-full px-3 h-[52px] rounded-md border"  
                 placeholder="Enter Vehicle Number"
-                value={vehicleNumber}
-                onChange={(e) => setVehicleNumber(e.target.value)}
+                value={vehicleNumber.toUpperCase()}
+                onChange={(e) => setVehicleNumber(e.target.value.toUpperCase())}
                 onKeyPress={handleKeyPress}
               />
               <div 

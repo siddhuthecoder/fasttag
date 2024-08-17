@@ -234,8 +234,8 @@ const Vahan = () => {
                   type="text"
                   className="w-full px-3 h-[52px] rounded-md border"
                   placeholder="Enter Vehicle Number"
-                  value={vehicleNumber}
-                  onChange={(e) => setVehicleNumber(e.target.value)}
+                  value={vehicleNumber.toUpperCase()}
+                  onChange={(e) => setVehicleNumber(e.target.value.toUpperCase())}
                 />
                 <div
                   className="absolute right-0 w-[50px] z-[2] h-[50px] bg-[#5E81F4] rounded-tr-md rounded-tb-md rounded-br-md flex justify-center items-center cursor-pointer"
