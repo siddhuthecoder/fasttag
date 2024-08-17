@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { FaAngleLeft } from "react-icons/fa6";
+import { FaAngleRight } from "react-icons/fa6";
 
 const TableWithPagination = ({ data, rowsPerPage }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,16 +62,19 @@ const TableWithPagination = ({ data, rowsPerPage }) => {
         <button
           onClick={() => handlePageChange('prev')}
           disabled={currentPage === 1}
-          className="mx-2 py-1 mb-3 px-3 bg-white rounded-md border text-gray-700 flex items-center  disabled:opacity-50"
+          className="mx-2 py-1 mb-3 px-3 bg-white flex items-center rounded-md border text-gray-700   disabled:opacity-50"
         >
-          Prev Date
+          <FaAngleLeft />
+          <div className="ps-2">Prev Date</div>
         </button>
         <button
           onClick={() => handlePageChange('next')}
           disabled={currentPage === totalPages}
           className="mx-2 py-1 mb-3 px-3 bg-white rounded-md border text-gray-700 flex items-center  disabled:opacity-50"
         >
-          Next Date
+          
+          <div className="pe-2">Next Data</div>
+          <FaAngleRight />
         </button>
       </div>
     </div>

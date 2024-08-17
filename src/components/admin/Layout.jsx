@@ -5,6 +5,7 @@ import DataTable from './DataTable'
 import AdminHeader from './AdminHeader'
 
 
+
 const Layout = () => {
   const [selectedMonth, setSelectedMonth] = useState('');
   const months = [
@@ -34,32 +35,32 @@ const Layout = () => {
         </select>
       </div>
       <div className="w-full md:w-[80%] mx-auto">
-            <div className="w-full grid grid-cols-1 md:grid-cols-12">
-                <div className="flex flex-col justify-center  ps-1 md:ps-3 md:col-span-4 grid-item-bottom">
+            <div className="w-full grid grid-cols-1  md:grid-cols-12">
+                <div className="flex flex-col justify-center  ps-1 md:ps-3 sm:col-span-6 md:col-span-4 grid-item-bottom">
                     <div className="w-full text-lg font-bold  md:text-4xl">
                         Hello , Name Here 👋
                     </div>
                     <div className="text-zinc-500  font-semibold pt-1">Commission Percentage : 5%</div>
-                    <div className="w-full flex items-center md:gap-5  mt-3 gap-1">
-                      <div className="w-[170px] h-[170px] rounded-md bg-[#FFE2E5] flex flex-col ps-2">
+                    <div className="w-full flex items-center md:gap-5  mt-3 ">
+                      <div className="w-[170px] h-[170px] mx-1 rounded-md bg-[#FFE2E5] flex flex-col ps-2">
                         <div className="w-[40px] h-[40px] mt-2  rounded-full bg-[#FA5A7D] flex justify-center items-center">
                           <img src={img1} alt="" />
                         </div>
-                        <div className="pt-1 font-bold  text-2xl">$2k</div>
+                        <div className="pt-1 font-bold text-lg  md:text-2xl">$2k</div>
                         <div className="text-zinc-500 py-1 font-semibold">Total Balance</div>
-                        <div className="text-blue-600 pt-1">+8% from Last Month</div>
+                        <div className="text-blue-600 pt-1 text-sm">+8% from Last Month</div>
                       </div>
-                      <div className="w-[170px] h-[170px] rounded-md bg-[#FFF4DE] flex flex-col ps-2">
+                      <div className="w-[170px] h-[170px] mx-1 rounded-md bg-[#FFF4DE] flex flex-col ps-2">
                         <div className="w-[40px] h-[40px] mt-2  rounded-full bg-[#FA5A7D] flex justify-center items-center">
                           <img src={img1} alt="" />
                         </div>
-                        <div className="pt-1 font-bold  text-2xl">$2k</div>
+                        <div className="pt-1 font-bold text-lg md:text-2xl">$2k</div>
                         <div className="text-zinc-500 py-1 font-semibold">Total Balance</div>
-                        <div className="text-blue-600 pt-1">+8% from Last Month</div>
+                        <div className="text-blue-600 pt-1 text-sm">+8% from Last Month</div>
                       </div>
                     </div>
                 </div>
-                <div className="flex flex-col md:col-span-8  ">
+                <div className="flex flex-col sm:col-span-6 md:col-span-8  ">
                   {/* <div className="w-full flex items-center"></div> */}
                   <div className="md:w-[90%] w-[100%] mx-auto ">
                     <Graph />
