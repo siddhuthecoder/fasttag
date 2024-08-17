@@ -2,6 +2,7 @@ import React,{useState} from 'react'
 import img1 from '../../assets/sales.png'
 import Graph from './Graph'
 import DataTable from './DataTable'
+import AdminHeader from './AdminHeader'
 
 
 const Layout = () => {
@@ -16,6 +17,7 @@ const Layout = () => {
   };
   return (
     <>
+      <AdminHeader />
       <div className="w-full md:w-[80%] mx-auto mt-[70px]  my-2 flex justify-end">
         <select
           id="month"

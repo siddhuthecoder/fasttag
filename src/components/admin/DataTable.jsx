@@ -43,8 +43,8 @@ const TableWithPagination = ({ data, rowsPerPage }) => {
                 <td className="py-2 px-4 text-center text-nowrap ">
                   <div className={`rounded  w-[100px] mx-auto text-sm items-center-md ${item.planType === 'basic' ? 'bg-[#C2E8E7]' : item.planType === 'premium' ? 'bg-[#F2E5D3] ' : 'bg-[#D6CCF8]'} px-3 py-1 text-${item.planType === 'standard' ? '[#00B69B]' : item.type === 'basic' ? '[#F2A735]' : '[#6226EF]'}`}>{item.planType}</div>
                 </td>
-                <td className="py-2 px-4 text-center text-green-600 text-nowrap font-semibold">${item.amount}</td>
-                <td className="py-2 px-4 text-center font-semibold text-red-600 text-nowrap">${item.commission}</td>
+                <td className="py-2 px-4 text-center text-green-600 text-nowrap font-semibold">{item.amount}</td>
+                <td className="py-2 px-4 text-center font-semibold text-red-600 text-nowrap">{item.commission}</td>
                 <td className="py-2 px-4  text-nowrap flex flex-col text-right pe-1">
                   <div className="">{item.date.slice(0,10)}</div>
                   <div className="">{item.date.slice(11)}</div>
