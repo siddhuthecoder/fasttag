@@ -103,8 +103,8 @@ const Sarathi = () => {
               type="text"
               className="w-full px-3 min-h-[52px] rounded-md border"
               placeholder="Enter Driving License Number"
-              value={dlNumber}
-              onChange={(e) => setDlNumber(e.target.value)}
+              value={dlNumber.toUpperCase()}
+              onChange={(e) => setDlNumber(e.target.value.toUpperCase())}
               onKeyPress={handleKeyPress} // Add onKeyPress event
             />
             <div className="flex w-full mx-auto items-center bg-white rounded-md mt-3 relative">
