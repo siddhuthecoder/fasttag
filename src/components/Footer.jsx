@@ -31,7 +31,7 @@ const Footer = () => {
             <Link
               to={data.link}
               key={index}
-              className="text-zinc-400 mx-3 hover:text-white"
+              className={` ${index==0?"pt-2":""} text-zinc-400 mx-3 hover:text-white`}
             >
               {data.name}
             </Link>
