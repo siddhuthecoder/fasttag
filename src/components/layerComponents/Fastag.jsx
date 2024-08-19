@@ -17,7 +17,7 @@ const Fastag = () => {
   const dispatch = useDispatch();
 
   const tabs = [
-    { name: "Dashboard", link: "/" },
+    { name: "Dashboard", link: "/dashboard" },
     { name: "Fastag", link: "/fastag" },
     { name: "Vahan", link: "/vahan" },
     { name: "Sarathi", link: "/sarathi" },

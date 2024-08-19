@@ -146,7 +146,7 @@ const MyVehicle = () => {
   };
 
   const tabs = [
-    { name: "Dashboard", link: "/" },
+    { name: "Dashboard", link: "/dashboard" },
     {
       name: "Fastag",
       link: "/fastag",

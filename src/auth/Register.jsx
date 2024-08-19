@@ -145,7 +145,7 @@ const FillDetails = () => {
           </div>
           <button className="w-full rounded-md text-white md:text-2xl font-bold bg-[#8098F9] py-3" type="submit">SIGN UP</button>
           <div className="text-center">
-            Already have an account? <span className="text-[#8098F9] font-semibold cursor-pointer" onClick={() => navigate("/")}>Login</span>
+            Already have an account? <span className="text-[#8098F9] font-semibold cursor-pointer" onClick={() => navigate("/login")}>Login</span>
           </div>
         </form>
       </div>

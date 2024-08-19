@@ -29,6 +29,9 @@ import SearchHistory from './pages/SearchHistory';
 import TransactionHistory from './pages/TransactionHistory';
 import Layout from './components/admin/Layout';
 import Footer from './components/Footer';
+import Phone from './auth/Phone';
+import SelectType from './auth/SelectType';
+
 
 const App = () => {
   const navigate = useNavigate()
@@ -60,6 +63,7 @@ const App = () => {
                       <Route path="/" element={<Login />} />
                       <Route path="/layout" element={<Layout />} />
                       <Route path="/terms" element={<Terms/>}/>
+                      <Route path="/selectType" element={<SelectType />} />
                     {/* <Route path="/fillDetails" element={<Register />} />
                     <Route path="/register" element={<ForgetPassword />} />
                     <Route path="/newPassword" element={<NewPassword />} />
@@ -78,8 +82,8 @@ const App = () => {
               <Header2 />
               <Home>
                   <Routes>
-                    
-                    <Route path="/" element={<Login />} />
+                    <Route path="/" element={<Phone />} />
+                    <Route path="/login" element={<Login />} />
                     <Route path="/fillDetails" element={<Register />} />
                     <Route path="/register" element={<ForgetPassword />} />
                     <Route path="/newPassword" element={<NewPassword />} />
@@ -88,6 +92,7 @@ const App = () => {
                     <Route path='/privacy' element={<Policy/>}/>
                     <Route path='/contact' element={<Contact/>}/>
                     <Route path="/pricing" element={<Pricing />} />
+                    <Route path="/selectType" element={<SelectType />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
               </Home>

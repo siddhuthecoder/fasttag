@@ -17,7 +17,7 @@ const VahanId = () => {
   const pathName = location.pathname;
   const requestMade = useRef(false);
   const tabs = [
-    { name: "Dashboard", link: "/" },
+    { name: "Dashboard", link: "/dashboard" },
     {
       name: "Fastag",
       // component: <Fastag />,

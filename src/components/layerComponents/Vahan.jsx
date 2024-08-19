@@ -17,7 +17,7 @@ const Vahan = () => {
   const dispatch=useDispatch()
 
   const tabs = [
-    { name: "Dashboard", link: "/" },
+    { name: "Dashboard", link: "/dashboard" },
     {
       name: "Fastag",
       // component: <Fastag />,
