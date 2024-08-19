@@ -102,15 +102,18 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated && role === "Company" ) {
-      navigate("/dashboard");
+    if (isAuthenticated ) {
+      if(role === "Company"){
+        navigate("/dashboard")
+      }
+      else if (role == "Agent"){
+        navigate("/layout")
+      }
+      else{
+        navigate("/selectType")
+      }
     }
-    else if(isAuthenticated && role === "Agent"){
-      navigate("/layout")
-    }
-    else{
-      navigate("/selectType")
-    }
+   
   }, [isAuthenticated, navigate]);
 
   if (loading) {
