@@ -23,7 +23,7 @@ const Footer = () => {
   ];
 
   return (
-    <div className="flex flex-col w-full bg-blue-900 md:fixed md:bottom-0 text-white py-6">
+    <div className="flex flex-col mt-3 w-full bg-blue-900 md:fixed md:bottom-0 text-white py-6">
       <div className="flex flex-col items-center justify-center mb-4">
         <img src={logo} alt="Logo" className="mb-3" width={50} height={50} />
         <div className="flex flex-col items-center space-y-2">
