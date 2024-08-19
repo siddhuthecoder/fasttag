@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import FormLayer from '../components/FormLayer';
 import { MdOutlinePhone } from 'react-icons/md';
 import axios from 'axios';
+import Footer from './../components/Footer';
 
 const Phone = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -39,7 +40,7 @@ const Phone = () => {
   };
 
   return (
-    <FormLayer>
+    <><FormLayer>
       <div className="flex w-[90%] max-w-[400px] mx-auto flex-col">
         <div className="font-bold text-2xl md:text-[40px]">Enter Phone</div>
         <p className="text-[#71717A] pt-3 md:text-[20px]">Enter phone number to get started</p>
@@ -52,8 +53,7 @@ const Phone = () => {
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               className="w-[100%] mx-auto bg-[#EAEFFF] rounded-md border ps-[36px] border-[#B5C3FB] h-[50px]"
-              placeholder="Phone Number"
-            />
+              placeholder="Phone Number" />
           </div>
           <button
             type="submit"
@@ -63,7 +63,7 @@ const Phone = () => {
           </button>
         </form>
       </div>
-    </FormLayer>
+    </FormLayer><Footer /></>
   );
 };
 

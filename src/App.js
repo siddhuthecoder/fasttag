@@ -76,7 +76,7 @@ const App = () => {
                     <Route path="/otp" element={<OTPForm />} /> */}
                   </Routes>
               </Home>
-              <Footer />
+              { /* <Footer /> */}
           </main>):(
             <main>
               <Header2 />
@@ -96,7 +96,7 @@ const App = () => {
                     <Route path="*" element={<NotFound />} />
                   </Routes>
               </Home>
-              <Footer />
+             { /* <Footer /> */}
             </main>
           )
         

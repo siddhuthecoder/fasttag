@@ -7,6 +7,7 @@ import FormLayer from '../components/FormLayer';
 import axios from 'axios';
 import { signInStart, signInSuccess, signInFailure } from '../store/authSlice';
 import { useLocation } from 'react-router-dom';
+import Footer from '../components/Footer';
 
 const Login = () => {
   const location = useLocation();
@@ -185,6 +186,7 @@ const Login = () => {
           </form>
         </div>
       </FormLayer>
+      <Footer/>
     </>
   );
 };
