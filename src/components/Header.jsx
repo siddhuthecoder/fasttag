@@ -27,10 +27,12 @@
     const location = useLocation()
     const pathName = location.pathname
 
+    
     const handleLogout = () => {
+      localStorage.removeItem('role'); // Remove the 'role' from localStorage
       dispatch(signOut()); // Dispatch the signOut action
-      navigate('/');  // Redirect to the login page after logout
-    }
+      navigate('/'); // Redirect to the login page after logout
+    };
 
     const toggleMenu = () => {
       setIsMenuOpen(!isMenuOpen);
