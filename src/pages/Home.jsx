@@ -5,7 +5,7 @@ import MainLayout from '../components/MainLayout'
 const Home = ({children}) => {
   return (
     <>
-      <div className="w-full ">
+      <div className="w-full  h-screen overflow-y-scroll ">
         {children}  
       </div>
     </>
