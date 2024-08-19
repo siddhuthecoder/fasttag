@@ -28,6 +28,7 @@ import Header2 from './components/Header2';
 import SearchHistory from './pages/SearchHistory';
 import TransactionHistory from './pages/TransactionHistory';
 import Layout from './components/admin/Layout';
+import Footer from './components/Footer';
 
 const App = () => {
   const navigate = useNavigate()
@@ -67,6 +68,7 @@ const App = () => {
                     <Route path="/otp" element={<OTPForm />} /> */}
                   </Routes>
               </Home>
+              <Footer />
           </main>):(
             <main>
               <Header2 />
@@ -85,6 +87,7 @@ const App = () => {
                     <Route path="*" element={<NotFound />} />
                   </Routes>
               </Home>
+              <Footer />
             </main>
           )
         
