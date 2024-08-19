@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import './styles.css'; // Ensure to import your CSS here
 import { FaPlus, FaMinus } from 'react-icons/fa';
-
 const FAQAccordion = () => {
   const accordionsData = [
     {

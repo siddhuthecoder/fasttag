@@ -40,7 +40,7 @@ const Layout = () => {
                     <div className="w-full text-lg font-bold  md:text-4xl">
                         Hello , Name Here 👋
                     </div>
-                    <div className="text-zinc-500  font-semibold pt-1">Commission Percentage : 5%</div>
+                    <div className="text-zinc-500  font-semibold md:py-5  py-3 ">Commission Percentage : 5%</div>
                     <div className="w-full flex items-center md:gap-5  mt-3 ">
                       <div className="w-[170px] h-[170px] mx-1 rounded-md bg-[#FFE2E5] flex flex-col ps-2">
                         <div className="w-[40px] h-[40px] mt-2  rounded-full bg-[#FA5A7D] flex justify-center items-center">
