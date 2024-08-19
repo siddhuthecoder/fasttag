@@ -40,10 +40,10 @@ const TableWithPagination = ({ data, rowsPerPage }) => {
           <tbody>
             {currentData.map((item,index) => (
               <tr key={item.id} className="border-b bg-[#F2F5FA]">
-                <td className="py-2 px-4 text-center text-nowrap">{index+1}</td>
+                <td className="py-2 px-4 text-center text-nowrap">{index+1  }</td>
                 <td className="py-2 px-4 text-center text-nowrap">{item.companyName}</td>
                 <td className="py-2 px-4 text-center text-nowrap ">
-                  <div className={`rounded  w-[100px] mx-auto text-sm items-center-md ${item.planType === 'basic' ? 'bg-[#C2E8E7]' : item.planType === 'premium' ? 'bg-[#F2E5D3] ' : 'bg-[#D6CCF8]'} px-3 py-1 text-${item.planType === 'standard' ? '[#00B69B]' : item.type === 'basic' ? '[#F2A735]' : '[#6226EF]'}`}>{item.planType}</div>
+                  <div className={`rounded  w-[100px] mx-auto text-sm items-center-md ${item.planType === 'Basic' ? 'bg-[#C2E8E7] text-[]' : item.planType === 'Premium' ? 'bg-[#F2E5D3] ' : 'bg-[#D6CCF8]'} px-3 py-1 text-${item.planType === 'Standard' ? '[#00B69B]' : item.type === 'Basic' ? '[#F2A735]' : '[#6226EF]'}`}>{item.planType}</div>
                 </td>
                 <td className="py-2 px-4 text-center text-green-600 text-nowrap font-semibold">{item.amount}</td>
                 <td className="py-2 px-4 text-center font-semibold text-red-600 text-nowrap">{item.commission}</td>
@@ -84,168 +84,168 @@ const TableWithPagination = ({ data, rowsPerPage }) => {
 const data = [
   {
     companyName: "TechCorp Inc.",
-    planType: "basic", // basic
+    planType: "Basic", // Basic
     amount: "$100",
     commission: "10%",
     date: "2024-08-01T08:30:00",
   },
   {
     companyName: "Innovate Solutions",
-    planType: "standard", // standard
+    planType: "Standard", // Standard
     amount: "$250",
     commission: "15%",
     date: "2024-08-02T09:45:00",
   },
   {
     companyName: "Future Enterprises",
-    planType: "premium", // premium
+    planType: "Premium", // Premium
     amount: "$500",
     commission: "20%",
     date: "2024-08-03T11:15:00",
   },
   {
     companyName: "Global Tech",
-    planType: "basic", // basic
+    planType: "Basic", // Basic
     amount: "$120",
     commission: "10%",
     date: "2024-08-04T14:00:00",
   },
   {
     companyName: "Visionary Systems",
-    planType: "standard", // standard
+    planType: "Standard", // Standard
     amount: "$280",
     commission: "15%",
     date: "2024-08-05T10:20:00",
   },
   {
     companyName: "Pioneer Labs",
-    planType: "premium", // premium
+    planType: "Premium", // Premium
     amount: "$550",
     commission: "20%",
     date: "2024-08-06T12:45:00",
   },
   {
     companyName: "NextGen Software",
-    planType: "basic", // basic
+    planType: "Basic", // Basic
     amount: "$130",
     commission: "10%",
     date: "2024-08-07T15:30:00",
   },
   {
     companyName: "Advanced Technologies",
-    planType: "standard", // standard
+    planType: "Standard", // Standard
     amount: "$300",
     commission: "15%",
     date: "2024-08-08T17:10:00",
   },
   {
     companyName: "Innovators Hub",
-    planType: "premium", // premium
+    planType: "Premium", // Premium
     amount: "$600",
     commission: "20%",
     date: "2024-08-09T19:00:00",
   },
   {
     companyName: "TechFusion",
-    planType: "basic", // basic
+    planType: "Basic", // Basic
     amount: "$110",
     commission: "10%",
     date: "2024-08-10T08:45:00",
   },
   {
     companyName: "BrightFuture Inc.",
-    planType: "standard", // standard
+    planType: "Standard", // Standard
     amount: "$270",
     commission: "15%",
     date: "2024-08-11T09:55:00",
   },
   {
     companyName: "Eagle Enterprises",
-    planType: "premium", // premium
+    planType: "Premium", // Premium
     amount: "$520",
     commission: "20%",
     date: "2024-08-12T11:25:00",
   },
   {
     companyName: "Quantum Solutions",
-    planType: "basic", // basic
+    planType: "Basic", // Basic
     amount: "$140",
     commission: "10%",
     date: "2024-08-13T13:35:00",
   },
   {
     companyName: "Inspire Technologies",
-    planType: "standard", // standard
+    planType: "Standard", // Standard
     amount: "$290",
     commission: "15%",
     date: "2024-08-14T15:50:00",
   },
   {
     companyName: "Synergy Labs",
-    planType: "premium", // premium
+    planType: "Premium", // Premium
     amount: "$580",
     commission: "20%",
     date: "2024-08-15T17:20:00",
   },
   {
     companyName: "Vertex Innovations",
-    planType: "basic", // basic
+    planType: "Basic", // Basic
     amount: "$150",
     commission: "10%",
     date: "2024-08-16T18:45:00",
   },
   {
     companyName: "Apex Systems",
-    planType: "standard", // standard
+    planType: "Standard", // Standard
     amount: "$310",
     commission: "15%",
     date: "2024-08-17T19:55:00",
   },
   {
     companyName: "NexGen Tech",
-    planType: "premium", // premium
+    planType: "Premium", // Premium
     amount: "$590",
     commission: "20%",
     date: "2024-08-18T20:30:00",
   },
   {
     companyName: "Core Innovations",
-    planType: "basic", // basic
+    planType: "Basic", // Basic
     amount: "$160",
     commission: "10%",
     date: "2024-08-19T08:10:00",
   },
   {
     companyName: "Future Tech Solutions",
-    planType: "standard", // standard
+    planType: "Standard", // Standard
     amount: "$330",
     commission: "15%",
     date: "2024-08-20T09:25:00",
   },
   {
     companyName: "Pioneer Technologies",
-    planType: "premium", // premium
+    planType: "Premium", // Premium
     amount: "$600",
     commission: "20%",
     date: "2024-08-21T10:50:00",
   },
   {
     companyName: "TechAdvance",
-    planType: "basic", // basic
+    planType: "Basic", // Basic
     amount: "$170",
     commission: "10%",
     date: "2024-08-22T11:45:00",
   },
   {
     companyName: "Elite Innovations",
-    planType: "standard", // standard
+    planType: "Standard", // Standard
     amount: "$340",
     commission: "15%",
     date: "2024-08-23T13:30:00",
   },
   {
     companyName: "Global Vision",
-    planType: "premium", // premium
+    planType: "Premium", // Premium
     amount: "$610",
     commission: "20%",
     date: "2024-08-24T15:05:00",

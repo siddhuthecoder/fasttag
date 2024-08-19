@@ -144,14 +144,14 @@
                 <div className="w-full flex items-center mb-4 justify-between">
                   <div className="flex mt-2 items-center">
                     <img src={logo} alt="Logo" className=" scale-[0.6] cursor-pointer " width={80} />
-                    <div className=" font-semibold text-[#5E81F4]   text-1xl">{user.name}</div>
+                    {/* <div className=" font-semibold text-[#5E81F4]   text-1xl">{user.name}</div> */}
                   </div>
                   <MdOutlineClose className="text-5xl m-2 text-red-500" onClick={toggleMenu} />
                 </div>
                 <div className="flex w-[70%] flex-col ps-2 divide-y">
                   {
                     tabs.map((data) => (
-                      <Link to={data.link} className="font-semibold mt-2 ps-3 hover:text-[#5E81F4]" onClick={toggleMenu}>{data.name}</Link>
+                      <Link to={data.link} className="font-semibold mt-2 p-3  ps-3 hover:text-[#5E81F4]" onClick={toggleMenu}>{data.name}</Link>
                     ))
                   }
                   {/* <div className="font-semibold mt-2 ps-3 hover:text-[#5E81F4]" onClick={toggleMenu}> <Link to='Privacy' >Privacy Policy </Link></div>

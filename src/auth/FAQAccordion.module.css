@@ -6,7 +6,6 @@
     --color-title: #242e4c;
     --color-background: #f7f8fb;
     --color-border: #dae1f5;
-
     --font-family: "Satoshi", sans-serif;
     --fs-sm: 1.4rem;
     --fs-md: 1.6rem;
@@ -14,11 +13,9 @@
     --fw-regular: 400;
     --fw-medium: 500;
     --fw-bold: 700;
-
     --transition: 0.4s ease-in-out;
     --shadow: 0px 60px 56px -12px rgba(9, 40, 163, 0.05);
 }
-
 .container {
     width: 100%;
     margin: auto;
