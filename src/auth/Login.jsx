@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import FormLayer from '../components/FormLayer';
 import axios from 'axios';
 import { signInStart, signInSuccess, signInFailure } from '../store/authSlice';
-import RoleSelectionModal from '../components/share/RoleSelectionModal';
 import { useLocation } from 'react-router-dom';
 import Footer from '../components/Footer';
 
@@ -21,7 +20,6 @@ const Login = () => {
     phone: "",
     password: ""
   });
-  const [showModal, setShowModal] = useState(false); // State to control modal visibility
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -44,6 +42,7 @@ const Login = () => {
 
   }, [location]);
 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData((prevData) => ({
@@ -54,6 +53,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(data);
     dispatch(signInStart());
 
     try {
@@ -81,12 +81,17 @@ const Login = () => {
             }
             setData({ phone: '', password: '' });
 
-            // Show modal if role is not Company or Agent
-            if (role !== 'Company' && role !== 'Agent') {
-              setShowModal(true);
-            } else {
-              navigateBasedOnRole(role);
+            // Navigate based on role type
+            if(role == "Company"){
+              navigate("/selectType")
             }
+            else if(role=="Agent"){
+              navigate("layout")
+            }
+            else if (role ==="both"){
+              navigate("/selectType")
+            }
+            
         }
     } catch (error) {
         console.error('Error:', error.message);
@@ -97,19 +102,19 @@ const Login = () => {
     }
   };
 
-  const navigateBasedOnRole = (role) => {
-    if (role === 'Company') {
-      navigate('/dashboard');
-    } else if (role === 'Agent') {
-      navigate('/layout');
-    }
-  };
-
   useEffect(() => {
-    if (isAuthenticated && role) {
-      navigateBasedOnRole(role);
+    if(isAuthenticated){
+      if(role === "Company"){
+        navigate("/selectType")
+      }
+      else if(role === "Agent"){
+        navigate("/layout")
+      }
+      else if (role === "both"){
+        navigate("/selectType")
+      }
     }
-  }, [isAuthenticated, navigate, role]);
+  }, [isAuthenticated, navigate]);
 
   if (loading) {
     return (
@@ -180,7 +185,7 @@ const Login = () => {
           </form>
         </div>
       </FormLayer>
-      <Footer/>
+      <Footer />
     </>
   );
 };

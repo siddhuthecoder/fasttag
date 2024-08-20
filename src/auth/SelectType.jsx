@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import img1 from '../assets/com.png'
+import img2 from '../assets/agent.png'
 
 const SelectType = () => {
   const navigate = useNavigate();
@@ -14,14 +16,14 @@ const SelectType = () => {
   };
 
   return (
-    <div className="flex justify-center items-center w-full h-screen bg-gray-100">
+    <div className="flex justify-center absolute left-0 top-0 items-center w-full h-screen z-[1000000] fiex top-0 bg-white">
       <div className="flex space-x-8">
         <div
           onClick={() => handleSelection('company')}
           className="w-64 h-80 bg-white rounded-lg shadow-lg cursor-pointer flex flex-col justify-center items-center hover:shadow-xl transition-shadow duration-300"
         >
           <img
-            src="https://via.placeholder.com/150"
+            src={img1}
             alt="Company"
             className="w-32 h-32 mb-4"
           />
@@ -33,7 +35,7 @@ const SelectType = () => {
           className="w-64 h-80 bg-white rounded-lg shadow-lg cursor-pointer flex flex-col justify-center items-center hover:shadow-xl transition-shadow duration-300"
         >
           <img
-            src="https://via.placeholder.com/150"
+            src={img2}
             alt="Agent"
             className="w-32 h-32 mb-4"
           />
