@@ -103,7 +103,7 @@ const Phone = () => {
             <div className="grid grid-cols-2 gap-4">
               <button
                 onClick={() => handleRoleSelection('Company')}
-                className="flex flex-col items-center justify-center max-w-[150px] h-[150px] bg-gray-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
+                className="flex flex-col items-center justify-center max-w-[150px] h-[150px]  hover:bg-[#5E81F4] hover:text-white  duration-150 bg-gray-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
               >
                 <img
                   src={Company}
@@ -114,7 +114,7 @@ const Phone = () => {
               </button>
               <button
                 onClick={() => handleRoleSelection('Agent')}
-                className="flex flex-col items-center justify-center max-w-[150px] h-[150px]  bg-gray-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
+                className="flex flex-col items-center justify-center max-w-[150px]  duration-150 hover:bg-[#5E81F4] hover:text-white h-[150px]  bg-gray-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
               >
                 <img
                   src={Agent}
