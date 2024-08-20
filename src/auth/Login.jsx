@@ -82,14 +82,16 @@ const Login = () => {
             setData({ phone: '', password: '' });
 
             // Navigate based on role type
+            // alert(role);
             if(role == "Company"){
-              navigate("/selectType")
+              navigate("/dashboard")
             }
             else if(role=="Agent"){
-              navigate("layout")
+              navigate("/layout")
             }
-            else if (role ==="both"){
-              navigate("/selectType")
+            else{
+            
+              alert("There is something error siddhu1")
             }
             
         }
@@ -102,19 +104,25 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
-    if(isAuthenticated){
-      if(role === "Company"){
-        navigate("/selectType")
-      }
-      else if(role === "Agent"){
-        navigate("/layout")
-      }
-      else if (role === "both"){
-        navigate("/selectType")
-      }
-    }
-  }, [isAuthenticated, navigate]);
+  // useEffect(() => {
+  //    // Retrieve role from localStorage
+  //   //  const storedRole = localStorage.getItem('role');
+  //   //  setRole(storedRole);
+ 
+  //   if (isAuthenticated ) {
+  //     if(role == "Company"){
+  //       navigate("/dashboard")
+  //     }
+  //     else if (role == "Agent"){
+  //       navigate("/dashboard")
+  //     }
+  //     else{
+  //       // navigate("/selectType")
+  //       alert("There is something error 1")
+  //     }
+  //   }
+   
+  // }, [isAuthenticated, navigate]);
 
   if (loading) {
     return (
@@ -185,7 +193,7 @@ const Login = () => {
           </form>
         </div>
       </FormLayer>
-      <Footer />
+      <Footer/>
     </>
   );
 };

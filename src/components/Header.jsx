@@ -29,7 +29,9 @@
 
     
     const handleLogout = () => {
-      localStorage.removeItem('role'); // Remove the 'role' from localStorage
+      localStorage.removeItem('role');
+      localStorage.removeItem('plan')
+      localStorage.removeItem('userID') // Remove the 'role' from localStorage
       dispatch(signOut()); // Dispatch the signOut action
       navigate('/'); // Redirect to the login page after logout
     };
