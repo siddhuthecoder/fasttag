@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import FormLayer from '../components/FormLayer';
 import axios from 'axios';
 import { signInStart, signInSuccess, signInFailure } from '../store/authSlice';
+import RoleSelectionModal from '../components/share/RoleSelectionModal';
 import { useLocation } from 'react-router-dom';
 
 const Login = () => {
@@ -19,6 +20,7 @@ const Login = () => {
     phone: "",
     password: ""
   });
+  const [showModal, setShowModal] = useState(false); // State to control modal visibility
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -41,7 +43,6 @@ const Login = () => {
 
   }, [location]);
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData((prevData) => ({
@@ -52,7 +53,6 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(data);
     dispatch(signInStart());
 
     try {
@@ -80,17 +80,12 @@ const Login = () => {
             }
             setData({ phone: '', password: '' });
 
-            // Navigate based on role type
-            if(role == "Company"){
-              navigate("/dashboard")
+            // Show modal if role is not Company or Agent
+            if (role !== 'Company' && role !== 'Agent') {
+              setShowModal(true);
+            } else {
+              navigateBasedOnRole(role);
             }
-            else if(role=="Agent"){
-              navigate("layout")
-            }
-            else{
-              navigate("/selectType")
-            }
-            
         }
     } catch (error) {
         console.error('Error:', error.message);
@@ -101,20 +96,19 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
-    if (isAuthenticated ) {
-      if(role === "Company"){
-        navigate("/dashboard")
-      }
-      else if (role == "Agent"){
-        navigate("/layout")
-      }
-      else{
-        navigate("/selectType")
-      }
+  const navigateBasedOnRole = (role) => {
+    if (role === 'Company') {
+      navigate('/dashboard');
+    } else if (role === 'Agent') {
+      navigate('/layout');
     }
-   
-  }, [isAuthenticated, navigate]);
+  };
+
+  useEffect(() => {
+    if (isAuthenticated && role) {
+      navigateBasedOnRole(role);
+    }
+  }, [isAuthenticated, navigate, role]);
 
   if (loading) {
     return (
@@ -185,6 +179,9 @@ const Login = () => {
           </form>
         </div>
       </FormLayer>
+
+      {/* Render the modal */}
+      <RoleSelectionModal isOpen={showModal} onClose={() => setShowModal(false)} />
     </>
   );
 };
