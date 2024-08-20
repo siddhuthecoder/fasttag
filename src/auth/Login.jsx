@@ -8,6 +8,7 @@ import axios from 'axios';
 import { signInStart, signInSuccess, signInFailure } from '../store/authSlice';
 import RoleSelectionModal from '../components/share/RoleSelectionModal';
 import { useLocation } from 'react-router-dom';
+import Footer from '../components/Footer';
 
 const Login = () => {
   const location = useLocation();
@@ -179,9 +180,7 @@ const Login = () => {
           </form>
         </div>
       </FormLayer>
-
-      {/* Render the modal */}
-      <RoleSelectionModal isOpen={showModal} onClose={() => setShowModal(false)} />
+      <Footer/>
     </>
   );
 };

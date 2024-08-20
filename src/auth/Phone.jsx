@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import FormLayer from '../components/FormLayer';
 import { MdOutlinePhone } from 'react-icons/md';
 import axios from 'axios';
+import Footer from './../components/Footer';
 
 const Phone = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -62,7 +63,7 @@ const Phone = () => {
           </button>
         </form>
       </div>
-    </FormLayer></>
+    </FormLayer><Footer /></>
   );
 };
 
