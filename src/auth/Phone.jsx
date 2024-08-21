@@ -49,12 +49,10 @@ const Phone = () => {
           } else {
             navigate(`/login?phone=${phoneNumber}`);
           }
-        } else {
-          alert('Failed to fetch the user role.');
         }
       } catch (error) {
         console.error('Error fetching user role:', error);
-        alert('An error occurred while fetching the user role.');
+        alert(`${error.response?.data.error}` );
       }
     } else {
       alert('Please enter a valid 10-digit phone number.');
@@ -97,13 +95,13 @@ const Phone = () => {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg max-w-[90%] md:max-w-md mx-auto">
+        <div className="fixed w-full inset-0 bg-black bg-opacity-50 flex items-center z-[100] justify-center">
+          <div className="bg-white p-6 rounded-lg w-[90%] max-w-[400px] z-[100000] mx-auto">
             <h2 className="text-xl font-bold mb-4 text-center">Select Your Role</h2>
-            <div className="flex justify-around items-center">
+            <div className="grid grid-cols-2 gap-4">
               <button
                 onClick={() => handleRoleSelection('Company')}
-                className="flex flex-col items-center justify-center bg-gray-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
+                className="flex flex-col items-center justify-center max-w-[150px] h-[150px] bg-gray-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
               >
                 <img
                   src={Company}
@@ -114,7 +112,7 @@ const Phone = () => {
               </button>
               <button
                 onClick={() => handleRoleSelection('Agent')}
-                className="flex flex-col items-center justify-center bg-gray-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
+                className="flex flex-col items-center justify-center max-w-[150px] h-[150px]  bg-gray-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
               >
                 <img
                   src={Agent}
