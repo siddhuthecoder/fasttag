@@ -91,12 +91,13 @@ const Login = () => {
             }
             else{
             
-              alert("There is something error siddhu1")
+              alert("Try Again")
             }
             
         }
     } catch (error) {
-        console.error('Error:', error.message);
+      // console.log(error)
+        alert( error.response?.data?.error);
         setError(error.response?.data?.message || 'An error occurred');
         dispatch(signInFailure(error.response?.data || 'An error occurred'));
     } finally {
