@@ -6,7 +6,7 @@ import axios from 'axios';
 import Footer from './../components/Footer';
 import { useSelector } from 'react-redux';
 import Company from '../assets/company.png';
-import Agent from '../assets/agent.png'
+import Agent from '../assets/Agent.png'
 
 const Phone = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -38,6 +38,7 @@ const Phone = () => {
       try {
         const response = await axios.post('https://fastagtracking.com/customulip/getUserRole', {
           phone: phoneNumber,
+          
         });
 
         if (response.status === 200) {
@@ -52,7 +53,7 @@ const Phone = () => {
         }
       } catch (error) {
         console.error('Error fetching user role:', error);
-        alert(`${error.response?.data.error}` );
+        alert(error);
       }
     } else {
       alert('Please enter a valid 10-digit phone number.');
@@ -89,6 +90,12 @@ const Phone = () => {
             >
               SUBMIT
             </button>
+            <div className="text-center">
+              Don't have an account?{' '}
+              <span className="text-[#8098F9] font-semibold cursor-pointer" onClick={() => navigate('/register')}>
+                Create an account
+              </span>
+            </div>
           </form>
         </div>
       </FormLayer>
@@ -101,7 +108,7 @@ const Phone = () => {
             <div className="grid grid-cols-2 gap-4">
               <button
                 onClick={() => handleRoleSelection('Company')}
-                className="flex flex-col items-center justify-center bg-gray-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
+                className="flex flex-col items-center justify-center max-w-[150px] h-[150px] bg-gray-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
               >
                 <img
                   src={Company}
@@ -112,7 +119,7 @@ const Phone = () => {
               </button>
               <button
                 onClick={() => handleRoleSelection('Agent')}
-                className="flex flex-col items-center justify-center bg-gray-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
+                className="flex flex-col items-center justify-center max-w-[150px] h-[150px]  bg-gray-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
               >
                 <img
                   src={Agent}

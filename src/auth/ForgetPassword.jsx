@@ -41,6 +41,12 @@ const Register = () => {
           >
             GET OTP
           </button>
+          <div className="text-center">
+              Already have an account?{' '}
+              <span className="text-[#8098F9] font-semibold cursor-pointer" onClick={() => navigate('/')}>
+                login 
+              </span>
+            </div>
         </form>
       </div>
     </FormLayer>

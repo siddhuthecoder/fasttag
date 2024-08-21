@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./price.css";
 import axios from "axios";
-import img from '../../assets/logo.jpg'
+import img from '../../assets/logo.jpg';
+import { useSelector } from 'react-redux';
+
 const Price = () => {
   const [plans, setPlans] = useState([]);
   const [selectedPlanTypes, setSelectedPlanTypes] = useState({});
+  const isAuthenticated = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,9 +43,14 @@ const Price = () => {
   const calculateDiscount = (actualPrice, offerPrice) => {
     const discount = ((actualPrice - offerPrice) / actualPrice) * 100;
     return Math.round(discount);
-  };
+  };    
 
   const handleGetStarted = async (planName) => {
+    if (!isAuthenticated) {
+      alert("Please create your account first or Login with Your account.");
+      return;
+    }
+
     const selectedType = selectedPlanTypes[planName];
     const companyId = localStorage.getItem("userID");
 
@@ -57,7 +65,7 @@ const Price = () => {
       }
 
       const orderData = {
-        amount: product.offerprice * 100, // Razorpay accepts amount in paisa
+        amount: product.offerprice * 100, 
         currency: "INR",
         receipt: `receipt_${product._id}`,
         partial_payment: false,
@@ -80,15 +88,13 @@ const Price = () => {
           },
         }
       );
-
       const order = response.data;
-
       const options = {
         key: process.env.REACT_APP_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: "INR",
         name: 'Fastagtracking',
-        image:'https://fastagtracking.com/static/media/logo2.c6341f740d920f8131f9.png',
+        image: 'https://fastagtracking.com/static/media/logo2.c6341f740d920f8131f9.png',
         description: product.name,
         order_id: order.id,
         handler: async function (response) {
@@ -119,7 +125,7 @@ const Price = () => {
               const { maxApiHit, apiHit } = userResponse.data;
 
               // Update the API hits
-              const newMaxApiHit = (maxApiHit-apiHit) + product.apiHitLimit;
+              const newMaxApiHit = (maxApiHit - apiHit) + product.apiHitLimit;
               const newApiHit = apiHit + product.apiHitLimit;
 
               await axios.put(

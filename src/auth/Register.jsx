@@ -12,12 +12,12 @@ const FillDetails = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [otp, setOtp] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [termsAccepted, setTermsAccepted] = useState(false); // State for terms and conditions
+  const [agentPhoneNumber, setAgentPhoneNumber] = useState(''); // New state for agent phone number
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    // Extract the phone number and OTP from the query parameters
     const searchParams = new URLSearchParams(location.search);
     const phone = searchParams.get('phone');
     const otpFromParams = searchParams.get('otp');
@@ -46,11 +46,12 @@ const FillDetails = () => {
       phone: phoneNumber,
       password,
       otp,
-      vehicleNumbers: [],
+      vehicleNumbers: [], // Empty array
       plan: '66b596f6e999e25b6217b388',
       expiryDate: expireDate.toISOString(),
       maxApiHit: 10,
       apiHit: 0,
+      agentPhone: agentPhoneNumber || undefined, // Include only if provided
     };
 
     try {
@@ -67,13 +68,8 @@ const FillDetails = () => {
       }
 
       const data = await response.json();
-      // Handle the response data as needed
       console.log('API response:', data);
-
-      // Show success alert message
       alert('Registration successful! Login with Your Password');
-      
-      // Optionally, redirect to another page
       navigate('/'); // Redirect to a success page or another route
 
     } catch (error) {
@@ -102,10 +98,9 @@ const FillDetails = () => {
           <div className="flex items-center">
             <MdOutlinePhone className="text-2xl me-[-36px] z-[1] text-[#71717A]" />
             <input
-              
               value={phoneNumber}
               className="w-[100%] mx-auto bg-[#EAEFFF] rounded-md border ps-[36px] border-[#B5C3FB] h-[50px]"
-              placeholder="phone"
+              placeholder="Phone"
               readOnly
             />
           </div>
@@ -129,16 +124,26 @@ const FillDetails = () => {
               placeholder="Confirm Password"
             />
           </div>
+          <div className="flex items-center relative">
+            <MdOutlinePhone className="text-2xl me-[-36px] z-[1] text-[#71717A]" />
+            <input
+              type="text"
+              value={agentPhoneNumber}
+              onChange={(e) => setAgentPhoneNumber(e.target.value)}
+              className="w-[100%] mx-auto bg-[#EAEFFF] rounded-md border ps-[36px] border-[#B5C3FB] h-[50px]"
+              placeholder="Agent Phone (optional)"
+            />
+          </div>
           <div className="full flex items-center justify-between">
             <div className="flex items-center ">
               <input
                 type="checkbox"
-                id="remember-me"
+                id="terms-conditions"
                 checked={termsAccepted}
                 onChange={(e) => setTermsAccepted(e.target.checked)}
                 className="mr-2"
               />
-              <label htmlFor="remember-me" className="text-[#71717A]">
+              <label htmlFor="terms-conditions" className="text-[#71717A]">
                 Accept <span className="text-[#8098F9] font-semibold">terms and conditions</span>
               </label>
             </div>
