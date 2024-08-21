@@ -8,6 +8,8 @@ import axios from 'axios';
 import { signInStart, signInSuccess, signInFailure } from '../store/authSlice';
 import { useLocation } from 'react-router-dom';
 import Footer from '../components/Footer';
+import toast from 'react-hot-toast';
+
 
 const Login = () => {
   const location = useLocation();
@@ -80,7 +82,7 @@ const Login = () => {
                 }
             }
             setData({ phone: '', password: '' });
-
+            toast.success("login successful")
             // Navigate based on role type
             // alert(role);
             if(role == "Company"){
@@ -100,6 +102,7 @@ const Login = () => {
         alert( error.response?.data?.error);
         setError(error.response?.data?.message || 'An error occurred');
         dispatch(signInFailure(error.response?.data || 'An error occurred'));
+        toast.error("error while login")
     } finally {
         setLoading(false);
     }

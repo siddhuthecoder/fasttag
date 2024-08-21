@@ -7,7 +7,7 @@ import Footer from './../components/Footer';
 import { useSelector } from 'react-redux';
 import Company from '../assets/company.png';
 import Agent from '../assets/agent.png'
-
+import toast from 'react-hot-toast';
 const Phone = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -39,8 +39,9 @@ const Phone = () => {
         const response = await axios.post('https://fastagtracking.com/customulip/getUserRole', {
           phone: phoneNumber,
         });
-
+        
         if (response.status === 200) {
+          toast.success("success");
           const { role } = response.data;
           localStorage.setItem('role', role);
 
@@ -51,6 +52,7 @@ const Phone = () => {
           }
         }
       } catch (error) {
+        toast.error(error.message())
         console.error('Error fetching user role:', error);
         alert(`${error.response?.data.error}` );
       }
