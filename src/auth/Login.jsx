@@ -8,8 +8,6 @@ import axios from 'axios';
 import { signInStart, signInSuccess, signInFailure } from '../store/authSlice';
 import { useLocation } from 'react-router-dom';
 import Footer from '../components/Footer';
-import toast from 'react-hot-toast';
-
 
 const Login = () => {
   const location = useLocation();
@@ -87,31 +85,9 @@ const Login = () => {
           const plans = plansResponse.data;
           const userPlan = plans.find((p) => p._id === plan);
 
-<<<<<<< HEAD
           if (userPlan) {
             localStorage.setItem('plan', userPlan.name);
           }
-=======
-                if (userPlan) {
-                    localStorage.setItem('plan', userPlan.name);
-                }
-            }
-            setData({ phone: '', password: '' });
-            toast.success("login successful")
-            // Navigate based on role type
-            // alert(role);
-            if(role == "Company"){
-              navigate("/dashboard")
-            }
-            else if(role=="Agent"){
-              navigate("/layout")
-            }
-            else{
-            
-              alert("Try Again")
-            }
-            
->>>>>>> b6149659661718f8170411338ed6e358ae0c6849
         }
         setData({ phone: '', password: '' });
 
@@ -125,17 +101,9 @@ const Login = () => {
         }
       }
     } catch (error) {
-<<<<<<< HEAD
       alert(error.response?.data?.error);
       setError(error.response?.data?.message || 'An error occurred');
       dispatch(signInFailure(error.response?.data || 'An error occurred'));
-=======
-      // console.log(error)
-        alert( error.response?.data?.error);
-        setError(error.response?.data?.message || 'An error occurred');
-        dispatch(signInFailure(error.response?.data || 'An error occurred'));
-        toast.error("error while login")
->>>>>>> b6149659661718f8170411338ed6e358ae0c6849
     } finally {
       setLoading(false);
     }

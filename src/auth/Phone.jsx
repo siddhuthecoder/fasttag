@@ -6,13 +6,9 @@ import axios from 'axios';
 import Footer from './../components/Footer';
 import { useSelector } from 'react-redux';
 import Company from '../assets/company.png';
-<<<<<<< HEAD
-import Agent from '../assets/Agent.png'
+import Agent from '../assets/Agent.png';
+import { MdClose } from 'react-icons/md'; // Import the close icon
 
-=======
-import Agent from '../assets/agent.png'
-import toast from 'react-hot-toast';
->>>>>>> b6149659661718f8170411338ed6e358ae0c6849
 const Phone = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -25,13 +21,13 @@ const Phone = () => {
     setRole(storedRole);
 
     if (isAuthenticated) {
-      if (storedRole == 'Company') {
+      if (storedRole === 'Company') {
         navigate('/dashboard');
-      } else if (storedRole == 'Agent') {
+      } else if (storedRole === 'Agent') {
         navigate('/layout');
       } else {
         // alert('There is something error 1');
-        alert(storedRole)
+        alert(storedRole);
       }
     }
   }, [isAuthenticated]);
@@ -43,11 +39,9 @@ const Phone = () => {
       try {
         const response = await axios.post('https://fastagtracking.com/customulip/getUserRole', {
           phone: phoneNumber,
-          
         });
-        
+
         if (response.status === 200) {
-          toast.success("success");
           const { role } = response.data;
           localStorage.setItem('role', role);
 
@@ -58,7 +52,6 @@ const Phone = () => {
           }
         }
       } catch (error) {
-        toast.error(error.message())
         console.error('Error fetching user role:', error);
         alert(error);
       }
@@ -71,6 +64,10 @@ const Phone = () => {
     localStorage.setItem('role', selectedRole);
     setShowModal(false);
     navigate(`/login?phone=${phoneNumber}`);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
   };
 
   return (
@@ -110,7 +107,15 @@ const Phone = () => {
       {/* Modal */}
       {showModal && (
         <div className="fixed w-full inset-0 bg-black bg-opacity-50 flex items-center z-[100] justify-center">
-          <div className="bg-white p-6 rounded-lg w-[90%] max-w-[400px] z-[100000] mx-auto">
+          <div className="relative bg-white p-6 rounded-lg w-[90%] max-w-[400px] mx-auto">
+            {/* Close Button */}
+            <button
+              onClick={closeModal}
+              className="absolute top-2 right-2 text-red-500 text-2xl"
+            >
+              <MdClose />
+            </button>
+
             <h2 className="text-xl font-bold mb-4 text-center">Select Your Role</h2>
             <div className="grid grid-cols-2 gap-4">
               <button
