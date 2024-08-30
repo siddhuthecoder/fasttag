@@ -8,7 +8,7 @@ const ForgetPassword = () => {
     <FormLayer>
       <div className="flex w-[90%]  max-w-[400px]  mx-auto flex-col">
         <div className="font-bold text-2xl md:text-[40px]">Forgot your password?</div>
-        <p className=" text-[#71717A] pt-3 md:text-[20px]">Enter your Phone  and get OTP to verification.</p>
+        <p className=" text-[#71717A] pt-3 md:text-[20px]">Enter your Phone and get OTP to verification.</p>
         <hr className="mx-[100px] my-[15px]" />
         <form action="" className="flex flex-col space-y-4">
           <div className="flex items-center">
