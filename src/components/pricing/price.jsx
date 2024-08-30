@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./price.css";
 import axios from "axios";
-import img from '../../assets/logo.jpg'
+import img from '../../assets/logo.jpg';
+import { useSelector } from 'react-redux';
+
 const Price = () => {
   const [plans, setPlans] = useState([]);
   const [selectedPlanTypes, setSelectedPlanTypes] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(null);
+  const isAuthenticated = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,24 +47,35 @@ const Price = () => {
     return Math.round(discount);
   };
 
-  const handleGetStarted = async (planName) => {
+  const handleGetStarted = (planName) => {
+    if (!isAuthenticated) {
+      alert("Please create your account first or Login with Your account.");
+      return;
+    }
+
     const selectedType = selectedPlanTypes[planName];
+    const plan = plans.find(
+      (plan) => plan.name === planName && plan.type === selectedType
+    );
+
+    if (plan) {
+      setSelectedPlan({ ...plan, planType: selectedType });
+      setIsModalOpen(true);
+    } else {
+      alert("Plan not found. Please try again.");
+    }
+  };
+
+  const handlePayment = async () => {
+    if (!selectedPlan) return;
+
     const companyId = localStorage.getItem("userID");
 
     try {
-      const product = plans.find(
-        (plan) => plan.name === planName && plan.type === selectedType
-      );
-
-      if (!product) {
-        alert("Plan not found. Please try again.");
-        return;
-      }
-
       const orderData = {
-        amount: product.offerprice * 100, // Razorpay accepts amount in paisa
+        amount: selectedPlan.offerprice * 100,
         currency: "INR",
-        receipt: `receipt_${product._id}`,
+        receipt: `receipt_${selectedPlan._id}`,
         partial_payment: false,
         first_payment_min_amount: 0,
         notes: {
@@ -67,7 +83,7 @@ const Price = () => {
           payment_for: "subscription",
           quantity: 1,
           gst: 18,
-          total_amount: product.offerprice * 1.18,
+          total_amount: selectedPlan.offerprice * 1.18,
         },
       };
 
@@ -80,7 +96,6 @@ const Price = () => {
           },
         }
       );
-
       const order = response.data;
 
       const options = {
@@ -88,8 +103,8 @@ const Price = () => {
         amount: order.amount,
         currency: "INR",
         name: 'Fastagtracking',
-        image:'https://fastagtracking.com/static/media/logo2.c6341f740d920f8131f9.png',
-        description: product.name,
+        image: 'https://fastagtracking.com/static/media/logo2.c6341f740d920f8131f9.png',
+        description: selectedPlan.name,
         order_id: order.id,
         handler: async function (response) {
           try {
@@ -111,31 +126,8 @@ const Price = () => {
             );
 
             if (verifyResponse.data.success) {
-              // Fetch the current API hits
-              const userResponse = await axios.get(
-                `https://fastagtracking.com/customulip/company/${companyId}`
-              );
-
-              const { maxApiHit, apiHit } = userResponse.data;
-
-              // Update the API hits
-              const newMaxApiHit = (maxApiHit-apiHit) + product.apiHitLimit;
-              const newApiHit = apiHit + product.apiHitLimit;
-
-              await axios.put(
-                `https://fastagtracking.com/customulip/company/${companyId}`,
-                {
-                  maxApiHit: newMaxApiHit,
-                  apiHit: 0,
-                },
-                {
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                }
-              );
-
               alert("Payment Verified Successfully!");
+              setIsModalOpen(false);
             } else {
               alert(verifyResponse.data.message || "Payment verification failed.");
             }
@@ -148,9 +140,9 @@ const Price = () => {
           }
         },
         prefill: {
-          name: "", // Fill if you have user name
-          email: "", // Fill if you have user email
-          contact: "", // Fill if you have user contact
+          name: "", 
+          email: "", 
+          contact: "", 
         },
         theme: {
           color: "#5E81F4",
@@ -159,12 +151,9 @@ const Price = () => {
 
       if (window.Razorpay) {
         const razor = new window.Razorpay(options);
-
         razor.on("payment.failed", function (response) {
-          console.log("Payment failed response:", response);
           alert(`Payment failed: ${response.error.description}`);
         });
-
         razor.open();
       } else {
         console.error("Razorpay SDK not loaded.");
@@ -199,15 +188,6 @@ const Price = () => {
               >
                 <div className="card">
                   <div className="card__header">
-                    <div
-                      className={`card__icon ${
-                        plan && plan.name === "Basic"
-                          ? "symbol symbol--rounded"
-                          : plan && plan.name === "Standard"
-                          ? "symbol"
-                          : ""
-                      }`}
-                    ></div>
                     <h2>{planName}</h2>
                     {plan && discountPercentage > 0 && (
                       <div className="discount-badge">
@@ -295,6 +275,26 @@ const Price = () => {
           })}
         </div>
       </div>
+
+      {isModalOpen && (
+  <div className="modal-overlay">
+    <div className="modal-content">
+      <button className="modal-close" onClick={() => setIsModalOpen(false)}>
+        &times;
+      </button>
+      <h2>Confirm Your Plan</h2>
+      <p><strong>Plan Name:</strong> {selectedPlan.name}</p>
+      <p><strong>Plan Type:</strong> {selectedPlan.planType}</p>
+      <p><strong>Actual Price:</strong> ₹{selectedPlan.price}</p>
+      <p><strong>Offer Price:</strong> ₹{selectedPlan.offerprice}</p>
+      <button className="button button--blue" onClick={handlePayment}>
+        Pay Now
+      </button>
+      
+    </div>
+  </div>
+)}
+
     </section>
   );
 };

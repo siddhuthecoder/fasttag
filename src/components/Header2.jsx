@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import logo from "../assets/logo2.png";
+import text from "../assets/fastagtracking.png"
 import { TiThMenu } from "react-icons/ti";
 import { FaPhoneAlt } from "react-icons/fa";
 import per from "../assets/person.png";
@@ -58,7 +59,14 @@ const Header2 = () => {
     <>
       <div className="w-full border flex items-center shadow fixed top-0 z-[3]  justify-between bg-white h-[60px]">
       <div className="flex items-center justify-between w-full">
-      <Link to='/'><img src={logo} alt="Logo" className="mx-3 cursor-pointer" width={40} height={40} /></Link> 
+      <Link to='/' className="flex items-center space-x-2 ">
+  <img src={logo} alt="Logo" className="cursor-pointer" width={40} height={40} />
+  <img src={text} alt="Logo" className="cursor-pointer pt-1" width={80} height={80} />
+</Link>
+
+
+      {/* <Link to='/'><img src={logo} alt="Logo" className="mx-3 cursor-pointer" width={40} height={40} /><img src={text} alt="Logo" className="mx-3 cursor-pointer" width={40} height={40} /></Link>  */}
+      {/* <Link to='/'></Link>  */}
       {/* <h5 className='text-lg font-semibold ' >Faastagtracking.com</h5> */}
   <TiThMenu
     className="text-2xl cursor-pointer mx-2 md:hidden"
@@ -72,9 +80,9 @@ const Header2 = () => {
             <Link
               to={data.link}
               key={index}
-              className={`px-3 py-1 cursor-pointer ${
+              className={`px-3 md:text-[12px] lg:text-[16px] py-1 cursor-pointer ${
                 pathName == data.link ? "bg-[#E1E1FB]" : ""
-              }  text-nowrap  border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
+              }  text-nowrap   border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
               // onClick={() => setTab(data.name)}
             >
               {data.name}

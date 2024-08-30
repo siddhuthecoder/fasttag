@@ -8,8 +8,6 @@ import axios from 'axios';
 import { signInStart, signInSuccess, signInFailure } from '../store/authSlice';
 import { useLocation } from 'react-router-dom';
 import Footer from '../components/Footer';
-import toast from 'react-hot-toast';
-
 
 const Login = () => {
   const location = useLocation();
@@ -44,7 +42,6 @@ const Login = () => {
 
   }, [location]);
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData((prevData) => ({
@@ -55,77 +52,62 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(data);
     dispatch(signInStart());
 
+    // Determine the API endpoint based on the stored role
+    const apiUrl = role === 'Company' 
+      ? "https://fastagtracking.com/customulip/login" 
+      : role === 'Agent'
+      ? "https://fastagtracking.com/customulip/agentlogin"
+      : null;
+    if (!apiUrl) {
+      alert("User Role is not valid. Try again.");
+      setError("User Role is not valid.");
+      dispatch(signInFailure("User Role is not valid."));
+      return;
+    }
     try {
-        setLoading(true);
-        const loginResponse = await axios.post("https://fastagtracking.com/customulip/login", data);
+      setLoading(true);
+      const loginResponse = await axios.post(apiUrl, data);
 
-        if (loginResponse.status === 200) {
-            const userData = loginResponse.data;
-            const { phone, password, plan } = userData;
+      if (loginResponse.status === 200) {
+        const userData = loginResponse.data;
+        const { phone, password, plan } = userData;
 
-            localStorage.setItem("userData", JSON.stringify(userData));
-            localStorage.setItem("userID", userData._id);
+        localStorage.setItem("userData", JSON.stringify(userData));
+        localStorage.setItem("userID", userData._id);
 
-            dispatch(signInSuccess(userData));
+        dispatch(signInSuccess(userData));
 
-            const plansResponse = await axios.get("https://fastagtracking.com/customulip/plans");
+        const plansResponse = await axios.get("https://fastagtracking.com/customulip/plans");
 
-            if (plansResponse.status === 200) {
-                const plans = plansResponse.data;
-                const userPlan = plans.find((p) => p._id === plan);
+        if (plansResponse.status === 200) {
+          const plans = plansResponse.data;
+          const userPlan = plans.find((p) => p._id === plan);
 
-                if (userPlan) {
-                    localStorage.setItem('plan', userPlan.name);
-                }
-            }
-            setData({ phone: '', password: '' });
-            toast.success("login successful")
-            // Navigate based on role type
-            // alert(role);
-            if(role == "Company"){
-              navigate("/dashboard")
-            }
-            else if(role=="Agent"){
-              navigate("/layout")
-            }
-            else{
-              alert("Try Again")
-            }
-            
+          if (userPlan) {
+            localStorage.setItem('plan', userPlan.name);
+          }
         }
+        setData({ phone: '', password: '' });
+
+        // Navigate based on role type
+        if (role === "Company") {
+          navigate("/dashboard");
+        } else if (role === "Agent") {
+          navigate("/layout");
+        } else {
+          alert("Unexpected role. Try Again.");
+        }
+      }
     } catch (error) {
-      // console.log(error)
-        alert( error.response?.data?.error);
-        setError(error.response?.data?.message || 'An error occurred');
-        dispatch(signInFailure(error.response?.data || 'An error occurred'));
-        toast.error("error while login")
+      alert(error.response?.data?.error);
+      setError(error.response?.data?.message || 'An error occurred');
+      dispatch(signInFailure(error.response?.data || 'An error occurred'));
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
-
-  // useEffect(() => {
-  //    // Retrieve role from localStorage
-  //   //  const storedRole = localStorage.getItem('role');
-  //   //  setRole(storedRole);
- 
-  //   if (isAuthenticated ) {
-  //     if(role == "Company"){
-  //       navigate("/dashboard")
-  //     }
-  //     else if (role == "Agent"){
-  //       navigate("/dashboard")
-  //     }
-  //     else{
-  //       // navigate("/selectType")
-  //       alert("There is something error 1")
-  //     }
-  //   }
-   
-  // }, [isAuthenticated, navigate]);
 
   if (loading) {
     return (
