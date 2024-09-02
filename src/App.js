@@ -31,13 +31,9 @@ import Layout from './components/admin/Layout';
 import Footer from './components/Footer';
 import Phone from './auth/Phone';
 import SelectType from './auth/SelectType';
-import ReactGA from 'react-ga4';
-import GA from './components/GA';
 import HomePage from './pages/HomePage';
 
-
 const App = () => {
-  
   const navigate = useNavigate()
   const isAuthenticated = useSelector((state) =>state.auth.user)
 
@@ -69,7 +65,6 @@ const App = () => {
                       <Route path="/layout" element={<Layout />} />
                       <Route path="/terms" element={<Terms/>}/>
                       <Route path="/selectType" element={<SelectType />} />
-                      <Route path="/ga" element={<GA />} />                        
                     {/* <Route path="/fillDetails" element={<Register />} />
                     <Route path="/register" element={<ForgetPassword />} />
                     <Route path="/newPassword" element={<NewPassword />} />

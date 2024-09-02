@@ -144,3 +144,28 @@ Content-Type: application/json
     "tracking_For": "FASTAG",
     "parameters": { "vehiclenumber": "HR55AL7405" }
 }
+
+###
+POST  https://fastagtracking.com/customulip/pay
+
+{
+    "company_id": "66b5974fc5f0a6f365cc32ea",
+    "a": "FASTAG",
+    "parameters": { "vehiclenumber": "HR55AL7405" }
+}
+###
+
+POST https://fastagtracking.com/customulip/pay
+Content-Type: application/json
+# Authorization: Bearer <your_token_here>  # If authentication is required
+
+{
+    "company_id": "66b5974fc5f0a6f365cc32ea",
+    "amount": 100,  
+    "phone": "9398848215"
+}
+
+###
+GET https://fastagtracking.com/customulip/pay?company_id=66b5974fc5f0a6f365cc32ea&amount=149000&phone=9398848215
+# Content-Type: application/json
+# Authorization: Bearer <your_token_here>  # If authentication is required

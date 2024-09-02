@@ -70,14 +70,32 @@ const Price = () => {
     if (!selectedPlan) return;
 
     const companyId = localStorage.getItem("userID");
-
+  //  debugger
     try {
-      const amount = selectedPlan.offerprice * 100;
+      const amount = selectedPlan.offerprice.toString();
+      console.log(amount)
       const res = await axios.get(
-        `https://fastagtracking.com/customulip/pay?company_id=${companyId}&amount=${amount}&phone=9398848215`
+        `https://fastagtracking.com/customulip/pay?company_id=66b5974fc5f0a6f365cc32ea&amount=${amount}&phone=9398848215`,// Disable automatic redirects to handle manually
       );
+      
+      alert(res)
+      // if (res.status === 302 && res.headers.location) {
+      //   window.location.href = res.headers.location;
+      // } else {
+      //   console.log("Unexpected response:", res);
+      // }
     } catch (err) {
-      console.log(err);
+      if (err.response && err.response.status === 302) {
+        // Handle redirection manually
+        const redirectUrl = err.response.headers.location;
+        if (redirectUrl) {
+          window.location.href = redirectUrl;
+        } else {
+          console.error("Redirection URL not found.");
+        }
+      } else {
+        console.error("Error in payment request:", err.message);
+      }
     }
     // try {
     //   const orderData = {
