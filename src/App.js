@@ -33,6 +33,7 @@ import Phone from './auth/Phone';
 import SelectType from './auth/SelectType';
 import ReactGA from 'react-ga4';
 import GA from './components/GA';
+import HomePage from './pages/HomePage';
 
 
 const App = () => {
@@ -52,6 +53,7 @@ const App = () => {
                     <Route element={<PrivateRoutes />}>
                       <Route path="/fastag" element={<Fastag />} />
                       <Route path="/fastag/:id" element={<FastagId />} />
+                      <Route path="/home" element={<HomePage />} />
                       <Route path="/sarathi" element={<Sarathi />} />
                       <Route path="/myVehicles" element={<MyVehicle />} />
                       <Route path="/vahan" element={<Vahan />} />

@@ -18,6 +18,8 @@
   import { useDispatch } from 'react-redux';
   import { signOut } from '../store/authSlice';
   import Layout from './Dashboard/Layout';
+  import Home from '../pages/Home';
+  import HomePage from '../pages/HomePage';
 
 
   const Header = () => {
@@ -42,7 +44,13 @@
     };
 
 
+
     const tabs = [
+      {
+        name: "Home",
+        component: <HomePage />,
+        link: "/home"
+    },
       {
         name: "Dashboard",
         component: <Layout />,
