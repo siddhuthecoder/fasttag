@@ -32,7 +32,6 @@ import Footer from './components/Footer';
 import Phone from './auth/Phone';
 import SelectType from './auth/SelectType';
 
-import Test from './auth/Test';
 
 const App = () => {
   const navigate = useNavigate()
@@ -44,7 +43,6 @@ const App = () => {
       {
         isAuthenticated ? (
           <main>
-              <Test />
               <Header />
                 <Home>
                   <Routes>

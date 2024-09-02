@@ -6,13 +6,8 @@ import axios from 'axios';
 import Footer from './../components/Footer';
 import { useSelector } from 'react-redux';
 import Company from '../assets/company.png';
-<<<<<<< HEAD
 import Agent from '../assets/Agent.png'
 
-=======
-import Agent from '../assets/agent.png'
-import toast from 'react-hot-toast';
->>>>>>> b6149659661718f8170411338ed6e358ae0c6849
 const Phone = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -45,9 +40,8 @@ const Phone = () => {
           phone: phoneNumber,
           
         });
-        
+
         if (response.status === 200) {
-          toast.success("success");
           const { role } = response.data;
           localStorage.setItem('role', role);
 
@@ -58,7 +52,6 @@ const Phone = () => {
           }
         }
       } catch (error) {
-        toast.error(error.message())
         console.error('Error fetching user role:', error);
         alert(error);
       }
