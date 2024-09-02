@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import logo from "../../assets/logo2.png";
+import text from '../../assets/fastagtracking.png'
 import { TiThMenu } from "react-icons/ti";
 import { FaPhoneAlt } from "react-icons/fa";
 import per from "../../assets/person.png";
@@ -81,16 +82,10 @@ const AdminHeader = () => {
             className="text-2xl  cursor-pointer hidden mx-2 md:hidden"
             onClick={toggleMenu}
           />
-          <Link to="/">
-            {" "}
-            <img
-              src={logo}
-              alt="Logo"
-              className="mx-3 cursor-pointer"
-              width={40}
-              height={40}
-            />
-          </Link>
+            <Link to='/' className="flex items-center space-x-2 ">
+  <img src={logo} alt="Logo" className="cursor-pointer" width={40} height={40} />
+  <img src={text} alt="Logo" className="cursor-pointer pt-1" width={80} height={80} />
+</Link>
           <Link to="/">
             {" "}
             <h5 className="text-lg font-semibold hidden ">

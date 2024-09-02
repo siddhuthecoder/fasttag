@@ -1,5 +1,6 @@
   import React, { useState } from 'react';
   import logo from '../assets/logo2.png';
+  import text from "../assets/fastagtracking.png"
   import { TiThMenu } from "react-icons/ti";
   import { FaPhoneAlt } from "react-icons/fa";
   import per from '../assets/person.png';
@@ -17,6 +18,8 @@
   import { useDispatch } from 'react-redux';
   import { signOut } from '../store/authSlice';
   import Layout from './Dashboard/Layout';
+  import Home from '../pages/Home';
+  import HomePage from '../pages/HomePage';
 
 
   const Header = () => {
@@ -41,7 +44,13 @@
     };
 
 
+
     const tabs = [
+      {
+        name: "Home",
+        component: <HomePage />,
+        link: "/home"
+    },
       {
         name: "Dashboard",
         component: <Layout />,
@@ -77,16 +86,22 @@
               className='text-2xl  cursor-pointer mx-2 md:hidden'  
               onClick={toggleMenu} 
             />
-          <Link to='/'> <img src={logo} alt="Logo" className="mx-3 cursor-pointer" width={40} height={40} /></Link>
-          <Link to='/'>   <h5 className='text-lg font-semibold hidden ' >Faastagtracking.com</h5></Link>
+           <Link to='/' className="flex items-center space-x-2 ">
+  <img src={logo} alt="Logo" className="cursor-pointer" width={40} height={40} />
+  <img src={text} alt="Logo" className="cursor-pointer pt-1" width={80} height={80} />
+</Link>
+
+          {/* <Link to='/'> <img src={logo} alt="Logo" className="mx-3 cursor-pointer" width={40} height={40} /></Link> */}
+          {/* <Link to='/'> <img src={logo} alt="Logo" className="mx-3 cursor-pointer" width={40} height={40} /></Link> */}
+          {/* <Link to='/'>   <h5 className='text-lg font-semibold ' >Faastagtracking.com</h5></Link> */}
             
           </div>
-          <div className="md:flex items-center gap-4 hidden ">
+          <div className="md:flex items-center   md:gap-2 hidden ">
             {tabs.map((data, index) => (
                 <Link
                     to={data.link}
                     key={index}
-                    className={`px-3 py-1 cursor-pointer ${pathName == data.link?"bg-[#E1E1FB]":""}  text-nowrap  border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
+                    className={`px-3 py-1 md:text-[12px] lg:text-[15px] cursor-pointer ${pathName == data.link?"bg-[#E1E1FB]":""}  text-nowrap  border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
                     // onClick={() => setTab(data.name)}
                 >
                     {data.name}

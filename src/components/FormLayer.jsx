@@ -11,7 +11,9 @@ const FormLayer = ({children}) => {
           </div>
         </div>
         <div className="max-h-screen flex-col  overflow-y-scroll flex  bg-white">
-            <div className="w-full flex  justify-center items-center min-h-[80vh]">
+            <div className="w-full flex flex-col justify-center items-center min-h-[80vh]">
+           <marquee className="py-5 font-semibold mt-0 text-xl text-[#5E81F4]">Register now and get 10 Search free of value Rs - 100/- </marquee>
+            
               {children}
             </div>
             <FAQAccordion />
