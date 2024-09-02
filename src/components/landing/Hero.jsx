@@ -3,16 +3,16 @@ import img1 from '../../assets/auth.png';
 
 const Hero = () => {
   return (
-    <div className="flex flex-col-reverse md:flex-row-reverse h-auto md:h-[80vh] mt-[60px] items-center justify-center px-6 md:px-12 py-8 bg-white">
+    <div className="flex flex-col-reverse md:flex-row-reverse h-auto md:h-[80vh] mt-[60px] items-center justify-center md:gap-5 px-6 md:px-12 py-8 bg-white">
       {/* Left Content */}
-      <div className="flex flex-col text-center md:text-left mt-8 md:mt-0">
+      <div className="flex flex-col max-w-[500px] text-center md:me-[60px] md:text-left mt-8 md:mt-0">
         <h1 className="text-3xl md:text-5xl font-semibold mb-4 text-gray-900">
           Connect with your loved ones in Real-time.
         </h1>
         <p className="text-gray-600 text-lg mb-6">
           Shujaa is a mobile platform that enables you to connect with your family and friends anywhere at any time.
         </p>
-        <button className="bg-indigo-600 text-white px-6 py-3 rounded-full hover:bg-indigo-700 transition duration-300">
+        <button className="bg-indigo-600 max-w-[340px] text-white px-6 py-3 rounded-full hover:bg-indigo-700 transition duration-300">
           Get Started
         </button>
       </div>
