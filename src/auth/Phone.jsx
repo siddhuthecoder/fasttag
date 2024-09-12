@@ -22,7 +22,7 @@ const Phone = () => {
 
     if (isAuthenticated) {
       if (storedRole === 'Company') {
-        navigate('/home');
+        navigate('/dashboard');
       } else if (storedRole === 'Agent') {
         navigate('/layout');
       } else {

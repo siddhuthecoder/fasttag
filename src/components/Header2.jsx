@@ -34,10 +34,10 @@ const Header2 = () => {
   };
 
   const tabs = [
-    {
-      name:"Home",
-      link:"/"
-    },
+    // {
+    //   name:"Home",
+    //   link:"/"
+    // },
     {
       name: "Privacy Policy",
       // component: <Fastag />,
@@ -53,6 +53,7 @@ const Header2 = () => {
       // component: <Vahan />,
       link: "/contact",
     },
+    
   ];
 
   return (

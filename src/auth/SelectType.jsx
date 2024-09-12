@@ -7,7 +7,7 @@ const SelectType = () => {
   const handleSelection = (role) => {
     localStorage.setItem('role', role);
     if (role === 'company') {
-      navigate('/home');
+      navigate('/dashboard');
     } else if (role === 'agent') {
       navigate('/layout');
     }

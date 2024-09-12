@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { signOut } from "../../store/authSlice";
 import Layout from "../Dashboard/Layout";
+import Trip from "../../pages/Trip";
 
 const AdminHeader = () => {
   const user = useSelector((state) => state.auth.user);
@@ -72,6 +73,11 @@ const AdminHeader = () => {
       component: <MyVehicle />,
       link: "/MyVehicles",
     },
+    {
+      name:"Trip",
+      component: <Trip/>,
+      link:"/trip",
+    }
   ];
 
   return (

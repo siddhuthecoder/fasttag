@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   const tabs = [
-    {
-      name: "Home",
-      link: "/",
-    },
+    // {
+    //   name: "Home",
+    //   link: "/",
+    // },
     {
       name: "Privacy Policy",
       link: "/privacy",

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { BsEnvelope } from 'react-icons/bs';
-import { FiShieldOff } from 'react-icons/fi';
-import { FaRegUser } from 'react-icons/fa6';
-import FormLayer from '../components/FormLayer';
-import { MdOutlinePhone } from 'react-icons/md';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { BsEnvelope } from "react-icons/bs";
+import { FiShieldOff } from "react-icons/fi";
+import { FaRegUser } from "react-icons/fa6";
+import FormLayer from "../components/FormLayer";
+import { MdOutlinePhone } from "react-icons/md";
 
 // Modal Component
 const Modal = ({ isOpen, onClose }) => {
@@ -20,40 +20,74 @@ const Modal = ({ isOpen, onClose }) => {
         >
           &times;
         </button>
-        <h2 className="text-2xl font-bold mb-4 md:mb-6 text-[#2D3748]">Terms and Conditions</h2>
+        <h2 className="text-2xl font-bold mb-4 md:mb-6 text-[#2D3748]">
+          Terms and Conditions
+        </h2>
         <p className="text-base text-[#4A5568] mb-6 leading-relaxed">
-          Disclaimer for Adding Companies/Users on FastagTracking.com
-          When adding a company or user to our platform, FastagTracking.com, the following use cases and terms apply:
-
-          <br /><br />
-
+          Disclaimer for Adding Companies/Users on FastagTracking.com When
+          adding a company or user to our platform, FastagTracking.com, the
+          following use cases and terms apply:
+          <br />
+          <br />
           <strong>Use Cases:</strong>
           <br />
-          <strong>Vehicle Owner:</strong> Vehicle owners can track their vehicles using Fastag location data, particularly in situations where the GPS device is absent or has been removed by a thief. This enables them to locate their vehicle based on toll plaza locations.
+          <strong>Vehicle Owner:</strong> Vehicle owners can track their
+          vehicles using Fastag location data, particularly in situations where
+          the GPS device is absent or has been removed by a thief. This enables
+          them to locate their vehicle based on toll plaza locations.
           <br />
-          Vehicle owners can also manage their vehicle documents, monitor expiry dates, and validate driver’s license details to ensure legal compliance for transport operations.
+          Vehicle owners can also manage their vehicle documents, monitor expiry
+          dates, and validate driver’s license details to ensure legal
+          compliance for transport operations.
           <br />
-          <strong>Broker:</strong> Brokers can monitor vehicles they have hired from the market, gaining visibility into the current location of these vehicles, which is essential for effective logistics coordination.
+          <strong>Broker:</strong> Brokers can monitor vehicles they have hired
+          from the market, gaining visibility into the current location of these
+          vehicles, which is essential for effective logistics coordination.
           <br />
-          <strong>Logistics Company:</strong> Logistics companies can use FastagTracking.com to efficiently manage vehicles hired from the market, ensuring they have full control over their operations. This includes tracking real-time locations to optimize delivery routes and prevent delays. Furthermore, logistics companies can verify and manage vehicle documents, ensuring that all necessary paperwork is up-to-date and compliant with regulations. Additionally, they can check driver documentation to confirm that drivers are legally eligible to operate transport vehicles, safeguarding their operations against potential legal issues.
+          <strong>Logistics Company:</strong> Logistics companies can use
+          FastagTracking.com to efficiently manage vehicles hired from the
+          market, ensuring they have full control over their operations. This
+          includes tracking real-time locations to optimize delivery routes and
+          prevent delays. Furthermore, logistics companies can verify and manage
+          vehicle documents, ensuring that all necessary paperwork is up-to-date
+          and compliant with regulations. Additionally, they can check driver
+          documentation to confirm that drivers are legally eligible to operate
+          transport vehicles, safeguarding their operations against potential
+          legal issues.
           <br />
-          <strong>Manufacturer:</strong> Manufacturers can track their consignments and associated vehicle details, ensuring that goods are transported according to the planned schedule.
-
-          <br /><br />
-
+          <strong>Manufacturer:</strong> Manufacturers can track their
+          consignments and associated vehicle details, ensuring that goods are
+          transported according to the planned schedule.
+          <br />
+          <br />
           <strong>Strict Terms of Use:</strong>
           <br />
-          <strong>Prohibition of Misuse:</strong> The misuse of FastagTracking.com for illegal purposes, including but not limited to tracking vehicles without a legitimate reason, is strictly prohibited. Such actions are a violation of the laws of India and will be subject to legal action.
+          <strong>Prohibition of Misuse:</strong> The misuse of
+          FastagTracking.com for illegal purposes, including but not limited to
+          tracking vehicles without a legitimate reason, is strictly prohibited.
+          Such actions are a violation of the laws of India and will be subject
+          to legal action.
           <br />
-          <strong>Legal Compliance:</strong> All users and companies are required to comply with the relevant provisions of the Information Technology Act, 2000, and any other applicable laws in India. FastagTracking.com is committed to upholding the law and will cooperate fully with law enforcement authorities in the event of any illegal activity.
+          <strong>Legal Compliance:</strong> All users and companies are
+          required to comply with the relevant provisions of the Information
+          Technology Act, 2000, and any other applicable laws in India.
+          FastagTracking.com is committed to upholding the law and will
+          cooperate fully with law enforcement authorities in the event of any
+          illegal activity.
           <br />
-          <strong>Company Liability:</strong> FastagTracking.com is not responsible for any illegal tracking conducted by users or companies on the platform. The responsibility for legal compliance rests solely with the user or company performing the tracking.
+          <strong>Company Liability:</strong> FastagTracking.com is not
+          responsible for any illegal tracking conducted by users or companies
+          on the platform. The responsibility for legal compliance rests solely
+          with the user or company performing the tracking.
           <br />
-          <strong>Search Logs:</strong> FastagTracking.com maintains comprehensive logs of all vehicle searches conducted by any company or user. In the event you wish to know who has searched for your vehicle, you can request this information by emailing us at qiktrack@gmail.com.
-
-          <br /><br />
-
-          By using FastagTracking.com, you agree to these terms and acknowledge that any misuse of the platform will result in legal consequences.
+          <strong>Search Logs:</strong> FastagTracking.com maintains
+          comprehensive logs of all vehicle searches conducted by any company or
+          user. In the event you wish to know who has searched for your vehicle,
+          you can request this information by emailing us at qiktrack@gmail.com.
+          <br />
+          <br />
+          By using FastagTracking.com, you agree to these terms and acknowledge
+          that any misuse of the platform will result in legal consequences.
         </p>
         <button
           onClick={onClose}
@@ -66,17 +100,14 @@ const Modal = ({ isOpen, onClose }) => {
   );
 };
 
-
-
-
 // FillDetails Component
 const FillDetails = () => {
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [otp, setOtp] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [agentPhoneNumber, setAgentPhoneNumber] = useState('');
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [otp, setOtp] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [agentPhoneNumber, setAgentPhoneNumber] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   const navigate = useNavigate();
@@ -84,8 +115,8 @@ const FillDetails = () => {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const phone = searchParams.get('phone');
-    const otpFromParams = searchParams.get('otp');
+    const phone = searchParams.get("phone");
+    const otpFromParams = searchParams.get("otp");
     setPhoneNumber(phone);
     setOtp(otpFromParams);
   }, [location]);
@@ -93,10 +124,8 @@ const FillDetails = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-   
-
     if (password !== confirmPassword) {
-      alert('Passwords do not match');
+      alert("Passwords do not match");
       return;
     }
 
@@ -109,43 +138,49 @@ const FillDetails = () => {
       password,
       otp,
       vehicleNumbers: [],
-      plan: '66b596f6e999e25b6217b388',
+      plan: "66b596f6e999e25b6217b388",
       expiryDate: expireDate.toISOString(),
       maxApiHit: 10,
       apiHit: 0,
+      method: "prepaid",
+      perTripCost: 10,
       agentPhone: agentPhoneNumber || undefined,
     };
 
     try {
-      const response = await fetch('https://fastagtracking.com/customulip/company', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
+      const response = await fetch(
+        "https://fastagtracking.com/customulip/company",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
       if (!response.ok) {
-        throw new Error('Failed to submit data');
+        throw new Error("Failed to submit data");
       }
 
       const data = await response.json();
-      console.log('API response:', data);
-      alert('Registration successful! Login with Your Password');
-      navigate('/');
-
+      console.log("API response:", data);
+      alert("Registration successful! Login with Your Password");
+      navigate("/");
     } catch (error) {
-      console.error('Error submitting data:', error);
-      alert('An error occurred. Please try again.');
+      console.error("Error submitting data:", error);
+      alert("An error occurred. Please try again.");
     }
   };
 
   return (
     <FormLayer>
       <div className="flex w-[90%] max-w-[400px] mx-auto flex-col">
-      
         <hr className="mx-[100px] my-[15px]" />
-        <form onSubmit={handleSubmit} className="flex flex-col w-full space-y-2">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col w-full space-y-2"
+        >
           <div className="flex items-center">
             <FaRegUser className="text-2xl me-[-36px] z-[1] text-[#71717A]" />
             <input
@@ -209,9 +244,20 @@ const FillDetails = () => {
               </label>
             </div>
           </div> */}
-          <button className="w-full rounded-md text-white md:text-2xl font-bold bg-[#8098F9] py-3" type="submit">SIGN UP</button>
+          <button
+            className="w-full rounded-md text-white md:text-2xl font-bold bg-[#8098F9] py-3"
+            type="submit"
+          >
+            SIGN UP
+          </button>
           <div className="text-center">
-            Already have an account? <span className="text-[#8098F9] font-semibold cursor-pointer" onClick={() => navigate("/")}>Login</span>
+            Already have an account?{" "}
+            <span
+              className="text-[#8098F9] font-semibold cursor-pointer"
+              onClick={() => navigate("/")}
+            >
+              Login
+            </span>
           </div>
         </form>
       </div>

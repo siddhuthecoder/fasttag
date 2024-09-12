@@ -93,7 +93,7 @@ const Login = () => {
 
         // Navigate based on role type
         if (role === "Company") {
-          navigate("/home");
+          navigate("/dashboard");
         } else if (role === "Agent") {
           navigate("/layout");
         } else {

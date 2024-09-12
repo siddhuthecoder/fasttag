@@ -20,6 +20,7 @@ import { signOut } from '../store/authSlice';
 import Layout from './Dashboard/Layout';
 import Home from '../pages/Home';
 import HomePage from '../pages/HomePage';
+import Trip from '../pages/Trip';
 
 
 const Header = () => {
@@ -46,11 +47,12 @@ const Header = () => {
 
 
   const tabs = [
-    {
-      name: "Home",
-      component: <HomePage />,
-      link: "/home"
-  },
+    
+  //   {
+  //     name: "Home",
+  //     component: <HomePage />,
+  //     link: "/home"
+  // },
     {
       name: "Dashboard",
       component: <Layout />,
@@ -75,6 +77,11 @@ const Header = () => {
         name: "My Vehicles",
         component: <MyVehicle />,
         link: "/MyVehicles"
+    },
+    {
+      name: "Trip",
+      component: <Trip/>,
+      link: "/trip",
     }
 ];
 

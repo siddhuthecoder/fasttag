@@ -15,7 +15,8 @@ const Layout = () => {
     { name: "Fastag", link: "/fastag" },
     { name: "Vahan", link: "/vahan" },
     { name: "Sarathi", link: "/sarathi" },
-    { name: "My Vehicles", link: "/MyVehicles" }
+    { name: "My Vehicles", link: "/MyVehicles" },
+    {name:"Trip" , link: "/trip"}
   ];
   return (
     <>

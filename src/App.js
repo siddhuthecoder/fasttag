@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from './pages/Home';
 import './index.css';
@@ -32,12 +32,18 @@ import Footer from './components/Footer';
 import Phone from './auth/Phone';
 import SelectType from './auth/SelectType';
 import HomePage from './pages/HomePage';
+import Trip from './pages/Trip';
+import TripMap from './pages/TripMap';
+import TripCreate from './pages/TripCreate';
+import OpenCreate from './pages/Opentrip';
+import CancelTrip from './pages/CancelTrip';
+import CompletedTrip from './pages/CompletedTrip';
+import ActiveTrip from './pages/ActiveTrip';
 
 const App = () => {
-  const navigate = useNavigate()
-  const isAuthenticated = useSelector((state) =>state.auth.user)
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector((state) => state.auth.user);
 
-  
   return (
     <>
       {
@@ -59,6 +65,20 @@ const App = () => {
                       <Route path='/searchhistory' element={<SearchHistory/>}/>
                       <Route path='/transaction' element={<TransactionHistory/>}/>
                       <Route path='/privacy' element={<Policy/>}/>
+                      <Route path='/trip' element={<Trip/>}/>
+                      <Route path='/map' element={<TripMap/>}/>
+                      <Route path='/create' element={<Trip/>}/>
+                      <Route path='/active' element={<ActiveTrip/>}/>
+                      <Route path='/open' element={<OpenCreate/>}/>
+                      <Route path='/cancel' element={<CancelTrip/>}/>
+                      <Route path='/complete' element={<CompletedTrip/>}/>
+
+
+
+
+
+   
+
                       <Route path='/contact' element={<Contact/>}/>
                       <Route path="/pricing" element={<Pricing />} />
                       <Route path="/" element={<Phone/>} />
@@ -69,42 +89,40 @@ const App = () => {
                     <Route path="/register" element={<ForgetPassword />} />
                     <Route path="/newPassword" element={<NewPassword />} />
                     <Route path="/otp" element={<OTPForm />} /> */}
-                    </Route>
-                    {/* <Route path="/" element={<Login />} />
+              </Route>
+              {/* <Route path="/" element={<Login />} />
                     <Route path="/fillDetails" element={<Register />} />
                     <Route path="/register" element={<ForgetPassword />} />
                     <Route path="/newPassword" element={<NewPassword />} />
                     <Route path="/otp" element={<OTPForm />} /> */}
-                  </Routes>
-              </Home>
-              { /* <Footer /> */}
-          </main>):(
-            <main>
-              <Header2 />
-              <Home>
-                  <Routes>
-                    <Route path="/" element={<Phone />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/fillDetails" element={<Register />} />
-                    <Route path="/register" element={<ForgetPassword />} />
-                    <Route path="/newPassword" element={<NewPassword />} />
-                    <Route path="/otp" element={<OTPForm />} />
-                    <Route path="/terms" element={<Terms/>}/>
-                    <Route path='/privacy' element={<Policy/>}/>
-                    <Route path='/contact' element={<Contact/>}/>
-                    <Route path="/pricing" element={<Pricing />} />
-                    <Route path="/selectType" element={<SelectType />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-              </Home>
-             { /* <Footer /> */}
-            </main>
-          )
-        
-      }
-      
+            </Routes>
+          </Home>
+          {/* <Footer /> */}
+        </main>
+      ) : (
+        <main>
+          <Header2 />
+          <Home>
+            <Routes>
+              <Route path="/" element={<Phone />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/fillDetails" element={<Register />} />
+              <Route path="/register" element={<ForgetPassword />} />
+              <Route path="/newPassword" element={<NewPassword />} />
+              <Route path="/otp" element={<OTPForm />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Policy />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/selectType" element={<SelectType />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Home>
+          {/* <Footer /> */}
+        </main>
+      )}
     </>
   );
-}
+};
 
 export default App;
