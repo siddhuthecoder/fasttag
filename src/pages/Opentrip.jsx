@@ -11,13 +11,14 @@ import OpenSidebar from '../components/open/OpenSidebar';
 import OpenTable from '../components/open/OpenTable';
 import OpenHeader from '../components/open/OpenHeader';
 import OpenTab from '../components/open/OpenSidebar';
+import TripsTabs from '../components/Trips/Tabs';
 
 const OpenCreate = () => {
   return (
     <div className="relative flex flex-col h-screen bg-gray-50">
      
           <div className="flex-1 p-4 bg-white rounded-lg shadow-md">
-            <OpenTab/>
+            <TripsTabs />
             <OpenHeader/>
             <OpenTable/>
           </div>

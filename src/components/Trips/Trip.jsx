@@ -4,10 +4,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const AddTripForm = () => {
-  // Initialize navigate
   const navigate = useNavigate();
-
-  // State to store form data
+  
+  // State to manage form data
   const [formData, setFormData] = useState({
     companyID: "66b79cb0999e3c7ce24cb74c",
     from: {
@@ -22,12 +21,12 @@ const AddTripForm = () => {
     },
     expiryDate: "",
     vehicleNo: "",
+    tripDays: "",
     referenceNo: "",
     lrNo: "",
     ewayBillNo: "",
     notes: "",
     vehicleType: "",
-    tripDays: "",
     DriverName: "",
     DriverPhone: "",
     EwayBill: "",
@@ -37,11 +36,11 @@ const AddTripForm = () => {
     isDeleted: false,
   });
 
-  // State to store loading and unloading points
   const [loadingPoints, setLoadingPoints] = useState([]);
   const [unloadingPoints, setUnloadingPoints] = useState([]);
+  const [showMore, setShowMore] = useState(false); // For toggling optional fields
 
-  // Fetch loading and unloading points from the API
+  // Fetch loading and unloading points
   useEffect(() => {
     const fetchLocations = async () => {
       try {
@@ -54,15 +53,11 @@ const AddTripForm = () => {
             },
           }
         );
-
         const data = await response.json();
-        console.log(data);
-
-        // Filter loading and unloading points based on the type
+        
         const loading = data.filter((point) => point.type === "loading");
         const unloading = data.filter((point) => point.type === "unloading");
 
-        // Set the state for loading and unloading points
         setLoadingPoints(loading);
         setUnloadingPoints(unloading);
       } catch (error) {
@@ -136,7 +131,7 @@ const AddTripForm = () => {
       const result = await response.json();
       if (response.ok) {
         toast.success("Trip added successfully");
-        navigate("/active"); // Navigate to /active page after success
+        navigate("/active");
       } else {
         toast.error("Failed to add trip");
         console.error("API Error:", result);
@@ -148,279 +143,239 @@ const AddTripForm = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-2xl font-bold mb-4 mt-10">Add Trip</h1>
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-4">Basic Information</h2>
-        <form onSubmit={handleSubmit} className="grid grid-cols-3 gap-6">
-          {/* Loading Point Dropdown */}
-          <div className="flex flex-col">
-            <div className="flex items-center justify-between mb-1">
-              <label
-                htmlFor="loading-point"
-                className="font-medium text-gray-700"
-              >
+    <>
+      <div className="bg-white w-full md:w-[80%] mx-auto mt-3">
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h2 className="text-xl font-semibold mb-4">Basic Information</h2>
+          <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
+            {/* First row: Loading Point and Unloading Point */}
+            <div className="flex flex-col">
+              <label htmlFor="loading-point" className="font-medium text-gray-700 mb-1">
                 Loading Point
               </label>
-              <a href="/map">
-                <button type="button" className="text-blue-500">
-                  +ADD
-                </button>
-              </a>
-            </div>
-            <select
-              id="loading-point"
-              required
-              value={formData.from.address}
-              onChange={handleLoadingPointChange}
-              className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Select Loading Point</option>
-              {loadingPoints.map((point) => (
-                <option key={point._id} value={point.name}>
-                  {point.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Unloading Point Dropdown */}
-          <div className="flex flex-col">
-            <div className="flex items-center justify-between mb-1">
-              <label
-                htmlFor="unloading-point"
-                className="font-medium text-gray-700"
+              <select
+                id="loading-point"
+                required
+                value={formData.from.address}
+                onChange={handleLoadingPointChange}
+                className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
+                <option value="">Select Loading Point</option>
+                {loadingPoints.map((point) => (
+                  <option key={point._id} value={point.name}>
+                    {point.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="flex flex-col">
+              <label htmlFor="unloading-point" className="font-medium text-gray-700 mb-1">
                 Unloading Point
               </label>
-              <a href="/map">
-                <button type="button" className="text-blue-500">
-                  +ADD
-                </button>
-              </a>
+              <select
+                id="unloading-point"
+                required
+                value={formData.to.address}
+                onChange={handleUnloadingPointChange}
+                className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select Unloading Point</option>
+                {unloadingPoints.map((point) => (
+                  <option key={point._id} value={point.name}>
+                    {point.name}
+                  </option>
+                ))}
+              </select>
             </div>
-            <select
-              id="unloading-point"
-              required
-              value={formData.to.address}
-              onChange={handleUnloadingPointChange}
-              className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Select Unloading Point</option>
-              {unloadingPoints.map((point) => (
-                <option key={point._id} value={point.name}>
-                  {point.name}
-                </option>
-              ))}
-            </select>
-          </div>
 
-          {/* Other form fields remain the same */}
-          <div className="flex flex-col">
-            <label
-              htmlFor="vehicleNo"
-              className="mb-1 font-medium text-gray-700"
-            >
-              Enter Vehicle Number
-            </label>
-            <input
-              id="vehicleNo"
-              type="text"
-              value={formData.vehicleNo}
-              onChange={handleChange}
-              required
-              placeholder="Enter vehicle number"
-              className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="expiryDate"
-              className="mb-1 font-medium text-gray-700"
-            >
-              E-bill Expiry Date
-            </label>
-            <input
-              id="expiryDate"
-              type="date"
-              value={formData.expiryDate}
-              onChange={handleChange}
-              required
-              className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+            {/* Second row: Vehicle No and Trip Duration */}
+            <div className="flex flex-col">
+              <label htmlFor="vehicleNo" className="font-medium text-gray-700 mb-1">
+                Vehicle Number
+              </label>
+              <input
+                id="vehicleNo"
+                type="text"
+                value={formData.vehicleNo}
+                onChange={handleChange}
+                required
+                placeholder="Enter vehicle number"
+                className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
 
-          <div className="flex flex-col">
-            <label
-              htmlFor="referenceNo"
-              className="mb-1 font-medium text-gray-700"
-            >
-              Reference Number (optional)
-            </label>
-            <input
-              id="referenceNo"
-              type="text"
-              value={formData.referenceNo}
-              onChange={handleChange}
-              placeholder="Enter reference number"
-              className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+            <div className="flex flex-col">
+              <label htmlFor="tripDays" className="text-[12px] font-semibold md:font-medium text-gray-700 mb-1">
+                Trip Duration (Days)
+              </label>
+              <input
+                id="tripDays"
+                type="number"
+                value={formData.tripDays}
+                onChange={handleChange}
+                required
+                placeholder="Enter trip duration"
+                className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
 
-          <div className="flex flex-col">
-            <label htmlFor="lrNo" className="mb-1 font-medium text-gray-700">
-              Enter LR/GR/CN Number (optional)
-            </label>
-            <input
-              id="lrNo"
-              type="text"
-              value={formData.lrNo}
-              onChange={handleChange}
-              placeholder="Enter your LR/GR/CN number"
-              className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+            {/* Third row: Expiry Date */}
+            <div className="col-span-2 flex flex-col">
+              <label htmlFor="expiryDate" className="font-medium text-gray-700 mb-1">
+                E-bill Expiry Date
+              </label>
+              <input
+                id="expiryDate"
+                type="date"
+                value={formData.expiryDate}
+                onChange={handleChange}
+                required
+                className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
 
-          <div className="flex flex-col">
-            <label
-              htmlFor="ewayBillNo"
-              className="mb-1 font-medium text-gray-700"
-            >
-              E-bill Number (optional)
-            </label>
-            <input
-              id="ewayBillNo"
-              type="text"
-              value={formData.ewayBillNo}
-              onChange={handleChange}
-              placeholder="Enter your E-bill number"
-              className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+            {/* Button to show more fields */}
+            <div className="col-span-2 mt-4">
+              <button
+                type="button"
+                onClick={() => setShowMore(!showMore)}
+                className="bg-blue-500 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {showMore ? "Hide Details" : "Fill More Details"}
+              </button>
+            </div>
 
-          <div className="flex flex-col">
-            <label
-              htmlFor="vehicleType"
-              className="mb-1 font-medium text-gray-700"
-            >
-              Vehicle Type
-            </label>
-            <input
-              id="vehicleType"
-              type="text"
-              value={formData.vehicleType}
-              onChange={handleChange}
-              placeholder="Enter vehicle type"
-              className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+            {/* Optional fields */}
+            {showMore && (
+  <>
+    <div className="flex flex-col">
+      <label htmlFor="referenceNo" className="font-medium text-gray-700 mb-1">
+        Reference Number (optional)
+      </label>
+      <input
+        id="referenceNo"
+        type="text"
+        value={formData.referenceNo}
+        onChange={handleChange}
+        placeholder="Enter reference number"
+        className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
 
-          <div className="flex flex-col">
-            <label
-              htmlFor="tripDays"
-              className="mb-1 font-medium text-gray-700"
-            >
-              Trip Duration (Days)
-            </label>
-            <input
-              id="tripDays"
-              type="number"
-              value={formData.tripDays}
-              onChange={handleChange}
-              placeholder="Enter trip duration"
-              className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+    <div className="flex flex-col">
+      <label htmlFor="lrNo" className="font-medium text-gray-700 mb-1">
+        LR/GR/CN Number (optional)
+      </label>
+      <input
+        id="lrNo"
+        type="text"
+        value={formData.lrNo}
+        onChange={handleChange}
+        placeholder="Enter LR/GR/CN number"
+        className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
 
-          <div className="flex flex-col">
-            <label
-              htmlFor="DriverName"
-              className="mb-1 font-medium text-gray-700"
-            >
-              Driver Name
-            </label>
-            <input
-              id="DriverName"
-              type="text"
-              value={formData.DriverName}
-              onChange={handleChange}
-              placeholder="Enter Driver Name"
-              className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+    <div className="flex flex-col">
+      <label htmlFor="ewayBillNo" className="font-medium text-gray-700 mb-1">
+        Eway Bill Number (optional)
+      </label>
+      <input
+        id="ewayBillNo"
+        type="text"
+        value={formData.ewayBillNo}
+        onChange={handleChange}
+        placeholder="Enter Eway Bill number"
+        className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
 
-          <div className="flex flex-col">
-            <label
-              htmlFor="DriverPhone"
-              className="mb-1 font-medium text-gray-700"
-            >
-              Driver Phone
-            </label>
-            <input
-              id="DriverPhone"
-              type="text"
-              value={formData.DriverPhone}
-              onChange={handleChange}
-              placeholder="Enter Driver Phone"
-              className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+    <div className="flex flex-col">
+      <label htmlFor="notes" className="font-medium text-gray-700 mb-1">
+        Notes (optional)
+      </label>
+      <textarea
+        id="notes"
+        value={formData.notes}
+        onChange={handleChange}
+        placeholder="Add any additional notes"
+        className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
 
-          <div className="flex flex-col">
-            <label
-              htmlFor="EwayBill"
-              className="mb-1 font-medium text-gray-700"
-            >
-              Eway Bill
-            </label>
-            <input
-              id="EwayBill"
-              type="text"
-              value={formData.EwayBill}
-              onChange={handleChange}
-              placeholder="Enter Eway Bill"
-              className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+    <div className="flex flex-col">
+      <label htmlFor="vehicleType" className="font-medium text-gray-700 mb-1">
+        Vehicle Type (optional)
+      </label>
+      <input
+        id="vehicleType"
+        type="text"
+        value={formData.vehicleType}
+        onChange={handleChange}
+        placeholder="Enter vehicle type"
+        className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
 
-          <div className="flex flex-col">
-            <label htmlFor="Product" className="mb-1 font-medium text-gray-700">
-              Product
-            </label>
-            <input
-              id="Product"
-              type="text"
-              value={formData.Product}
-              onChange={handleChange}
-              placeholder="Enter Product"
-              className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+    <div className="flex flex-col">
+      <label htmlFor="DriverName" className="font-medium text-gray-700 mb-1">
+        Driver Name (optional)
+      </label>
+      <input
+        id="DriverName"
+        type="text"
+        value={formData.DriverName}
+        onChange={handleChange}
+        placeholder="Enter driver name"
+        className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
 
-          <div className="mt-6">
-            <a href="/active">
+    <div className="flex flex-col">
+      <label htmlFor="DriverPhone" className="font-medium text-gray-700 mb-1">
+        Driver Phone Number (optional)
+      </label>
+      <input
+        id="DriverPhone"
+        type="text"
+        value={formData.DriverPhone}
+        onChange={handleChange}
+        placeholder="Enter driver phone number"
+        className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+
+    <div className="flex flex-col">
+      <label htmlFor="Product" className="font-medium text-gray-700 mb-1">
+        Product Name (optional)
+      </label>
+      <input
+        id="Product"
+        type="text"
+        value={formData.Product}
+        onChange={handleChange}
+        placeholder="Enter product name"
+        className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+  </>
+)}
+
+            <div className="col-span-2 mt-6">
               <button
                 type="submit"
-                className="bg-orange-500 text-white p-2 rounded-md"
+                className="bg-green-500 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
               >
-                Create Now
+                Submit
               </button>
-            </a>
-            <a href="/open">
-              <button
-                type="submit"
-                className="bg-green-500 text-white p-2 rounded-md m-4"
-              >
-                Save Later
-              </button>
-            </a>
-          </div>
-        </form>
+            </div>
+          </form>
+        </div>
       </div>
 
-      {/* Toast Container */}
       <ToastContainer />
-    </div>
+    </>
   );
 };
 

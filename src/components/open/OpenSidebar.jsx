@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 
 const OpenTab = ({ activeTab, onTabClick }) => {
   const tabs = [
-    { label: 'Create', href: '/create' },
-    { label: 'Active', href: '/active' },
-    { label: 'Open', href: '/open' },
-    { label: 'Completed', href: '/complete' },
-    { label: 'Cancelled', href: '/cancel' },
+    { label: 'Create', href: '/trip/create' },
+    { label: 'Active', href: '/trip/active' },
+    { label: 'Open', href: '/trip/open' },
+    { label: 'Completed', href: '/trip/complete' },
+    { label: 'Cancelled', href: '/trip/cancel' },
   ];
 
   const openTabClick = (label) => {

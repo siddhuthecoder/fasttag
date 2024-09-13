@@ -2,42 +2,57 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faEdit,
-  faEnvelope,
   faChevronDown,
   faChevronUp,
-} from "@fortawesome/free-solid-svg-icons"; // Import icons for the toggle button
-import ActiveHeader from "./ActiveHeader";
+} from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
 const ActiveTable = () => {
   const [trips, setTrips] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
+  const [error, setError] = useState(null); // Add error state
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    // Fetch the data from the API
+    // Fetch the data from the API only if user._id exists
     const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://fastagtracking.com/customulip/company/66b79cb0999e3c7ce24cb74c/active-trips"
-        );
-        setTrips(
-          response.data.map((trip) => ({ ...trip, showDetails: false }))
-        );
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      if (user && user._id) {
+        try {
+          setLoading(true); // Set loading to true before fetching
+          const response = await axios.get(
+            `https://fastagtracking.com/customulip/company/66b79cb0999e3c7ce24cb74c/active-trips`
+          );
+          setTrips(
+            response.data.map((trip) => ({ ...trip, showDetails: false }))
+          );
+        } catch (err) {
+          setError(err.message || "Error fetching data");
+          console.error("Error fetching data:", err);
+        } finally {
+          setLoading(false); // Set loading to false after fetching
+        }
       }
     };
 
     fetchData();
-  }, []);
+  }, [user?._id]); // Include user._id as a dependency
 
   // Toggle details
   const toggleDetails = (id) => {
-    setTrips(
-      trips.map((trip) =>
+    setTrips((prevTrips) =>
+      prevTrips.map((trip) =>
         trip._id === id ? { ...trip, showDetails: !trip.showDetails } : trip
       )
     );
   };
+
+  if (loading) {
+    return <div>Loading...</div>; // Display loading state
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>; // Display error state
+  }
 
   return (
     <div>

@@ -13,12 +13,13 @@ import CompletedSidebar from '../components/completed/CompletedSidebar';
 import CompleteTable from '../components/completed/CompleteTable';
 import CompleteHeader from '../components/completed/CompletedHeader';
 import CompletedTab from '../components/completed/CompletedSidebar';
+import TripsTabs from '../components/Trips/Tabs';
 
 const CompletedTrip = () => {
   return (
     <div className="relative flex flex-col h-screen bg-white">
           <div className="flex-1 p-4 bg-white rounded-lg shadow-md">
-            <CompletedTab/>
+            <TripsTabs/>
             <CompleteHeader/>
             <CompleteTable/>
           </div>

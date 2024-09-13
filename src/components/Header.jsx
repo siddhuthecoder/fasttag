@@ -29,7 +29,8 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const location = useLocation()
-  const pathName = location.pathname
+  const pathName = location.pathname.split("/")
+  console.log(pathName)
 
   
   const handleLogout = () => {
@@ -56,32 +57,32 @@ const Header = () => {
     {
       name: "Dashboard",
       component: <Layout />,
-      link: "/dashboard"
+      link: "dashboard"
   },
     {
         name: "Fastag",
         component: <Fastag />,
-        link: "/fastag"
+        link: "fastag"
     },
     {
         name: "Vahan",
         component: <Vahan />,
-        link: "/vahan"
+        link: "vahan"
     },
     {
         name: "Sarathi",
         component: <Sarathi />,
-        link: "/sarathi"
+        link: "sarathi"
     },
     {
         name: "My Vehicles",
         component: <MyVehicle />,
-        link: "/MyVehicles"
+        link: "MyVehicles"
     },
     {
       name: "Trip",
       component: <Trip/>,
-      link: "/trip",
+      link: "trip",
     }
 ];
 
@@ -108,7 +109,7 @@ const Header = () => {
               <Link
                   to={data.link}
                   key={index}
-                  className={`px-3 py-1 md:text-[12px] lg:text-[15px] cursor-pointer ${pathName == data.link?"bg-[#E1E1FB]":""}  text-nowrap  border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
+                  className={`px-3 py-1 md:text-[12px] lg:text-[15px] cursor-pointer ${pathName.includes(data.link)?"bg-[#E1E1FB]":""}  text-nowrap  border-black duration-150 rounded-full  hover:bg-[#E1E1FB]`}
                   // onClick={() => setTab(data.name)}
               >
                   {data.name}

@@ -67,11 +67,11 @@ const App = () => {
                       <Route path='/privacy' element={<Policy/>}/>
                       <Route path='/trip' element={<Trip/>}/>
                       <Route path='/map' element={<TripMap/>}/>
-                      <Route path='/create' element={<Trip/>}/>
-                      <Route path='/active' element={<ActiveTrip/>}/>
-                      <Route path='/open' element={<OpenCreate/>}/>
-                      <Route path='/cancel' element={<CancelTrip/>}/>
-                      <Route path='/complete' element={<CompletedTrip/>}/>
+                      <Route path='/trip/create' element={<Trip/>}/>
+                      <Route path='/trip/active' element={<ActiveTrip/>}/>
+                      <Route path='/trip/open' element={<OpenCreate/>}/>
+                      <Route path='/trip/cancelled' element={<CancelTrip/>}/>
+                      <Route path='/trip/completed' element={<CompletedTrip/>}/>
 
 
 

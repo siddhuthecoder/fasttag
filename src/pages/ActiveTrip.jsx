@@ -13,12 +13,12 @@ import CancelledHeader from "../components/cancelled/CancelledHeader";
 import ActiveSidebar from "../components/active/Activesidebar";
 import ActiveHeader from "../components/active/ActiveHeader";
 import ActiveTable from "../components/active/ActiveTable";
-
+import TripsTabs from "../components/Trips/Tabs";
 const ActiveTrip = () => {
   return (
     <div className="relative flex bg-white flex-col h-screen ">
       <div className="flex-1 p-4 bg-white shadow-md">
-        <ActiveSidebar />
+        <TripsTabs   />
         <ActiveHeader />
         <ActiveTable />
       </div>

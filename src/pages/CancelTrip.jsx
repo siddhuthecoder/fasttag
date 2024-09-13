@@ -12,13 +12,14 @@ import CancelSidebar from '../components/cancelled/CancelledSidebar';
 import CancelledTable from '../components/cancelled/CancelledTable';
 import CancelledHeader from '../components/cancelled/CancelledHeader';
 import CanceledTab from '../components/cancelled/CancelledSidebar';
+import TripsTabs from '../components/Trips/Tabs';
 
 const CancelTrip = () => {
   return (
     <div className="relative flex flex-col h-screen bg-white">
   
           <div className="flex-1 p-4 bg-white rounded-lg shadow-md">
-            <CanceledTab/>
+            <TripsTabs/>
             <CancelledHeader/>
             <CancelledTable/>
           </div>
