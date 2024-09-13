@@ -20,7 +20,6 @@ const CancelTrip = () => {
   
           <div className="flex-1 p-4 bg-white rounded-lg shadow-md">
             <TripsTabs/>
-            <CancelledHeader/>
             <CancelledTable/>
           </div>
         </div>

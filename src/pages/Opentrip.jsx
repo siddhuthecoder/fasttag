@@ -19,7 +19,6 @@ const OpenCreate = () => {
      
           <div className="flex-1 p-4 bg-white rounded-lg shadow-md">
             <TripsTabs />
-            <OpenHeader/>
             <OpenTable/>
           </div>
         </div>

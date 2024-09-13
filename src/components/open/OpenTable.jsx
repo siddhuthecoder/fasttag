@@ -46,8 +46,20 @@ const OpenTable = () => {
 
   return (
     <>
+    <div className="w-full overflow-x-scroll">
+      <div className="grid w-full min-w-[1200px] grid-cols-12 gap-1 text-sm font-semibold text-gray-700 bg-gray-100 p-2 rounded-t-md mt-4">
+        <div className="col-span-1">ID</div>
+        <div className="col-span-1">Date</div>
+        <div className="col-span-1">Loading Point</div>
+        <div className="col-span-2 ml-10">Unloading Point</div>
+        <div className="col-span-1">Vehicle</div>
+        <div className="col-span-1">Invoice</div>
+        <div className="col-span-1">LR No.</div>
+        <div className="col-span-2">Location</div>
+        <div className="col-span-1">Status</div>
+      </div>
       {trips.map((item) => (
-        <div className="bg-white shadow rounded-md mt-2">
+        <div className="bg-white w-full min-w-[1200px] shadow rounded-md mt-2">
         <div className="grid grid-cols-12 gap-1 items-center text-sm bg-gray-50 p-2 rounded-b-md shadow">
         
           <div className="col-span-1 text-blue-500 cursor-pointer">#{item.ID}</div>
@@ -161,6 +173,7 @@ const OpenTable = () => {
         </div>
       </div>
       ))}
+      </div>
     </>
   );
 };

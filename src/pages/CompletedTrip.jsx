@@ -20,7 +20,6 @@ const CompletedTrip = () => {
     <div className="relative flex flex-col h-screen bg-white">
           <div className="flex-1 p-4 bg-white rounded-lg shadow-md">
             <TripsTabs/>
-            <CompleteHeader/>
             <CompleteTable/>
           </div>
         </div>

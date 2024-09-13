@@ -114,8 +114,13 @@ const AddTripForm = () => {
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e, active) => {
     e.preventDefault();
+
+    setFormData((prev) => ({
+      ...prev,
+      ifActive: active, // Update ifActive based on the button clicked
+    }));
 
     try {
       const response = await fetch(
@@ -123,14 +128,14 @@ const AddTripForm = () => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({ ...formData, ifActive: active }), // Send updated ifActive
         }
       );
 
       const result = await response.json();
       if (response.ok) {
         toast.success("Trip added successfully");
-        navigate("/active");
+        navigate("/trip/active");
       } else {
         toast.error("Failed to add trip");
         console.error("API Error:", result);
@@ -140,6 +145,9 @@ const AddTripForm = () => {
       toast.error("Error adding trip");
     }
   };
+
+
+
   return (
     <>
       <div className="bg-white w-full md:w-[80%] mx-auto mt-3">
@@ -238,9 +246,9 @@ const AddTripForm = () => {
                 className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-
+            <div className=""></div>
             {/* Button to show more fields */}
-            <div className="col-span-2 mt-4">
+            <div className="  w-full flex justify-end mt-4">
               <button
                 type="button"
                 onClick={() => setShowMore(!showMore)}
@@ -252,126 +260,134 @@ const AddTripForm = () => {
 
             {/* Optional fields */}
             {showMore && (
-  <>
-    <div className="flex flex-col">
-      <label htmlFor="referenceNo" className="font-medium text-gray-700 mb-1">
-        Reference Number (optional)
-      </label>
-      <input
-        id="referenceNo"
-        type="text"
-        value={formData.referenceNo}
-        onChange={handleChange}
-        placeholder="Enter reference number"
-        className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-    </div>
+              <>
+                <div className="flex flex-col">
+                  <label htmlFor="referenceNo" className="font-medium text-gray-700 mb-1">
+                    Reference Number (optional)
+                  </label>
+                  <input
+                    id="referenceNo"
+                    type="text"
+                    value={formData.referenceNo}
+                    onChange={handleChange}
+                    placeholder="Enter reference number"
+                    className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
 
-    <div className="flex flex-col">
-      <label htmlFor="lrNo" className="font-medium text-gray-700 mb-1">
-        LR/GR/CN Number (optional)
-      </label>
-      <input
-        id="lrNo"
-        type="text"
-        value={formData.lrNo}
-        onChange={handleChange}
-        placeholder="Enter LR/GR/CN number"
-        className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-    </div>
+                <div className="flex flex-col">
+                  <label htmlFor="lrNo" className="font-medium text-gray-700 mb-1">
+                    LR/GR/CN Number (optional)
+                  </label>
+                  <input
+                    id="lrNo"
+                    type="text"
+                    value={formData.lrNo}
+                    onChange={handleChange}
+                    placeholder="Enter LR/GR/CN number"
+                    className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
 
-    <div className="flex flex-col">
-      <label htmlFor="ewayBillNo" className="font-medium text-gray-700 mb-1">
-        Eway Bill Number (optional)
-      </label>
-      <input
-        id="ewayBillNo"
-        type="text"
-        value={formData.ewayBillNo}
-        onChange={handleChange}
-        placeholder="Enter Eway Bill number"
-        className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-    </div>
+                <div className="flex flex-col">
+                  <label htmlFor="ewayBillNo" className="font-medium text-gray-700 mb-1">
+                    Eway Bill Number (optional)
+                  </label>
+                  <input
+                    id="ewayBillNo"
+                    type="text"
+                    value={formData.ewayBillNo}
+                    onChange={handleChange}
+                    placeholder="Enter Eway Bill number"
+                    className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
 
-    <div className="flex flex-col">
-      <label htmlFor="notes" className="font-medium text-gray-700 mb-1">
-        Notes (optional)
-      </label>
-      <textarea
-        id="notes"
-        value={formData.notes}
-        onChange={handleChange}
-        placeholder="Add any additional notes"
-        className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-    </div>
+                <div className="flex flex-col">
+                  <label htmlFor="notes" className="font-medium text-gray-700 mb-1">
+                    Notes (optional)
+                  </label>
+                  <textarea
+                    id="notes"
+                    value={formData.notes}
+                    onChange={handleChange}
+                    placeholder="Add any additional notes"
+                    className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
 
-    <div className="flex flex-col">
-      <label htmlFor="vehicleType" className="font-medium text-gray-700 mb-1">
-        Vehicle Type (optional)
-      </label>
-      <input
-        id="vehicleType"
-        type="text"
-        value={formData.vehicleType}
-        onChange={handleChange}
-        placeholder="Enter vehicle type"
-        className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-    </div>
+                <div className="flex flex-col">
+                  <label htmlFor="vehicleType" className="font-medium text-gray-700 mb-1">
+                    Vehicle Type (optional)
+                  </label>
+                  <input
+                    id="vehicleType"
+                    type="text"
+                    value={formData.vehicleType}
+                    onChange={handleChange}
+                    placeholder="Enter vehicle type"
+                    className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
 
-    <div className="flex flex-col">
-      <label htmlFor="DriverName" className="font-medium text-gray-700 mb-1">
-        Driver Name (optional)
-      </label>
-      <input
-        id="DriverName"
-        type="text"
-        value={formData.DriverName}
-        onChange={handleChange}
-        placeholder="Enter driver name"
-        className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-    </div>
+                <div className="flex flex-col">
+                  <label htmlFor="DriverName" className="font-medium text-gray-700 mb-1">
+                    Driver Name (optional)
+                  </label>
+                  <input
+                    id="DriverName"
+                    type="text"
+                    value={formData.DriverName}
+                    onChange={handleChange}
+                    placeholder="Enter driver name"
+                    className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
 
-    <div className="flex flex-col">
-      <label htmlFor="DriverPhone" className="font-medium text-gray-700 mb-1">
-        Driver Phone Number (optional)
-      </label>
-      <input
-        id="DriverPhone"
-        type="text"
-        value={formData.DriverPhone}
-        onChange={handleChange}
-        placeholder="Enter driver phone number"
-        className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-    </div>
+                <div className="flex flex-col">
+                  <label htmlFor="DriverPhone" className="font-medium text-gray-700 mb-1">
+                    Driver Phone Number (optional)
+                  </label>
+                  <input
+                    id="DriverPhone"
+                    type="text"
+                    value={formData.DriverPhone}
+                    onChange={handleChange}
+                    placeholder="Enter driver phone number"
+                    className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
 
-    <div className="flex flex-col">
-      <label htmlFor="Product" className="font-medium text-gray-700 mb-1">
-        Product Name (optional)
-      </label>
-      <input
-        id="Product"
-        type="text"
-        value={formData.Product}
-        onChange={handleChange}
-        placeholder="Enter product name"
-        className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-    </div>
-  </>
-)}
-
-            <div className="col-span-2 mt-6">
+                <div className="flex flex-col">
+                  <label htmlFor="Product" className="font-medium text-gray-700 mb-1">
+                    Product Name (optional)
+                  </label>
+                  <input
+                    id="Product"
+                    type="text"
+                    value={formData.Product}
+                    onChange={handleChange}
+                    placeholder="Enter product name"
+                    className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </>
+            )}
+            <div className=""></div>
+            <div className="w-full gap-2 flex justify-end mt-6">
               <button
                 type="submit"
-                className="bg-green-500 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                onClick={(e) => handleSubmit(e, true)} // Pass true for "Create Now"
+                className="bg-green-500 text-white px-4 py-2 rounded-md"
               >
-                Submit
+                Create Now
+              </button>
+              <button
+                type="button"
+                onClick={(e) => handleSubmit(e, false)} // Pass false for "Create Later"
+                className="bg-orange-500 text-white px-4 py-2 rounded-md"
+              >
+                Create Later
               </button>
             </div>
           </form>

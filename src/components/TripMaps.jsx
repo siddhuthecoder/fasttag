@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from 'react-leaflet';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import flagIcon from 'leaflet/dist/images/marker-icon.png';
@@ -16,6 +17,7 @@ const flagMarkerIcon = new L.Icon({
 });
 
 const MapIntegration = () => {
+  const navigate = useNavigate()
   const [location, setLocation] = useState({ lat: 51.505, lng: -0.09 }); 
   const [name, setName] = useState('');
   const [latLng, setLatLng] = useState(''); 
@@ -80,6 +82,7 @@ const MapIntegration = () => {
           setName('');
           setLatLng('');
           setSearchQuery('');
+          navigate("/trip/create")
         } else {
           alert(`Failed to save location: ${data.message}`);
         }
