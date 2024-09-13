@@ -12,6 +12,7 @@ const ActiveTable = () => {
   const [loading, setLoading] = useState(true); // Add loading state
   const [error, setError] = useState(null); // Add error state
   const user = useSelector((state) => state.auth.user);
+  const companyId=user._id;
 
   useEffect(() => {
     // Fetch the data from the API only if user._id exists
@@ -20,7 +21,7 @@ const ActiveTable = () => {
         try {
           setLoading(true); // Set loading to true before fetching
           const response = await axios.get(
-            `https://fastagtracking.com/customulip/company/66b79cb0999e3c7ce24cb74c/active-trips`
+            `https://fastagtracking.com/customulip/company/${companyId}/active-trips`
           );
           setTrips(
             response.data.map((trip) => ({ ...trip, showDetails: false }))

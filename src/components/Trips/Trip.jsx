@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const AddTripForm = () => {
   const navigate = useNavigate();
-
+  const companyId=localStorage.getItem('userID')
   // State to manage form data
   const [formData, setFormData] = useState({
-    companyID: "66b79cb0999e3c7ce24cb74c",
+    companyID: companyId,
     from: { address: "", lat: "", lng: "" },
     to: { address: "", lat: "", lng: "" },
     expiryDate: "", // Will be calculated automatically
@@ -23,6 +23,7 @@ const AddTripForm = () => {
     DriverPhone: "",
     EwayBill: "",
     Product: "",
+    isActive:true,
     ifActive: true,
     Completed: false,
     isDeleted: false,
@@ -119,16 +120,16 @@ const AddTripForm = () => {
 
     setFormData((prev) => ({
       ...prev,
-      ifActive: active, // Update ifActive based on the button clicked
+      isActive: active, // Update ifActive based on the button clicked
     }));
-
+    alert(active)
     try {
       const response = await fetch(
         "https://fastagtracking.com/customulip/trip",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...formData, ifActive: active }), // Send updated ifActive
+          body: JSON.stringify({ ...formData, isActive: active,ifActive:active }), // Send updated ifActive
         }
       );
 

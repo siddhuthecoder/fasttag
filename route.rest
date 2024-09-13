@@ -99,12 +99,14 @@ GET https://fastagtracking.com/customulip/company
 GET https://fastagtracking.com/customulip/company/66b0faebbd10f1fc2ec12b8d
 
 ### Update a specific company by ID
-PUT https://fastagtracking.com/customulip/company/66b0faebbd10f1fc2ec12b8d
+PUT https://fastagtracking.com/customulip/company/66c5c7b3811b9657c7b7c8ca
 Content-Type: application/json
 
 {
     "name": "Company2",
-    "phone": "0987654321"
+    "phone": "9398848215",
+    "maxApiHit":10000,
+    "expiryDate":"2025-09-05T10:55:47.486Z"
 }
 
 ### Get all plans

@@ -9,14 +9,14 @@ const CompleteTable = () => {
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
   const user = useSelector((state) => state.auth.user);
-
+  const companyId=user._id;
   useEffect(() => {
     const fetchData = async () => {
       if (user && user._id) {
         try {
           setLoading(true); // Set loading to true before fetching
           const response = await axios.get(
-            `https://fastagtracking.com/customulip/company/66b79cb0999e3c7ce24cb74c/all-trips`
+            `https://fastagtracking.com/customulip/company/${companyId}/all-trips`
           );
           setTrips(
             response.data.map((trip) => ({ ...trip, showDetails: false }))
@@ -35,6 +35,7 @@ const CompleteTable = () => {
 
   // Filter completed trips once
   const filterCompletedTrips = (trips) => {
+    console.log({trips})
     return trips.filter((trip) => trip.Completed === true);
   };
 
