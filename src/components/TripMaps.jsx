@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from 'react-leaflet';
+import { useLocation } from 'react-router-dom';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import flagIcon from 'leaflet/dist/images/marker-icon.png'; 
+import flagIcon from 'leaflet/dist/images/marker-icon.png';
 
+// Custom icon for the marker
 const flagMarkerIcon = new L.Icon({
   iconUrl: flagIcon,
   iconSize: [25, 41],
@@ -13,12 +15,18 @@ const flagMarkerIcon = new L.Icon({
   shadowSize: [41, 41],
 });
 
-const MapIntegration = ({ onSaveDetails }) => {
+const MapIntegration = () => {
   const [location, setLocation] = useState({ lat: 51.505, lng: -0.09 }); 
   const [name, setName] = useState('');
   const [latLng, setLatLng] = useState(''); 
-  const [searchQuery, setSearchQuery] = useState(''); 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // For loading state
 
+  const urlLocation = useLocation();
+  const queryParams = new URLSearchParams(urlLocation.search);
+  const type = queryParams.get('type'); // Get 'type' from the query parameter
+
+  // Function to search a location using the Nominatim API
   const handleSearch = async () => {
     if (searchQuery) {
       try {
@@ -31,7 +39,7 @@ const MapIntegration = ({ onSaveDetails }) => {
           const { lat, lon } = data[0];
           const newLocation = { lat: parseFloat(lat), lng: parseFloat(lon) };
           setLocation(newLocation);
-          setLatLng(`${lat}, ${lon}`); 
+          setLatLng(`${lat}, ${lon}`);
         } else {
           alert('Location not found, please try another search.');
         }
@@ -42,18 +50,45 @@ const MapIntegration = ({ onSaveDetails }) => {
     }
   };
 
-  const handleSave = () => {
+  // Function to save the location details via the backend API
+  const handleSave = async () => {
     if (name && latLng) {
       const [latitude, longitude] = latLng.split(',').map(coord => coord.trim());
       const details = {
+        companyID: "66b79cb0999e3c7ce24cb74c",  // Replace with actual company ID
+        type,
         name,
-        latitude,
-        longitude,
+        lat: parseFloat(latitude),
+        lng: parseFloat(longitude),
       };
-      onSaveDetails(details); 
-      setName(''); 
-      setLatLng('');
-      setSearchQuery('');
+
+      setIsLoading(true);
+
+      try {
+        const response = await fetch('https://fastagtracking.com/customulip/savelocation', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(details),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          alert('Location saved successfully!');
+          setName('');
+          setLatLng('');
+          setSearchQuery('');
+        } else {
+          alert(`Failed to save location: ${data.message}`);
+        }
+      } catch (error) {
+        console.error('Error saving location:', error);
+        alert('Error saving location. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
     } else {
       alert('Please fill in the name and latitude/longitude');
     }
@@ -70,7 +105,7 @@ const MapIntegration = ({ onSaveDetails }) => {
       click(e) {
         const { lat, lng } = e.latlng;
         setLocation(e.latlng);
-        setLatLng(`${lat.toFixed(6)}, ${lng.toFixed(6)}`); 
+        setLatLng(`${lat.toFixed(6)}, ${lng.toFixed(6)}`);
       },
     });
 
@@ -87,7 +122,7 @@ const MapIntegration = ({ onSaveDetails }) => {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen w-full flex flex-col items-center fixed">
-      <div className="bg-white p-6 rounded-lg shadow-md mb-6 w-full max-w-10xl  mt-6">
+      <div className="bg-white p-6 rounded-lg shadow-md mb-6 w-full max-w-10xl mt-6">
         <div className="flex flex-wrap gap-4 items-end mt-[-10]">
           <div className="flex flex-col w-1/5">
             <label className="mb-1 font-medium text-gray-700">Name</label>
@@ -129,8 +164,9 @@ const MapIntegration = ({ onSaveDetails }) => {
             <button
               className="bg-gray-500 text-white p-2 rounded-md h-10"
               onClick={handleSave}
+              disabled={isLoading}
             >
-              Save Details
+              {isLoading ? 'Saving...' : 'Save Details'}
             </button>
           </div>
         </div>
@@ -151,4 +187,3 @@ const MapIntegration = ({ onSaveDetails }) => {
 };
 
 export default MapIntegration;
-

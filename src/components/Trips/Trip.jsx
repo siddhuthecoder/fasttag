@@ -5,21 +5,13 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const AddTripForm = () => {
   const navigate = useNavigate();
-  
+
   // State to manage form data
   const [formData, setFormData] = useState({
     companyID: "66b79cb0999e3c7ce24cb74c",
-    from: {
-      address: "",
-      lat: "",
-      lng: "",
-    },
-    to: {
-      address: "",
-      lat: "",
-      lng: "",
-    },
-    expiryDate: "",
+    from: { address: "", lat: "", lng: "" },
+    to: { address: "", lat: "", lng: "" },
+    expiryDate: "", // Will be calculated automatically
     vehicleNo: "",
     tripDays: "",
     referenceNo: "",
@@ -38,7 +30,7 @@ const AddTripForm = () => {
 
   const [loadingPoints, setLoadingPoints] = useState([]);
   const [unloadingPoints, setUnloadingPoints] = useState([]);
-  const [showMore, setShowMore] = useState(false); // For toggling optional fields
+  const [showMore, setShowMore] = useState(false);
 
   // Fetch loading and unloading points
   useEffect(() => {
@@ -46,15 +38,10 @@ const AddTripForm = () => {
       try {
         const response = await fetch(
           "https://fastagtracking.com/customulip/savelocations",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+          { method: "GET", headers: { "Content-Type": "application/json" } }
         );
         const data = await response.json();
-        
+
         const loading = data.filter((point) => point.type === "loading");
         const unloading = data.filter((point) => point.type === "unloading");
 
@@ -72,10 +59,24 @@ const AddTripForm = () => {
   // Handle form input changes
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
+
+    if (id === "tripDays") {
+      // Automatically calculate the expiry date based on trip duration
+      const currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() + parseInt(value, 10));
+      const expiryDate = currentDate.toISOString().split("T")[0]; // Format as YYYY-MM-DD
+
+      setFormData((prev) => ({
+        ...prev,
+        tripDays: value,
+        expiryDate, // Update expiry date
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [id]: value,
+      }));
+    }
   };
 
   // Handle loading point selection
@@ -84,14 +85,14 @@ const AddTripForm = () => {
       (point) => point.name === e.target.value
     );
     if (selectedPoint) {
-      setFormData({
-        ...formData,
+      setFormData((prev) => ({
+        ...prev,
         from: {
           address: selectedPoint.name,
           lat: selectedPoint.lat,
           lng: selectedPoint.lng,
         },
-      });
+      }));
     }
   };
 
@@ -101,14 +102,14 @@ const AddTripForm = () => {
       (point) => point.name === e.target.value
     );
     if (selectedPoint) {
-      setFormData({
-        ...formData,
+      setFormData((prev) => ({
+        ...prev,
         to: {
           address: selectedPoint.name,
           lat: selectedPoint.lat,
           lng: selectedPoint.lng,
         },
-      });
+      }));
     }
   };
 
@@ -121,9 +122,7 @@ const AddTripForm = () => {
         "https://fastagtracking.com/customulip/trip",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
         }
       );
@@ -141,7 +140,6 @@ const AddTripForm = () => {
       toast.error("Error adding trip");
     }
   };
-
   return (
     <>
       <div className="bg-white w-full md:w-[80%] mx-auto mt-3">
@@ -150,9 +148,12 @@ const AddTripForm = () => {
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
             {/* First row: Loading Point and Unloading Point */}
             <div className="flex flex-col">
-              <label htmlFor="loading-point" className="font-medium text-gray-700 mb-1">
-                Loading Point
-              </label>
+              <div className="flex items-center w-full justify-between">
+                <label htmlFor="loading-point" className="font-medium text-gray-700 mb-1">
+                  Loading Point
+                </label>
+                <div className="text-blue-600  cursor-pointer" onClick={() => navigate("/map?type=loading")}>+ ADD</div>
+              </div>
               <select
                 id="loading-point"
                 required
@@ -170,9 +171,12 @@ const AddTripForm = () => {
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="unloading-point" className="font-medium text-gray-700 mb-1">
-                Unloading Point
-              </label>
+              <div className="w-full flex items-center justify-between">
+                <label htmlFor="unloading-point" className="font-medium text-gray-700 mb-1">
+                  Unloading Point
+                </label>
+                <div className="text-blue-600  cursor-pointer" onClick={() => navigate("/map?type=unloading")}>+ ADD</div>
+              </div>
               <select
                 id="unloading-point"
                 required
@@ -229,7 +233,7 @@ const AddTripForm = () => {
                 id="expiryDate"
                 type="date"
                 value={formData.expiryDate}
-                onChange={handleChange}
+                readOnly
                 required
                 className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
