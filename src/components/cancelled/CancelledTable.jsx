@@ -52,6 +52,23 @@ const CancelledTable = () => {
     );
   };
 
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,  // 24-hour format
+        timeZone: 'UTC' // Ensure it remains in UTC
+    });
+}
+
+
+
+
   if (loading) {
     return <div>Loading...</div>; // Display loading state
   }
@@ -76,111 +93,123 @@ const CancelledTable = () => {
           <div className="col-span-1">Status</div>
         </div>
         {trips.map((trip) => (
-        <div className="bg-white shadow rounded-md w-full min-w-[1200px] mt-2 p-2" key={trip._id}>
-          <div className="grid grid-cols-12 gap-4 items-center text-sm">
-            {/* Trip Number */}
-            <div className="col-span-1 text-blue-500 font-semibold text-center">
-              #{trip.tripNo}
-            </div>
-            {/* Date */}
-            <div className="col-span-2 text-gray-600 text-center">
-              <div>{new Date(trip.createdAt).toLocaleDateString()}</div>
-              <div>{new Date(trip.createdAt).toLocaleTimeString()}</div>
-            </div>
-            {/* Loading/Consignor */}
-            <div className="col-span-2 text-center">
-              <div className="text-gray-700 font-medium">
-                {trip.from.address}
-              </div>
-            </div>
-            {/* Unloading/Consignee */}
-            <div className="col-span-2 text-center">
-              <div className="text-gray-700 font-medium">{trip.to.address}</div>
-            </div>
-            {/* Vehicle */}
-            <div className="col-span-1 text-center">
-              <div className="text-gray-700 font-medium">{trip.vehicleNo}</div>
-              <div className="text-blue-500 text-xs cursor-pointer">
-                {trip.vehicleType}
-              </div>
-            </div>
-            {/* LR No. */}
-            <div className="col-span-1 text-center">
-              <div className="text-gray-700 font-medium">{trip.lrNo}</div>
-              <div className="text-blue-500 text-xs cursor-pointer">Edit</div>
-            </div>
-            {/* Location and In Transit */}
-            <div className="col-span-1 text-center">
-              <div
-                className={`text-xs font-semibold px-2 py-1 rounded-md ${
-                  trip.isActive
-                    ? "bg-pink-100 text-pink-600"
-                    : "bg-green-100 text-green-600"
-                }`}
-              >
-                {trip.isActive ? "In Transit" : "Completed"}
-              </div>
-            </div>
-            {/* Status and Active Button */}
-            <div className="col-span-1 text-center">
-              <button className="bg-green-500 px-4 py-1 rounded text-white">
-                {trip.isActive ? "Active" : "Completed"}
-              </button>
-            </div>
-            {/* View More Details Button with Icon */}
-            <div className="col-span-1 text-center">
-              <button
-                onClick={() => toggleDetails(trip._id)}
-                className="text-blue-500 underline flex items-center justify-center"
-              >
-                {trip.showDetails ? "Hide Details" : "Get Details"}
-                <FontAwesomeIcon
-                  icon={trip.showDetails ? faChevronUp : faChevronDown}
-                  className="ml-1"
-                />
-              </button>
-            </div>
-          </div>
+         <div className="bg-white w-full min-w-[1200px] shadow rounded-md mt-2">
+        
 
-          {/* Conditional rendering for additional trip information with smooth transition */}
-          <div
-            className={`grid grid-cols-12  text-xs mt-4 text-gray-500 overflow-hidden transition-all duration-300 ease-in-out ${
-              trip.showDetails ? "max-h-screen" : "max-h-0"
-            }`}
-          >
-            <div className="col-span-3">
-              <span className="font-semibold text-blue-500">Reference ID:</span>{" "}
-              {trip.referenceNo}
-              <br />
-              <span className="font-semibold text-blue-500">Product:</span>{" "}
-              Boxes
-            </div>
-            <div className="col-span-3">
-              <span className="font-semibold text-blue-500">Driver:</span> Ravi
-              Kumar
-              <br />
-              <span className="font-semibold text-blue-500">
-                E-way Bill:
-              </span>{" "}
-              {trip.ewayBillNo}
-            </div>
-            <div className="col-span-3 ">
-              <span className="font-semibold text-blue-500">Distance:</span>{" "}
-              529km
-            </div>
-            <div className="col-span-3">
-              <span className="font-semibold text-blue-500">
-                E-way Bill Expiry:
-              </span>{" "}
-              {new Date(trip.expiryDate).toLocaleDateString()}
-              <br />
-              <span className="font-semibold text-blue-500">
-                Trip Duration:
-              </span>{" "}
-              2 Days
-            </div>
-          </div>
-        </div>
+    
+         <div className="grid grid-cols-12 gap-1 items-center text-sm bg-gray-50 p-2 rounded-b-md shadow">
+           
+           <div className="col-span-1 text-blue-500 cursor-pointer text-[12px] me-2">#{trip.ID}</div>
+           <div className="col-span-1 text-gray-600">
+             {formatDate(trip.updatedAt)}
+             <br />
+           </div>
+ 
+         
+           <div className="col-span-1 ">
+             <div className="text-gray-700 font-medium">{trip.from.address}</div>
+             <div className="text-gray-500 text-xs">
+               XYZ Warehouse
+               <br />
+               Gurgaon, Haryana
+               <br />
+               (123456)
+             </div>
+           </div>
+ 
+           
+           <div className="col-span-2 ml-10">
+             <div className="text-gray-700 font-medium">{trip.to.address}</div>
+             <div className="text-gray-500 text-xs">
+               PQR Warehouse
+               <br />
+               Gurgaon, Haryana
+               <br />
+               (123457)
+             </div>
+           </div>
+ 
+           
+           <div className="col-span-1">
+             <div className="text-gray-700 font-medium">{trip.vehicleNo}</div>
+             <div className="text-blue-500 text-xs cursor-pointer">Vehicle Type {trip.vehicleType}</div>
+           </div>
+ 
+           
+           <div className="col-span-1">
+             <div className="text-gray-700 font-medium">INV5678904</div>
+             <div className="text-blue-500 text-xs cursor-pointer">Edit</div>
+           </div>
+           <div className="col-span-1">
+             <div className="text-gray-700 font-medium">{trip.lrNo}</div>
+             <div className="text-blue-500 text-xs cursor-pointer">Edit</div>
+           </div>
+ 
+           
+           <div className="col-span-2">
+             <div className="text-gray-700 font-medium">{trip.to.address}</div>
+             <div className="text-gray-500 text-xs">
+               PQR Warehouse
+               <br />
+               Gurgaon, Haryana
+               <br />
+               (123457)
+             </div>
+           </div>
+ 
+           
+           <div className="col-span-1 relative">
+             <div className="bg-pink-100 text-pink-600 text-xs font-semibold px-2 py-1 rounded-md">
+               In Transit
+             </div>
+             <div className="text-gray-500 text-xs">
+               27 Aug 2024
+               <br />
+               8:00 AM
+             </div>
+ 
+             
+             <div className="absolute top-0 right-[-80px] flex space-x-2 mt-[-10] ">
+               <FontAwesomeIcon icon={faEdit} className="text-blue-500 cursor-pointer" />
+               <FontAwesomeIcon icon={faEnvelope} className="text-blue-500 cursor-pointer" />
+             </div>
+           </div>
+ 
+           
+           <div className="col-span-12 text-gray-500 text-xs pt-2 mt-2 grid grid-cols-12 gap-1">
+             <div className="col-span-2">
+               <span className="font-semibold text-blue-500">Reference ID:</span> {trip.referenceNo}
+               <br />
+               <span className="font-semibold text-blue-500">Product:</span> Boxes
+             </div>
+             <div className="col-span-2">
+               <span className="font-semibold text-blue-500">Driver:</span> {trip.driverName}
+               <br />
+               <span className="font-semibold text-blue-500">E-way Bill:</span> {trip.ewayBillNo}
+             </div>
+             <div className="col-span-2">
+               <span className="font-semibold text-blue-500">Driver No.:</span> {trip.driverN}
+               <br />
+               <span className="font-semibold text-blue-500">Distance:</span> {trip.distance}km
+             </div>
+             <div className="col-span-2">
+               <span className="font-semibold text-blue-500">E-way Bill Expiry:</span> 7
+               <br />
+               <span className="font-semibold text-blue-500">Trip Duration:</span> 2 Days
+               
+             </div>
+             <div className="flex items-center  col-span-2 ">
+                 <img
+                   src="https://play-lh.googleusercontent.com/PxLpEIenBKcfZ1ZvCipf4L-ywZZpgD4I30GXnGpKGbprH-b-TKPxKPQatpWXb3EPsTM"
+                   alt="FASTag Logo"
+                   className="w-14 h-14 ml-2"
+                 />
+             </div>
+               <button className="bg-red-500 p-1 rounded col-span-2 max-h-[30px] text-white px-6">Delete</button>
+             
+           </div>
+         </div>
+       </div>
       ))}
       </div>
     </>
