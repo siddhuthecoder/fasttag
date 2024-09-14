@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChevronDown,
-  faChevronUp,
-} from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 
 const ActiveTable = () => {
@@ -12,7 +9,7 @@ const ActiveTable = () => {
   const [loading, setLoading] = useState(true); // Add loading state
   const [error, setError] = useState(null); // Add error state
   const user = useSelector((state) => state.auth.user);
-
+console.log(user)
   useEffect(() => {
     // Fetch the data from the API only if user._id exists
     const fetchData = async () => {
@@ -46,6 +43,30 @@ const ActiveTable = () => {
     );
   };
 
+  // Function to handle marking a trip as completed
+  const markAsCompleted = async (id) => {
+    try {
+      // Send PATCH request to the API to update isActive to false
+      await axios.put(
+        `https://fastagtracking.com/customulip/trip/${id}`,
+        {
+          tripId: id,
+          isActive: false,
+        }
+      );
+
+      // Update the trips state to reflect the change locally
+      setTrips((prevTrips) =>
+        prevTrips.map((trip) =>
+          trip._id === id ? { ...trip, isActive: false } : trip
+        )
+      );
+    } catch (error) {
+      console.error("Error marking the trip as completed:", error);
+      setError("Error marking the trip as completed.");
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>; // Display loading state
   }
@@ -56,18 +77,21 @@ const ActiveTable = () => {
 
   return (
     <div className="w-full overflow-x-scroll">
-       <div className="grid w-full min-w-[1200px] grid-cols-12 gap-4 text-sm font-semibold text-gray-700 bg-gray-100 p-2 rounded-t-md">
-          <div className="col-span-1 text-center">ID</div>
-          <div className="col-span-2 text-center">Date</div>
-          <div className="col-span-2 text-center">Loading Point</div>
-          <div className="col-span-2 text-center">Unloading Point</div>
-          <div className="col-span-1 text-center">Vehicle</div>
-          <div className="col-span-1 text-center">LR No.</div>
-          <div className="col-span-1 text-center">Location</div>
-          <div className="col-span-1 text-center">Status</div>
-        </div>
+      <div className="grid w-full min-w-[1200px] grid-cols-12 gap-4 text-sm font-semibold text-gray-700 bg-gray-100 p-2 rounded-t-md">
+        <div className="col-span-1 text-center">ID</div>
+        <div className="col-span-2 text-center">Date</div>
+        <div className="col-span-2 text-center">Loading Point</div>
+        <div className="col-span-2 text-center">Unloading Point</div>
+        <div className="col-span-1 text-center">Vehicle</div>
+        <div className="col-span-1 text-center">LR No.</div>
+        <div className="col-span-1 text-center">Location</div>
+        <div className="col-span-1 text-center">Status</div>
+      </div>
       {trips.map((trip) => (
-        <div className="bg-white shadow rounded-md w-full min-w-[1200px] mt-2 p-2" key={trip._id}>
+        <div
+          className="bg-white shadow rounded-md w-full min-w-[1200px] mt-2 p-2"
+          key={trip._id}
+        >
           <div className="grid grid-cols-12 gap-4 items-center text-sm">
             {/* Trip Number */}
             <div className="col-span-1 text-blue-500 font-semibold text-center">
@@ -113,10 +137,19 @@ const ActiveTable = () => {
               </div>
             </div>
             {/* Status and Active Button */}
-            <div className="col-span-1 text-center">
+            <div className="col-span-1 gap-2 flex flex-col text-center">
               <button className="bg-green-500 px-4 py-1 rounded text-white">
                 {trip.isActive ? "Active" : "Completed"}
               </button>
+              {/* Mark as Completed Button */}
+              {trip.isActive && (
+                <button
+                  className="bg-blue-500 text-[10px] px-1 py-1 rounded text-white"
+                  onClick={() => markAsCompleted(trip._id)}
+                >
+                  Mark as Completed
+                </button>
+              )}
             </div>
             {/* View More Details Button with Icon */}
             <div className="col-span-1 text-center">
@@ -165,9 +198,7 @@ const ActiveTable = () => {
               </span>{" "}
               {new Date(trip.expiryDate).toLocaleDateString()}
               <br />
-              <span className="font-semibold text-blue-500">
-                Trip Duration:
-              </span>{" "}
+              <span className="font-semibold text-blue-500">Trip Duration:</span>{" "}
               2 Days
             </div>
           </div>
