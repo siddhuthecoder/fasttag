@@ -64,7 +64,7 @@ const AddTripForm = () => {
     if (id === "tripDays") {
       // Automatically calculate the expiry date based on trip duration
       const currentDate = new Date();
-      currentDate.setDate(currentDate.getDate() + parseInt(value, 10));
+      currentDate.setDate(currentDate.getDate() + parseInt(value-1, 10));
       const expiryDate = currentDate.toISOString().split("T")[0]; // Format as YYYY-MM-DD
 
       setFormData((prev) => ({

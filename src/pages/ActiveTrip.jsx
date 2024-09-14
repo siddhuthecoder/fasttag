@@ -18,8 +18,7 @@ const ActiveTrip = () => {
   return (
     <div className="relative flex bg-white flex-col h-screen ">
       <div className="flex-1 p-4 bg-white shadow-md">
-        <TripsTabs   />
-        
+        <TripsTabs  />
         <ActiveTable />
       </div>
     </div>

@@ -14,6 +14,7 @@
     const [loading, setLoading] = useState(true); // Loading state
     const [error, setError] = useState(null); // Error state
     const user = useSelector((state) => state.auth.user);
+    console.log(user)
     const companyId=user._id;
     useEffect(() => {
       const fetchData = async () => {
@@ -27,7 +28,7 @@
               response.data.map((trip) => ({ ...trip, showDetails: false }))
             );
             const completedTrips = filterCompletedTrips(response.data);
-            setTrips(response.data)
+            setTrips(completedTrips)
           } catch (err) {
             setError(err.message || 'Error fetching data');
             console.error('Error fetching data:', err);

@@ -23,9 +23,7 @@ const OpenTable = () => {
           const response = await axios.get(
             `https://fastagtracking.com/customulip/company/${companyId}/all-trips`
           );
-          setTrips(
-            response.data.map((trip) => ({ ...trip, showDetails: false }))
-          );
+          setTrips(filterOpenData(response.data))
           // const completedTrips = filterCompletedTrips(response.data);
           // setTrips(completedTrips)
         } catch (err) {
@@ -56,9 +54,9 @@ const OpenTable = () => {
 }
 
   // Filter completed trips once
-  const filterCompletedTrips = (trips) => {
+  const filterOpenData = (trips) => {
     console.log({trips})
-    return trips.filter((trip) => trip.isActive === false && trip.Completed===false);
+    return trips.filter((trip) => !(trip.isActive === true || trip.Completed===true));
   };
   const toggleDetails = (id) => {
     setTrips((prevTrips) =>

@@ -23,9 +23,10 @@ const CancelledTable = () => {
           const response = await axios.get(
             `https://fastagtracking.com/customulip/company/${companyId}/expired-trips`
           );
-          setTrips(
-            response.data.map((trip) => ({ ...trip, showDetails: false }))
-          );
+          // setTrips(
+          //   response.data.map((trip) => ({ ...trip, showDetails: false }))
+          // );
+          setTrips(filterCompletedTrips(response.data))
           
         } catch (err) {
           setError(err.message || 'Error fetching data');
@@ -42,7 +43,7 @@ const CancelledTable = () => {
   // Filter completed trips once
   const filterCompletedTrips = (trips) => {
     console.log({trips})
-    return trips.filter((trip) => trip.Completed === true);
+    return trips.filter((trip) => trip.isDeleted === true);
   };
   const toggleDetails = (id) => {
     setTrips((prevTrips) =>
@@ -51,6 +52,8 @@ const CancelledTable = () => {
       )
     );
   };
+
+
 
   function formatDate(dateString) {
     const date = new Date(dateString);
