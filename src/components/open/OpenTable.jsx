@@ -26,8 +26,8 @@ const OpenTable = () => {
           setTrips(
             response.data.map((trip) => ({ ...trip, showDetails: false }))
           );
-          const completedTrips = filterCompletedTrips(response.data);
-          setTrips(completedTrips)
+          // const completedTrips = filterCompletedTrips(response.data);
+          // setTrips(completedTrips)
         } catch (err) {
           setError(err.message || 'Error fetching data');
           console.error('Error fetching data:', err);
