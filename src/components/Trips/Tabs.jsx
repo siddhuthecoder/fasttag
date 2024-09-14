@@ -27,15 +27,16 @@ const TripsTabs = () => {
         const activeCount = trips.filter(trip => trip.isActive).length;
         const completedCount = trips.filter(trip => trip.Completed).length;
         const cancelledCount = trips.filter(trip => trip.isDeleted).length;
+        const openCount = trips.filter((trip) => !(trip.isActive === true || trip.Completed===true)).length;
         
 
 
         setTripCounts({
           active: activeCount-1,
           completed: completedCount,
-          open: trips.length - activeCount - completedCount, // Assuming open trips are neither active nor completed
-          cancelled: trips.filter(trip => trip.isDeleted).length, // Assuming cancelled trips are marked with isDeleted
-          open: trips.length - cancelledCount - activeCount - completedCount, 
+          open: completedCount, // Assuming open trips are neither active nor completed
+          cancelled:cancelledCount, // Assuming cancelled trips are marked with isDeleted
+          open:openCount, 
         });
       } catch (error) {
         console.error('Error fetching trip data:', error);
