@@ -171,3 +171,13 @@ Content-Type: application/json
 GET https://fastagtracking.com/customulip/pay?company_id=66b5974fc5f0a6f365cc32ea&amount=149000&phone=9398848215
 # Content-Type: application/json
 # Authorization: Bearer <your_token_here>  # If authentication is required
+
+####
+PUT https://fastagtracking.com/customulip/trip/66e495203060b3d201c40f50
+Content-Type: application/json
+
+{
+    
+"isActive": false
+
+}
