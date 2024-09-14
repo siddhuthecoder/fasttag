@@ -72,13 +72,6 @@ const App = () => {
                       <Route path='/trip/open' element={<OpenCreate/>}/>
                       <Route path='/trip/cancelled' element={<CancelTrip/>}/>
                       <Route path='/trip/completed' element={<CompletedTrip/>}/>
-
-
-
-
-
-   
-
                       <Route path='/contact' element={<Contact/>}/>
                       <Route path="/pricing" element={<Pricing />} />
                       <Route path="/" element={<Phone/>} />
