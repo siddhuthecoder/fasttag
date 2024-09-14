@@ -68,6 +68,30 @@ const OpenTable = () => {
     );
   };
 
+  const makeActive = async (id) => {
+    try {
+      // Send PATCH request to the API to update isActive to false
+      await axios.put(
+        `https://fastagtracking.com/customulip/trip/${id}`,
+        {
+          tripId: id,
+          isActive: true,
+        }
+      );
+
+      // Update the trips state to reflect the change locally
+      setTrips((prevTrips) =>
+        prevTrips.map((trip) =>
+          trip._id === id ? { ...trip, isActive: false } : trip
+        )
+      );
+      window.location.reload()
+    } catch (error) {
+      console.error("Error marking the trip as completed:", error);
+      setError("Error marking the trip as completed.");
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>; // Display loading state
   }
@@ -202,7 +226,7 @@ In Traansit            </div>
                   className="w-14 h-14 ml-2"
                 />
             </div>
-            <button className="bg-green-500 p-1 rounded col-span-2 max-h-[30px] text-white px-6">Start</button>
+            <button onClick={() => makeActive(trip._id)} className="bg-green-500 p-1 rounded col-span-2 max-h-[30px] text-white px-6">Start</button>
             
           </div>
         </div>
