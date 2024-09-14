@@ -173,11 +173,9 @@ GET https://fastagtracking.com/customulip/pay?company_id=66b5974fc5f0a6f365cc32e
 # Authorization: Bearer <your_token_here>  # If authentication is required
 
 ####
-PUT https://fastagtracking.com/customulip/trip/66e495203060b3d201c40f50
+PUT https://fastagtracking.com/customulip/trip/66e494073060b3d201c40e9f
 Content-Type: application/json
 
 {
-    
-"isActive": false
-
+  "Completed": true
 }

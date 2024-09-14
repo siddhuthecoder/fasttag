@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faEnvelope,faTrash } from '@fortawesome/free-solid-svg-icons';
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronDown,
@@ -24,8 +24,8 @@ const OpenTable = () => {
             `https://fastagtracking.com/customulip/company/${companyId}/all-trips`
           );
           setTrips(filterOpenData(response.data))
-          // const completedTrips = filterCompletedTrips(response.data);
-          // setTrips(completedTrips)
+          const completedTrips = filterOpenData(response.data);
+          setTrips(completedTrips)
         } catch (err) {
           setError(err.message || 'Error fetching data');
           console.error('Error fetching data:', err);
@@ -52,7 +52,26 @@ const OpenTable = () => {
         timeZone: 'UTC' // Ensure it remains in UTC
     });
 }
+const deleteTrip = async (id) => {
+  try {
+    // Send PATCH request to the API to update isDeleted to true
+    await axios.put(`https://fastagtracking.com/customulip/trip/${id}`, {
+      tripId: id,
+      isDeleted: true, // Mark trip as deleted
+    });
 
+    // // Update the trips state to reflect the change locally
+    // setTrips(
+    //   (prevTrips) => prevTrips.filter((trip) => trip._id !== id) // Remove the deleted trip from the list
+    // );
+  
+    // Optionally, reload the page or trigger a success message
+    window.location.reload();
+  } catch (error) {
+    console.error("Error deleting the trip:", error);
+    setError("Error deleting the trip.");
+  }
+};
   // Filter completed trips once
   const filterOpenData = (trips) => {
     console.log({trips})
@@ -190,7 +209,11 @@ In Traansit            </div>
             
             <div className="absolute top-0 right-[-80px] flex space-x-2 mt-[-10] ">
               <FontAwesomeIcon icon={faEdit} className="text-blue-500 cursor-pointer" />
-              <FontAwesomeIcon icon={faEnvelope} className="text-blue-500 cursor-pointer" />
+              <FontAwesomeIcon
+                  icon={faTrash}
+                  className="text-blue-500 cursor-pointer"
+                  onClick={() => deleteTrip(trip._id)} // Call deleteTrip on click
+                />
             </div>
           </div>
 

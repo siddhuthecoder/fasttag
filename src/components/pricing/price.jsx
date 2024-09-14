@@ -75,7 +75,8 @@ const Price = () => {
 
   const handlePayment = async () => {
     if (!selectedPlan) return;
-
+    localStorage.setItem("selectedPlan",JSON.stringify(selectedPlan))
+    alert(localStorage.getItem("selectedPlan"))
     const companyId = localStorage.getItem("userID");
     const userPhone = isAuthenticated?.phone; // Assuming you have phone stored in user profile
     if (!userPhone || userPhone.length !== 10) {
@@ -84,7 +85,7 @@ const Price = () => {
     }
 
     try {
-      const amount = selectedPlan.offerprice; // Convert to paisa
+      const amount = (selectedPlan.offerprice)*100; // Convert to paisa
       const paymentUrl = `https://fastagtracking.com/customulip/pay?company_id=${companyId}&amount=${amount}&phone=${userPhone}`;
 
       console.log(`Requesting payment with URL: ${paymentUrl}`);
@@ -95,12 +96,8 @@ const Price = () => {
         const { merchantTransactionId, instrumentResponse } =
           res.data.data.data;
         const redirectUrl = instrumentResponse.redirectInfo.url;
-
         console.log("Payment Initiation Response:", res.data);
-
-        // Redirect to payment gateway
         window.location.href = redirectUrl;
-
         // After successful payment, user will be redirected, and you can use `merchantTransactionId`
       } else {
         console.error(

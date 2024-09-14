@@ -3,6 +3,7 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import dayjs from "dayjs"; // For date manipulation
 
 const PaymentStatus = () => {
   const [paymentData, setPaymentData] = useState(null);
@@ -28,6 +29,53 @@ const PaymentStatus = () => {
           const paymentData = response.data?.data;
           if (paymentData) {
             setPaymentData(paymentData);
+            console.log(paymentData);
+
+            if (paymentData.state === "COMPLETED") {
+              const companyId = localStorage.getItem("userID");
+              // Fetch the selected plan from localStorage
+              const plan = JSON.parse(localStorage.getItem("selectedPlan"));
+              const user= JSON.parse(localStorage.getItem("userData"))
+
+              if (plan) {
+                // Calculate expiry date based on the plan type
+                let expiryDate;
+                if (plan.planType === "monthly") {
+                  expiryDate = dayjs().add(1, "month").toISOString();
+                } else if (plan.planType === "quarterly") {
+                  expiryDate = dayjs().add(3, "months").toISOString();
+                } else if (plan.planType === "yearly") {
+                  expiryDate = dayjs().add(1, "year").toISOString();
+                }
+
+                // Prepare payload for the PUT request
+                const payload = {
+                  maxApiHit: plan.apiHitLimit,
+                  expiryDate: expiryDate,
+                };
+
+                // Update company details
+                axios
+                  .put(
+                    `https://fastagtracking.com/customulip/company/${companyId}`,
+                    payload,
+                    {
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                    }
+                  )
+                  .then((updateResponse) => {
+                    console.log("Company data updated successfully:", updateResponse.data);
+                    toast.success("Company data updated successfully!");
+                  })
+                  .catch((err) => {
+                    console.error("Error updating company data:", err);
+                    toast.error("Failed to update company data.");
+                  });
+              }
+            }
+
             setLoading(false);
           } else {
             setError("Payment details not found.");
@@ -92,14 +140,14 @@ const PaymentStatus = () => {
                   <strong>Amount Paid:</strong> ₹{paymentData.amount}
                 </p>
                 <p className="text-gray-600">
-                  <strong>Status:</strong> {paymentData.status}
+                  <strong>Status:</strong> {paymentData.state}
                 </p>
                 <p className="text-gray-600">
                   <strong>Transaction ID:</strong> {paymentData.transactionId}
                 </p>
               </div>
 
-              {paymentData.status === "COMPLETED" ? (
+              {paymentData.state === "COMPLETED" ? (
                 <div className="bg-green-100 text-green-600 p-4 rounded-md mt-4">
                   <h2 className="text-lg font-bold">Payment Successful!</h2>
                   <p>Your payment was successfully processed.</p>

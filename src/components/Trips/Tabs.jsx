@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const TripsTabs = () => {
   const [tripCounts, setTripCounts] = useState({
@@ -13,26 +14,25 @@ const TripsTabs = () => {
 
   const location = useLocation();
   const pathName = location.pathname.split("/");
-
+  const user = useSelector((state) => state.auth.user)
   useEffect(() => {
     // Fetch trip data from the API
     const fetchTripData = async () => {
       try {
         const response = await axios.get(
-          'https://fastagtracking.com/customulip/company/66c5c7b3811b9657c7b7c8ca/all-trips'
+          `https://fastagtracking.com/customulip/company/${user._id}/all-trips`
         );
         const trips = response.data;
 
         // Count the active and completed trips
-        const activeCount = trips.filter(trip => trip.isActive).length;
-        const completedCount = trips.filter(trip => trip.Completed).length;
-        const cancelledCount = trips.filter(trip => trip.isDeleted).length;
+        const activeCount = trips.filter(trip => (trip.isActive===true && trip.Completed===false )  ).length;
+        const completedCount = trips.filter(trip => trip.Completed===true ).length;
+        const cancelledCount = trips.filter(trip => trip.isDeleted===true).length;
         const openCount = trips.filter((trip) => !(trip.isActive === true || trip.Completed===true)).length;
-        
 
 
         setTripCounts({
-          active: activeCount-1,
+          active: activeCount,
           completed: completedCount,
           open: completedCount, // Assuming open trips are neither active nor completed
           cancelled:cancelledCount, // Assuming cancelled trips are marked with isDeleted
