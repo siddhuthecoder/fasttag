@@ -16,9 +16,9 @@ const Modal = ({ isOpen, onClose, onSave, trip }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <div className="fixed inset-0 flex  justify-center bg-gray-800 bg-opacity-50">
       <div className="bg-white p-6 rounded-md shadow-lg w-[97%] max-w-[1000px] h-[70vh] overflow-y-scroll">
-        <div className="w-full flex items-center justify-between">
+        <div className="w-full flex  justify-between">
           <h2 className="text-xl font-semibold mb-4">Edit Trip</h2>
           <IoMdClose className="text-2xl text-red-600 cursor-pointer" onClick={onClose} />
         </div>
@@ -121,50 +121,50 @@ const handleSave = async (id) => {
     <>
       <div className="w-full overflow-x-scroll">
         <div className="grid w-full min-w-[1200px] grid-cols-12 gap-4 text-sm font-semibold text-gray-700 bg-gray-100 p-2 rounded-t-md">
-          <div className="col-span-1 text-center">ID</div>
-          <div className="col-span-2 text-center">Date</div>
-          <div className="col-span-2 text-center">Loading Point</div>
-          <div className="col-span-2 text-center">Unloading Point</div>
-          <div className="col-span-1 text-center">Vehicle</div>
-          <div className="col-span-1 text-center">LR No.</div>
-          <div className="col-span-1 text-center">Status</div>
+          <div className="col-span-1  ">ID</div>
+          <div className="col-span-2  ">Date</div>
+          <div className="col-span-2  ">Loading Point</div>
+          <div className="col-span-2  ">Unloading Point</div>
+          <div className="col-span-1  ">Vehicle</div>
+          <div className="col-span-2  ">LR No.</div>
+          <div className="col-span-2  ">Status</div>
         </div>
         {trips.map((trip) => (
           <div className="bg-white w-full min-w-[1200px] shadow rounded-md mt-2" key={trip._id}>
-            <div className="grid grid-cols-12 gap-1 items-center text-sm bg-gray-50 p-2 rounded-b-md shadow">
+            <div className="grid grid-cols-12 gap-1  text-sm bg-gray-50 p-2 rounded-b-md shadow">
               <div className="col-span-1 text-blue-500 cursor-pointer text-[12px] me-2">#{trip.ID}</div>
-              <div className="col-span-1 text-gray-600">
+              <div className="col-span-2 text-gray-600">
                 {formatDate(trip.updatedAt)}
                 <br />
               </div>
               <div className="col-span-2">
-              <div className="text-gray-700 font-medium text-center">
+              <div className="text-gray-700 font-medium ">
                 {trip.from.address}
               </div>
-              <div className="text-gray-500 text-xs text-center">
+              <div className="text-gray-500 text-xs ">
                 Lat: {trip.from.lat} <br />
                 Lng: {trip.from.lng}
               </div>
             </div>
             <div className="col-span-2">
-              <div className="text-gray-700 font-medium text-center">
+              <div className="text-gray-700 font-medium ">
                 {trip.to.address}
               </div>
-              <div className="text-gray-500 text-xs text-center">
+              <div className="text-gray-500 text-xs ">
                 Lat: {trip.to.lat} <br />
                 Lng: {trip.to.lng}
               </div>
             </div>
-            <div className="col-span-1 text-center">
+            <div className="col-span-1 ">
               <div className="text-gray-700 font-medium">{trip.vehicleNo}</div>
             </div>
-            <div className="col-span-1 text-center">
+            <div className="col-span-2 ">
               <div className="text-gray-700 font-medium">
                 {trip.lrNo || "N/A"}
               </div>
             </div>
              
-              <div className="col-span-1 relative">
+              <div className="col-span-2 relative">
                 <div className="bg-pink-100 text-pink-600 text-xs font-semibold px-2 py-1 rounded-md">
                   In Transit
                 </div>
