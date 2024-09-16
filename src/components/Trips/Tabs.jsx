@@ -44,7 +44,7 @@ const TripsTabs = () => {
         const activeCount = activeTrips;
         const completedCount = completedTrips.filter(trip => trip.Completed === true).length;
         const openCount = completedTrips.filter(trip => !(trip.isActive === true || trip.Completed === true)).length;
-        const cancelledCount = cancelledTrips.length || 0;
+        const cancelledCount = cancelledTrips ;
 
         setTripCounts({
           active: activeCount,

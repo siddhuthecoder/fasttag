@@ -1,316 +1,123 @@
-import React, { useState } from 'react';
-import { IoSearchOutline } from "react-icons/io5";
-import { RiDeleteBinLine } from "react-icons/ri";
-import { FiEdit } from "react-icons/fi";
-import mod1 from '../../assets/mod1.png';
-import mod2 from '../../assets/mod2.png';
-import { MdAddCard } from "react-icons/md";
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import Map from '../openstreetMap/Map';
-import Modal from 'react-modal';
-import { useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { signInSuccess } from '../../store/authSlice';
+import './VehicleDataTable.css'; // Importing the CSS file
 
-const VehicleCard = ({ vehicleNumber, onEdit, onDelete }) => {
-  const navigate = useNavigate();
+const VehicleDataTable = () => {
+    const [vehicles, setVehicles] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredVehicles, setFilteredVehicles] = useState([]);
+    const [newVehicle, setNewVehicle] = useState('');
 
-  const handleCardClick = () => {
-    navigate(`/fastag/${vehicleNumber}`);
-  };
+    const companyID = localStorage.getItem('userID');
 
-  const handleImageClick = (e) => {
-    e.stopPropagation();
-    navigate(`/vahan/${vehicleNumber}`);
-  };
+    // Fetch vehicle data from the API
+    useEffect(() => {
+        const fetchVehicleData = async () => {
+            try {
+                const response = await axios.get(
+                    `https://fastagtracking.com/customulip/vehicle/status/${companyID}`
+                );
+                setVehicles(response.data.data); // Set the vehicles array
+                setFilteredVehicles(response.data.data); // Initially, show all vehicles
+            } catch (error) {
+                console.error('Error fetching vehicle data:', error);
+            }
+        };
 
-  const handleEditClick = (e) => {
-    e.stopPropagation();  // Stop the click event from bubbling up
-    onEdit(vehicleNumber);
-  };
+        fetchVehicleData();
+    }, []);
 
-  const handleDeleteClick = (e) => {
-    e.stopPropagation();  // Stop the click event from bubbling up
-    onDelete(vehicleNumber);
-  };
+    // Handle search input and filter the vehicle list based on the search term
+    const handleSearch = () => {
+        if (searchTerm) {
+            const filtered = vehicles.filter((vehicle) =>
+                vehicle.rc_regn_no.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            setFilteredVehicles(filtered);
+        } else {
+            setFilteredVehicles(vehicles); // Reset to all vehicles if no search term
+        }
+    };
 
-  return (
-    <div
-      className="w-full bg-white rounded-md mt-3 justify-between flex-wrap flex items-center cursor-pointer"
-      onClick={handleCardClick}
-    >
-      <div className="flex w-full justify-between md:justify-start md:w-auto items-center gap-1">
-        <div className="flex flex-col ps-2 my-2">
-          <div className="font-semibold text-lg">Vehicle Number</div>
-          <div className="text-zinc-400">{vehicleNumber.toUpperCase()}</div>
-        </div>
-        <div className="flex items-center">
-          <button onClick={handleDeleteClick}>
-            <RiDeleteBinLine className="text-2xl ms-3 text-red-500 mx-3 cursor-pointer" />
-          </button>
-          <button onClick={handleEditClick}>
-            <FiEdit className="text-2xl ms-3 text-blue-500 mx-3 cursor-pointer" />
-          </button>
-        </div>
-      </div>
-      <div className="flex items-center m-2 gap-3">
-        <div className="w-[70px] cursor-pointer h-[30px] flex justify-center items-center rounded-full border border-black bg-[#EDEDED]">
-          <img src={mod1} className="w scale-[0.8]" alt="" />
-        </div>
-        <div
-          className="w-[70px] h-[30px] cursor-pointer flex justify-center mx-2 items-center rounded-full border border-black bg-[#EDEDED]"
-          onClick={handleImageClick}
-        >
-          <img src={mod2} className="scale-[0.8]" alt="" />
-        </div>
-      </div>
-    </div>
-  );
-};
+    // Handle adding a new vehicle
+    const handleAddVehicle = async () => {
+        if (newVehicle) {
+            try {
+                const response = await axios.post('https://fastagtracking.com/customulip/vehicle-status', {
+                    company_id: companyID,
+                    vehiclenumber: newVehicle,
+                });
+                console.log('Vehicle added:', response.data);
+                // Optionally, refetch or update vehicle data here
+                setNewVehicle(''); // Clear the input field after adding
+            } catch (error) {
+                console.error('Error adding vehicle:', error);
+            }
+        }
+    };
 
-const MyVehicle = () => {
-  const user = useSelector((state) => state.auth.user);
-  const dispatch = useDispatch();
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [newVehicleNumber, setNewVehicleNumber] = useState('');
-  const [editVehicleNumber, setEditVehicleNumber] = useState('');
-  const [vehicleToEdit, setVehicleToEdit] = useState(null);
-  const [vehicleToDelete, setVehicleToDelete] = useState(null);
-  const location = useLocation();
-  const pathName = location.pathname;
-  const [vehicles, setVehicles] = useState(user.vehicleNumbers || []);
+    return (
+        <div className="vehicle-container">
+            <h2 className="vehicle-heading">Vehicle Information</h2>
 
-  const updateVehiclesOnServer = async (updatedVehicles) => {
-    try {
-      const company_id = localStorage.getItem('userID');
-      const response = await axios.put(`https://fastagtracking.com/customulip/company/${company_id}`, {
-        vehicleNumbers: updatedVehicles,
-      });
-      console.log('Vehicle array updated:', response.data);
-      dispatch(signInSuccess(response.data));
-      window.location.reload();
-    } catch (error) {
-      console.error('Error updating vehicle array:', error);
-    }
-  };
-
-  const openAddModal = () => setIsAddModalOpen(true);
-  const closeAddModal = () => setIsAddModalOpen(false);
-
-  const openEditModal = (vehicleNumber) => {
-    setVehicleToEdit(vehicleNumber);
-    setEditVehicleNumber(vehicleNumber);
-    setIsEditModalOpen(true);
-  };
-  const closeEditModal = () => setIsEditModalOpen(false);
-
-  const openDeleteModal = (vehicleNumber) => {
-    setVehicleToDelete(vehicleNumber);
-    setIsDeleteModalOpen(true);
-  };
-  const closeDeleteModal = () => setIsDeleteModalOpen(false);
-
-  const handleAddSubmit = () => {
-    const upperCaseVehicle = newVehicleNumber.toUpperCase();
-    if (vehicles.includes(upperCaseVehicle)) {
-      alert('This vehicle is already in the list.');
-      return;
-    }
-    const updatedVehicles = [...vehicles, upperCaseVehicle];
-    updateVehiclesOnServer(updatedVehicles);
-    closeAddModal();
-  };
-
-  const handleEditSubmit = () => {
-    const upperCaseVehicle = editVehicleNumber.toUpperCase();
-    if (vehicles.includes(upperCaseVehicle) && upperCaseVehicle !== vehicleToEdit) {
-      alert('This vehicle is already in the list.');
-      return;
-    }
-    const updatedVehicles = vehicles.map((vehicle) =>
-      vehicle === vehicleToEdit ? upperCaseVehicle : vehicle
-    );
-    setVehicles(updatedVehicles);
-    updateVehiclesOnServer(updatedVehicles);
-    closeEditModal();
-  };
-
-  const handleDeleteConfirm = () => {
-    const updatedVehicles = vehicles.filter((vehicle) => vehicle !== vehicleToDelete);
-    updateVehiclesOnServer(updatedVehicles);
-    closeDeleteModal();
-  };
-
-  const tabs = [
-    { name: "Dashboard", link: "/dashboard" },
-    {
-      name: "Fastag",
-      link: "/fastag",
-    },
-    {
-      name: "Vahan",
-      link: "/vahan",
-    },
-    {
-      name: "Sarathi",
-      link: "/sarathi",
-    },
-    {
-      name: "My Vehicles",
-      link: "/MyVehicles",
-    },
-  ];
-
-  return (
-    <>
-      <div className="w-full grid grid-cols-1 mt-[60px] lg:grid-cols-12 gap-5 md:gap-2  md:pt-0 pt-3  md:pb-0 pb-2">
-        <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[620px] md:col-span-6 xl:col-span-4 flex flex-col">
-          <div className="flex items-center flex-wrap mt-2 gap-2 md:hidden">
-          {tabs.map((data, index) => (
-              <Link
-                to={data.link}
-                key={index}
-                className={`px-[5px] py-1  text-[13.5px] cursor-pointer ${pathName === data.link ? "bg-[#E1E1FB]" : ""} text-nowrap border border-black duration-150 rounded-full hover:bg-[#E1E1FB]`}
-              >
-                {data.name}
-              </Link>
-            ))}
-          </div>
-          <div className="w-full flex flex-col">
-            <div className="w-full grid grid-cols-12 gap-1">
-              <div className="flex w-full col-span-9 md:col-span-8 mx-auto items-center mt-3 relative">
-                <input
-                  type="text"
-                  className="w-full px-3 h-[52px] rounded-md border"
-                  placeholder="Enter Vehicle Number"
-                />
-                <div className="absolute right-0 w-[50px] z-[2] h-[50px] bg-[#5E81F4] rounded-tr-md rounded-br-md flex justify-center items-center">
-                  <IoSearchOutline className="text-white text-2xl" />
+            {/* Search and Add Vehicle Section */}
+            <div className="action-section">
+                <div className="search-section">
+                    <input
+                        type="text"
+                        placeholder="Search by Vehicle No."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="search-input"
+                    />
+                    <button onClick={handleSearch} className="search-btn">Search</button>
                 </div>
-              </div>
-              <div className="col-span-3 md:col-span-4 flex justify-center mt-3 items-center">
-                <button
-                  className="w-full flex justify-center items-center rounded-md h-[50px] text-white text-lg font-semibold bg-[#5E81F4]"
-                  onClick={openAddModal}
-                >
-                  <span className="hidden md:block">Add Vehicle</span>
-                  <MdAddCard />
-                </button>
-              </div>
-            </div>
-            <div className="w-full flex-col h-[550px] mt-3 overflow-y-auto">
-              {vehicles.map((vehicleNumber, index) => (
-                <VehicleCard
-                  key={index}
-                  vehicleNumber={vehicleNumber}
-                  onEdit={openEditModal}
-                  onDelete={openDeleteModal}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className="md:w-[90%] w-[100%] ms-1 md:mt-2 mx-auto min-h-[620px] z-[-0] md:col-span-6 xl:col-span-8 hidden md:flex justify-center items-center">
-          <Map tollData={[]} />
-        </div>
-      </div>
-      <Modal
-        isOpen={isAddModalOpen}
-        onRequestClose={closeAddModal}
-        className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
-        ariaHideApp={false}
-      >
-        <div className="bg-white p-6 rounded-md w-full md:w-1/3">
-          <h2 className="text-xl font-semibold mb-4">Add Vehicle</h2>
-          <input
-            type="text"
-            className="w-full px-3 py-2 border rounded-md mb-4"
-            value={newVehicleNumber}
-            onChange={(e) => setNewVehicleNumber(e.target.value)}
-            placeholder="Enter Vehicle Number"
-          />
-          <div className="flex justify-end">
-            <button
-              className="px-4 py-2 bg-gray-300 rounded-md mr-2"
-              onClick={closeAddModal}
-            >
-              Cancel
-            </button>
-            <button
-              className="px-4 py-2 bg-blue-500 text-white rounded-md"
-              onClick={handleAddSubmit}
-            >
-              Add
-            </button>
-          </div>
-        </div>
-      </Modal>
 
-      {/* Edit Vehicle Modal */}
-      <Modal
-        isOpen={isEditModalOpen}
-        onRequestClose={closeEditModal}
-        className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
-        ariaHideApp={false}
-      >
-        <div className="bg-white p-6 rounded-md w-full md:w-1/3">
-          <h2 className="text-xl font-semibold mb-4">Edit Vehicle</h2>
-          <input
-            type="text"
-            className="w-full px-3 py-2 border rounded-md mb-4"
-            value={editVehicleNumber}
-            onChange={(e) => setEditVehicleNumber(e.target.value)}
-            placeholder="Enter Vehicle Number"
-          />
-          <div className="flex justify-end">
-            <button
-              className="px-4 py-2 bg-gray-300 rounded-md mr-2"
-              onClick={closeEditModal}
-            >
-              Cancel
-            </button>
-            <button
-              className="px-4 py-2 bg-blue-500 text-white rounded-md"
-              onClick={handleEditSubmit}
-            >
-              Save
-            </button>
-          </div>
-        </div>
-      </Modal>
+                <div className="add-vehicle-section">
+                    <input
+                        type="text"
+                        placeholder="Enter New Vehicle No."
+                        value={newVehicle}
+                        onChange={(e) => setNewVehicle(e.target.value)}
+                        className="add-input"
+                    />
+                    <button onClick={handleAddVehicle} className="add-btn">Add Vehicle</button>
+                </div>
+            </div>
 
-      {/* Delete Confirmation Modal */}
-      <Modal
-        isOpen={isDeleteModalOpen}
-        onRequestClose={closeDeleteModal}
-        className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
-        ariaHideApp={false}
-      >
-        <div className="bg-white p-6 rounded-md w-full md:w-1/3">
-          <h2 className="text-xl font-semibold mb-4">Delete Vehicle</h2>
-          <p>Are you sure you want to delete this vehicle?</p>
-          <div className="flex justify-end mt-4">
-            <button
-              className="px-4 py-2 bg-gray-300 rounded-md mr-2"
-              onClick={closeDeleteModal}
-            >
-              Cancel
-            </button>
-            <button
-              className="px-4 py-2 bg-red-500 text-white rounded-md"
-              onClick={handleDeleteConfirm}
-            >
-              Delete
-            </button>
-          </div>
+            {/* Vehicle Table */}
+            {filteredVehicles.length > 0 ? (
+                <table className="vehicle-table">
+                    <thead>
+                        <tr>
+                            <th>Vehicle No</th>
+                            <th>Fit Upto</th>
+                            <th>Insurance Upto</th>
+                            <th>NP Upto</th>
+                            <th>Permit Valid Upto</th>
+                            <th>PUCC Upto</th>
+                            <th>Tax Upto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filteredVehicles.map((vehicle) => (
+                            <tr key={vehicle._id}>
+                                <td>{vehicle.rc_regn_no}</td>
+                                <td>{vehicle.rc_fit_upto}</td>
+                                <td>{vehicle.rc_insurance_upto}</td>
+                                <td>{vehicle.rc_np_upto}</td>
+                                <td>{vehicle.rc_permit_valid_upto}</td>
+                                <td>{vehicle.rc_pucc_upto}</td>
+                                <td>{vehicle.rc_tax_upto}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            ) : (
+                <p className="no-data-text">No vehicle data available</p>
+            )}
         </div>
-      </Modal>
-    </>
-  );
+    );
 };
 
-export default MyVehicle;
+export default VehicleDataTable;

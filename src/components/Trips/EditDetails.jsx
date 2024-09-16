@@ -5,8 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const EditTripForm = ({ tripDetails }) => {
   const navigate = useNavigate();
-
-  // State to manage form data, populated with default values from props (tripDetails)
+  console.log({tripDetails})
   const [formData, setFormData] = useState({
     companyID: tripDetails.companyID,
     from: {
@@ -19,7 +18,7 @@ const EditTripForm = ({ tripDetails }) => {
       lat: tripDetails.to.lat || "",
       lng: tripDetails.to.lng || "",
     },
-    expiryDate: tripDetails.expiryDate || "", // Expiry date from props
+    expiryDate: tripDetails.expiryDate || "", 
     vehicleNo: tripDetails.vehicleNo || "",
     tripDays: tripDetails.tripDays || "",
     referenceNo: tripDetails.referenceNo || "",
@@ -31,16 +30,11 @@ const EditTripForm = ({ tripDetails }) => {
     DriverPhone: tripDetails.DriverPhone || "",
     EwayBill: tripDetails.EwayBill || "",
     Product: tripDetails.Product || "",
-    isActive: tripDetails.isActive || true,
-    ifActive: tripDetails.ifActive || true,
-    Completed: tripDetails.Completed || false,
-    isDeleted: tripDetails.isDeleted || false,
   });
 
   const [loadingPoints, setLoadingPoints] = useState([]);
   const [unloadingPoints, setUnloadingPoints] = useState([]);
 
-  // Fetch loading and unloading points
   useEffect(() => {
     const fetchLocations = async () => {
       try {
@@ -49,14 +43,9 @@ const EditTripForm = ({ tripDetails }) => {
           { method: "GET", headers: { "Content-Type": "application/json" } }
         );
         const data = await response.json();
-
-        const loading = data.filter((point) => point.type === "loading");
-        const unloading = data.filter((point) => point.type === "unloading");
-
-        setLoadingPoints(loading);
-        setUnloadingPoints(unloading);
+        setLoadingPoints(data.filter((point) => point.type === "loading"));
+        setUnloadingPoints(data.filter((point) => point.type === "unloading"));
       } catch (error) {
-        console.error("Error fetching locations:", error);
         toast.error("Failed to fetch locations");
       }
     };
@@ -64,324 +53,188 @@ const EditTripForm = ({ tripDetails }) => {
     fetchLocations();
   }, []);
 
-  // Handle form input changes
   const handleChange = (e) => {
     const { id, value } = e.target;
-
     if (id === "tripDays") {
-      // Automatically calculate the expiry date based on trip duration
       const currentDate = new Date();
       currentDate.setDate(currentDate.getDate() + parseInt(value - 1, 10));
-      const expiryDate = currentDate.toISOString().split("T")[0]; // Format as YYYY-MM-DD
-
-      setFormData((prev) => ({
-        ...prev,
-        tripDays: value,
-        expiryDate, // Update expiry date
-      }));
+      const expiryDate = currentDate.toISOString().split("T")[0]; 
+      setFormData((prev) => ({ ...prev, tripDays: value, expiryDate }));
     } else {
-      setFormData((prev) => ({
-        ...prev,
-        [id]: value,
-      }));
+      setFormData((prev) => ({ ...prev, [id]: value }));
     }
   };
 
-  // Handle loading point selection
   const handleLoadingPointChange = (e) => {
-    const selectedPoint = loadingPoints.find(
-      (point) => point.name === e.target.value
-    );
+    const selectedPoint = loadingPoints.find((point) => point.name === e.target.value);
     if (selectedPoint) {
       setFormData((prev) => ({
         ...prev,
-        from: {
-          address: selectedPoint.name,
-          lat: selectedPoint.lat,
-          lng: selectedPoint.lng,
-        },
+        from: { address: selectedPoint.name, lat: selectedPoint.lat, lng: selectedPoint.lng },
       }));
     }
   };
 
-  // Handle unloading point selection
   const handleUnloadingPointChange = (e) => {
-    const selectedPoint = unloadingPoints.find(
-      (point) => point.name === e.target.value
-    );
+    const selectedPoint = unloadingPoints.find((point) => point.name === e.target.value);
     if (selectedPoint) {
       setFormData((prev) => ({
         ...prev,
-        to: {
-          address: selectedPoint.name,
-          lat: selectedPoint.lat,
-          lng: selectedPoint.lng,
-        },
+        to: { address: selectedPoint.name, lat: selectedPoint.lat, lng: selectedPoint.lng },
       }));
     }
   };
 
-  // Handle form submission (PUT request to update trip)
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await fetch(
-        "https://fastagtracking.com/customulip/trip/66e4933c3060b3d201c40e19",
+        `https://fastagtracking.com/customulip/trip/${tripDetails._id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
         }
       );
-
       const result = await response.json();
       if (response.ok) {
-        toast.success("Trip updated successfully");
+        alert("Trip updated successfully");
+        window.location.reload()
         navigate("/trip/active");
       } else {
         toast.error("Failed to update trip");
-        console.error("API Error:", result);
       }
     } catch (error) {
-      console.error("Error updating trip:", error);
       toast.error("Error updating trip");
     }
   };
 
   return (
-    <>
-      <div className="bg-white w-full md:w-[80%] mx-auto mt-3">
-        <div className="bg-white p-6 rounded-lg ">
-          <h2 className="text-xl font-semibold mb-4">Edit Trip Information</h2>
-          <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
+    <div className="bg-gray-100 min-h-screen py-10">
+      <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold text-gray-700 mb-6">Edit Trip Information</h2>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col">
-                <div className="flex items-center w-full justify-between">
-                <label htmlFor="loading-point" className="font-medium text-gray-700 mb-1">
-                    Loading Point
-                </label>
-                <div className="text-blue-600 cursor-pointer" onClick={() => navigate("/map?type=loading")}>+ ADD</div>
-                </div>
-                <select
+              <label htmlFor="loading-point" className="font-medium text-gray-600 mb-2">Loading Point</label>
+              <select
                 id="loading-point"
-                
                 value={formData.from.address}
                 onChange={handleLoadingPointChange}
-                className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
+                className="p-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
                 <option value="">Select Loading Point</option>
                 {loadingPoints.map((point) => (
-                    <option key={point._id} value={point.name}>
-                    {point.name}
-                    </option>
+                  <option key={point._id} value={point.name}>{point.name}</option>
                 ))}
-                </select>
+              </select>
             </div>
 
             <div className="flex flex-col">
-                <div className="w-full flex items-center justify-between">
-                <label htmlFor="unloading-point" className="font-medium text-gray-700 mb-1">
-                    Unloading Point
-                </label>
-                <div className="text-blue-600 cursor-pointer" onClick={() => navigate("/map?type=unloading")}>+ ADD</div>
-                </div>
-                <select
+              <label htmlFor="unloading-point" className="font-medium text-gray-600 mb-2">Unloading Point</label>
+              <select
                 id="unloading-point"
-                
                 value={formData.to.address}
                 onChange={handleUnloadingPointChange}
-                className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
+                className="p-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
                 <option value="">Select Unloading Point</option>
                 {unloadingPoints.map((point) => (
-                    <option key={point._id} value={point.name}>
-                    {point.name}
-                    </option>
+                  <option key={point._id} value={point.name}>{point.name}</option>
                 ))}
-                </select>
+              </select>
             </div>
+          </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col">
-                <label htmlFor="vehicleNo" className="font-medium text-gray-700 mb-1">
-                Vehicle Number
-                </label>
-                <input
+              <label htmlFor="vehicleNo" className="font-medium text-gray-600 mb-2">Vehicle Number</label>
+              <input
                 id="vehicleNo"
                 type="text"
                 value={formData.vehicleNo}
                 onChange={handleChange}
-                
+                className="p-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="Enter vehicle number"
-                className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+              />
             </div>
 
             <div className="flex flex-col">
-                <label htmlFor="tripDays" className="text-[12px] font-semibold md:font-medium text-gray-700 mb-1">
-                Trip Duration (Days)
-                </label>
-                <input
+              <label htmlFor="tripDays" className="font-medium text-gray-600 mb-2">Trip Duration (Days)</label>
+              <input
                 id="tripDays"
                 type="number"
                 value={formData.tripDays}
                 onChange={handleChange}
-                
+                className="p-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="Enter trip duration"
-                className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+              />
             </div>
+          </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col">
-                <label htmlFor="referenceNo" className="font-medium text-gray-700 mb-1">
-                Reference Number
-                </label>
-                <input
+              <label htmlFor="referenceNo" className="font-medium text-gray-600 mb-2">Reference Number</label>
+              <input
                 id="referenceNo"
                 type="text"
                 value={formData.referenceNo}
                 onChange={handleChange}
-                
+                className="p-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="Enter reference number"
-                className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+              />
             </div>
 
             <div className="flex flex-col">
-                <label htmlFor="lrNo" className="font-medium text-gray-700 mb-1">
-                LR Number
-                </label>
-                <input
+              <label htmlFor="lrNo" className="font-medium text-gray-600 mb-2">LR Number</label>
+              <input
                 id="lrNo"
                 type="text"
                 value={formData.lrNo}
                 onChange={handleChange}
+                className="p-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="Enter LR number"
-                className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+              />
             </div>
+          </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col">
-                <label htmlFor="ewayBillNo" className="font-medium text-gray-700 mb-1">
-                E-way Bill Number
-                </label>
-                <input
+              <label htmlFor="ewayBillNo" className="font-medium text-gray-600 mb-2">E-way Bill Number</label>
+              <input
                 id="ewayBillNo"
                 type="text"
                 value={formData.ewayBillNo}
                 onChange={handleChange}
+                className="p-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="Enter e-way bill number"
-                className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+              />
             </div>
 
             <div className="flex flex-col">
-                <label htmlFor="expiryDate" className="font-medium text-gray-700 mb-1">
-                Expiry Date
-                </label>
-                <input
+              <label htmlFor="expiryDate" className="font-medium text-gray-600 mb-2">Expiry Date</label>
+              <input
                 id="expiryDate"
                 type="date"
                 value={formData.expiryDate}
                 readOnly
-                
-                className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                className="p-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
             </div>
+          </div>
 
-            <div className="flex flex-col">
-                <label htmlFor="vehicleType" className="font-medium text-gray-700 mb-1">
-                Vehicle Type
-                </label>
-                <input
-                id="vehicleType"
-                type="text"
-                value={formData.vehicleType}
-                onChange={handleChange}
-                placeholder="Enter vehicle type"
-                className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-            </div>
-
-            <div className="flex flex-col">
-                <label htmlFor="DriverName" className="font-medium text-gray-700 mb-1">
-                Driver Name
-                </label>
-                <input
-                id="DriverName"
-                type="text"
-                value={formData.DriverName}
-                onChange={handleChange}
-                placeholder="Enter driver name"
-                className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-            </div>
-
-            <div className="flex flex-col">
-                <label htmlFor="DriverPhone" className="font-medium text-gray-700 mb-1">
-                Driver Phone
-                </label>
-                <input
-                id="DriverPhone"
-                type="text"
-                value={formData.DriverPhone}
-                onChange={handleChange}
-                placeholder="Enter driver phone"
-                className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-            </div>
-
-            <div className="flex flex-col">
-                <label htmlFor="EwayBill" className="font-medium text-gray-700 mb-1">
-                E-way Bill
-                </label>
-                <input
-                id="EwayBill"
-                type="text"
-                value={formData.EwayBill}
-                onChange={handleChange}
-                placeholder="Enter e-way bill"
-                className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-            </div>
-
-            <div className="flex flex-col">
-                <label htmlFor="Product" className="font-medium text-gray-700 mb-1">
-                Product
-                </label>
-                <input
-                id="Product"
-                type="text"
-                value={formData.Product}
-                onChange={handleChange}
-                placeholder="Enter product"
-                className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-            </div>
-
-            <div className="flex flex-col col-span-2">
-                <label htmlFor="notes" className="font-medium text-gray-700 mb-1">
-                Notes
-                </label>
-                <textarea
-                id="notes"
-                value={formData.notes}
-                onChange={handleChange}
-                placeholder="Enter any notes"
-                className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-            </div>
-
-            <div className="w-full gap-2 flex justify-end mt-6">
-                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
-                Update Trip
-                </button>
-            </div>
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-blue-600 transition duration-300"
+            >
+              Update Trip
+            </button>
+          </div>
         </form>
-
-        </div>
       </div>
       <ToastContainer />
-    </>
+    </div>
   );
 };
 

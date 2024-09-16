@@ -236,7 +236,7 @@ const AddTripForm = () => {
             {/* Third row: Expiry Date */}
             <div className="col-span-2 flex flex-col">
               <label htmlFor="expiryDate" className="font-medium text-gray-700 mb-1">
-                E-bill Expiry Date
+                Trip Expiry Date
               </label>
               <input
                 id="expiryDate"
