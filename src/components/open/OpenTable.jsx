@@ -8,12 +8,32 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import EditTripForm from "../Trips/EditDetails";
+import { IoMdClose } from "react-icons/io";
+
+const Modal = ({ isOpen, onClose, onSave, trip }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+      <div className="bg-white p-6 rounded-md shadow-lg w-[97%] max-w-[1000px] h-[70vh] overflow-y-scroll">
+        <div className="w-full flex items-center justify-between">
+          <h2 className="text-xl font-semibold mb-4">Edit Trip</h2>
+          <IoMdClose className="text-2xl text-red-600 cursor-pointer" onClick={onClose} />
+        </div>
+        <EditTripForm tripDetails={trip} />
+      </div>
+    </div>
+  );
+};
 
 const OpenTable = () => {
   const [trips, setTrips] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
   const user = useSelector((state) => state.auth.user);
+  const [selectedTrip, setSelectedTrip] = useState(null); // State to track the trip being edited
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
   const companyId=user._id;
   useEffect(() => {
     const fetchData = async () => {
@@ -52,6 +72,22 @@ const OpenTable = () => {
         timeZone: 'UTC' // Ensure it remains in UTC
     });
 }
+
+const openModal = (trip) => {
+  setSelectedTrip(trip);
+  setIsModalOpen(true);
+};
+
+const closeModal = () => {
+  setIsModalOpen(false);
+  setSelectedTrip(null);
+};
+
+const handleSave = async (id) => {
+  // Implement save logic here
+  console.log('Saving trip with ID:', id);
+  closeModal();
+};
 
   // Filter completed trips once
   const filterOpenData = (trips) => {
@@ -189,7 +225,7 @@ In Traansit            </div>
 
             
             <div className="absolute top-0 right-[-80px] flex space-x-2 mt-[-10] ">
-              <FontAwesomeIcon icon={faEdit} className="text-blue-500 cursor-pointer" />
+              <FontAwesomeIcon icon={faEdit} className="text-blue-500 cursor-pointer" onClick={() => openModal(trip)} />
               <FontAwesomeIcon icon={faEnvelope} className="text-blue-500 cursor-pointer" />
             </div>
           </div>
@@ -231,6 +267,7 @@ In Traansit            </div>
         </div>
       ))}
       </div>
+      <Modal isOpen={isModalOpen} onClose={closeModal} onSave={handleSave} trip={selectedTrip} />
     </>
   );
 };
