@@ -156,7 +156,6 @@ const OpenTable = () => {
         <div className="bg-white w-full min-w-[1200px] shadow rounded-md mt-2">
 
 
-
         <div className="grid grid-cols-12 gap-1 items-center text-sm bg-gray-50 p-2 rounded-b-md shadow">
           
           <div className="col-span-1 text-blue-500 cursor-pointer text-[12px] me-2">#{trip.ID}</div>

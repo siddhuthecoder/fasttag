@@ -8,35 +8,49 @@ const TripsTabs = () => {
   const [tripCounts, setTripCounts] = useState({
     active: 0,
     completed: 0,
-    open: 0, // If you want to count open or cancelled trips too
+    open: 0, // For open trips
     cancelled: 0
   });
 
   const location = useLocation();
   const pathName = location.pathname.split("/");
-  const user = useSelector((state) => state.auth.user)
+  const user = useSelector((state) => state.auth.user);
+
   useEffect(() => {
     // Fetch trip data from the API
     const fetchTripData = async () => {
       try {
-        const response = await axios.get(
+        // Fetch active trips
+        const activeResponse = await axios.get(
+          `https://fastagtracking.com/customulip/company/${user._id}/active-trips`
+        );
+        const activeTrips = activeResponse.data.length;
+        console.log("Active trips:", activeResponse.data.length);
+
+        // Fetch all trips (for completed and open)
+        const completedResponse = await axios.get(
           `https://fastagtracking.com/customulip/company/${user._id}/all-trips`
         );
-        const trips = response.data;
+        const completedTrips = completedResponse.data
 
-        // Count the active and completed trips
-        const activeCount = trips.filter(trip => (trip.isActive===true && trip.Completed===false )  ).length;
-        const completedCount = trips.filter(trip => trip.Completed===true ).length;
-        const cancelledCount = trips.filter(trip => trip.isDeleted===true).length;
-        const openCount = trips.filter((trip) => !(trip.isActive === true || trip.Completed===true)).length;
+        // Fetch cancelled (expired) trips
+        const cancelledResponse = await axios.get(
+          `https://fastagtracking.com/customulip/company/${user._id}/expired-trips`
+        );
+        const cancelledTrips = cancelledResponse.data.length 
+        console.log("Cancelled trips:", cancelledTrips);
 
+        // Count the active, completed, open, and cancelled trips
+        const activeCount = activeTrips;
+        const completedCount = completedTrips.filter(trip => trip.Completed === true).length;
+        const openCount = completedTrips.filter(trip => !(trip.isActive === true || trip.Completed === true)).length;
+        const cancelledCount = cancelledTrips.length;
 
         setTripCounts({
           active: activeCount,
           completed: completedCount,
-          open: completedCount, // Assuming open trips are neither active nor completed
-          cancelled:cancelledCount, // Assuming cancelled trips are marked with isDeleted
-          open:openCount, 
+          open: openCount,
+          cancelled: cancelledCount,
         });
       } catch (error) {
         console.error('Error fetching trip data:', error);
@@ -44,10 +58,10 @@ const TripsTabs = () => {
     };
 
     fetchTripData();
-  }, []);
+  }, [user._id]);
 
   const tabs = [
-    { name: "Active", path: "/trip/active", count: tripCounts.active },
+    { name: "Active", path: "/trip/active", count: tripCounts.active},
     { name: "Open", path: "/trip/open", count: tripCounts.open },
     { name: "Completed", path: "/trip/completed", count: tripCounts.completed },
     { name: "Cancelled", path: "/trip/cancelled", count: tripCounts.cancelled },
