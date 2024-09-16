@@ -7,6 +7,7 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import EditTripForm from "../Trips/EditDetails";
 import { IoMdClose } from "react-icons/io";
 import fastag from '../../assets/mod1.png'
+import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 
 const Modal = ({ isOpen, onClose, onSave, trip }) => {
   if (!isOpen) return null;
@@ -34,6 +35,7 @@ const ActiveTable = () => {
   const [selectedTrip, setSelectedTrip] = useState(null); // State to track the trip being edited
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
   const user = useSelector((state) => state.auth.user);
+  const [showDetails, setShowDetails] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -111,7 +113,6 @@ const ActiveTable = () => {
   };
 
   const handleSave = async (id) => {
-    // Implement save logic here
     console.log("Saving trip with ID:", id);
     closeModal();
   };
@@ -166,18 +167,10 @@ const ActiveTable = () => {
               <div className="text-gray-700 font-medium text-center">
                 {trip.from.address}
               </div>
-              <div className="text-gray-500 text-xs text-center">
-                Lat: {trip.from.lat} <br />
-                Lng: {trip.from.lng}
-              </div>
             </div>
             <div className="col-span-2">
               <div className="text-gray-700 font-medium text-center">
                 {trip.to.address}
-              </div>
-              <div className="text-gray-500 text-xs text-center">
-                Lat: {trip.to.lat} <br />
-                Lng: {trip.to.lng}
               </div>
             </div>
             <div className="col-span-1 text-center">
@@ -190,14 +183,69 @@ const ActiveTable = () => {
             </div>
             <div className="col-span-2 text-center">
               <div className="text-gray-700 font-medium">{trip.to.address}</div>
+            </div>
+            <div className="col-span-1 text-center">
+              <div className="bg-pink-100 text-pink-600 text-xs font-semibold px-2 py-1 rounded-md">
+                In Transit
+              </div>
+            </div>
+            <div className="col-span-2 flex justify-center ">
+              <div className="flex items-center cursor-pointer" onClick={() => toggleDetails(trip._id)}>
+                <div className="text-blue-600">
+                  {trip.showDetails ? "Hide details" : "Show details"}
+                </div>
+                {trip.showDetails ? (
+                  <FaChevronUp className="text-[12px] pt-1 text-blue-600" />
+                ) : (
+                  <FaChevronDown className="text-[12px] pt-1 text-blue-600" />
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Details Section */}
+          {trip.showDetails && (
+            <>
+            <div className="grid grid-cols-12 gap-4 items-center text-sm bg-gray-50 p-2 rounded-b-md">
+            <div className="col-span-1 text-blue-500 cursor-pointer text-[12px] text-center">
+              
+            </div>
+            <div className="col-span-2">
+              <div className="text-gray-700 font-medium text-center">
+                
+              </div>
+              <div className="text-gray-500 text-xs text-center">
+                Lat: {trip.from.lat} <br />
+                Lng: {trip.from.lng}
+              </div>
+            </div>
+            <div className="col-span-2">
+              <div className="text-gray-700 font-medium text-center">
+                
+              </div>
+              <div className="text-gray-500 text-xs text-center">
+                Lat: {trip.to.lat} <br />
+                Lng: {trip.to.lng}
+              </div>
+            </div>
+            <div className="col-span-1 text-center">
+              <div className="text-gray-700 font-medium"></div>
+            </div>
+            <div className="col-span-1 text-center">
+              <div className="text-gray-700 font-medium">
+                
+              </div>
+            </div>
+            <div className="col-span-2 text-center">
+              <div className="text-gray-700 font-medium"></div>
               <div className="text-gray-500 text-xs">
                 {trip.to.lat} <br />
                 {trip.to.lng}
               </div>
             </div>
             <div className="col-span-1 text-center">
-              <div className="bg-pink-100 text-pink-600 text-xs font-semibold px-2 py-1 rounded-md">
-                In Transit
+              <div className="">
+                
               </div>
               <div className="text-gray-500 text-xs">
                 {formatDate(trip.updatedAt)}
@@ -216,7 +264,9 @@ const ActiveTable = () => {
               />
             </div>
 
-            <div className="col-span-12 text-gray-500 text-xs pt-2 mt-2 grid grid-cols-12 gap-1">
+            
+          </div>
+          <div className="col-span-12 bg-gray-50 text-gray-500 text-xs pt-2  grid grid-cols-12 gap-1">
               <div className="col-span-2">
                 <span className="font-semibold text-blue-500">
                   Reference ID:
@@ -268,17 +318,17 @@ const ActiveTable = () => {
                 Mark as completed
               </button>
             </div>
-          </div>
+            
+            </>
+           
+          )}
         </div>
       ))}
-      <Modal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        onSave={handleSave}
-        trip={selectedTrip}
-      />
+      <Modal isOpen={isModalOpen} onClose={closeModal} onSave={handleSave} trip={selectedTrip} />
     </div>
   );
 };
 
 export default ActiveTable;
+
+
