@@ -76,7 +76,6 @@ const Price = () => {
   const handlePayment = async () => {
     if (!selectedPlan) return;
     localStorage.setItem("selectedPlan",JSON.stringify(selectedPlan))
-    alert(localStorage.getItem("selectedPlan"))
     const companyId = localStorage.getItem("userID");
     const userPhone = isAuthenticated?.phone; // Assuming you have phone stored in user profile
     if (!userPhone || userPhone.length !== 10) {

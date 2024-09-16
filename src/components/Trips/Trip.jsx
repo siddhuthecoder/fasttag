@@ -122,7 +122,6 @@ const AddTripForm = () => {
       ...prev,
       isActive: active, // Update ifActive based on the button clicked
     }));
-    alert(active)
     try {
       const response = await fetch(
         "https://fastagtracking.com/customulip/trip",
