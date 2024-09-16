@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faEnvelope,faTrash } from '@fortawesome/free-solid-svg-icons';
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronDown,
@@ -44,8 +44,8 @@ const OpenTable = () => {
             `https://fastagtracking.com/customulip/company/${companyId}/all-trips`
           );
           setTrips(filterOpenData(response.data))
-          // const completedTrips = filterCompletedTrips(response.data);
-          // setTrips(completedTrips)
+          const completedTrips = filterOpenData(response.data);
+          setTrips(completedTrips)
         } catch (err) {
           setError(err.message || 'Error fetching data');
           console.error('Error fetching data:', err);
@@ -72,22 +72,6 @@ const OpenTable = () => {
         timeZone: 'UTC' // Ensure it remains in UTC
     });
 }
-
-const openModal = (trip) => {
-  setSelectedTrip(trip);
-  setIsModalOpen(true);
-};
-
-const closeModal = () => {
-  setIsModalOpen(false);
-  setSelectedTrip(null);
-};
-
-const handleSave = async (id) => {
-  // Implement save logic here
-  console.log('Saving trip with ID:', id);
-  closeModal();
-};
 
   // Filter completed trips once
   const filterOpenData = (trips) => {
@@ -225,7 +209,7 @@ In Traansit            </div>
 
             
             <div className="absolute top-0 right-[-80px] flex space-x-2 mt-[-10] ">
-              <FontAwesomeIcon icon={faEdit} className="text-blue-500 cursor-pointer" onClick={() => openModal(trip)} />
+              <FontAwesomeIcon icon={faEdit} className="text-blue-500 cursor-pointer" />
               <FontAwesomeIcon icon={faEnvelope} className="text-blue-500 cursor-pointer" />
             </div>
           </div>

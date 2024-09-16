@@ -14,8 +14,9 @@ const PaymentValidation = () => {
         );
 
         if (response.data.success) {
-          // Handle successful payment, maybe redirect to a success page
+          
           alert("Payment is Scuces")
+          
        
         } else {
           // Handle payment failure, maybe redirect to a failure page

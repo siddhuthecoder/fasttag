@@ -86,6 +86,27 @@ const ActiveTable = () => {
       setError("Error marking the trip as completed.");
     }
   };
+  // Function to handle deleting a trip
+  const deleteTrip = async (id) => {
+    try {
+      // Send PATCH request to the API to update isDeleted to true
+      await axios.put(`https://fastagtracking.com/customulip/trip/${id}`, {
+        tripId: id,
+        isDeleted: true, // Mark trip as deleted
+      });
+
+      // // Update the trips state to reflect the change locally
+      // setTrips(
+      //   (prevTrips) => prevTrips.filter((trip) => trip._id !== id) // Remove the deleted trip from the list
+      // );
+    
+      // Optionally, reload the page or trigger a success message
+      window.location.reload();
+    } catch (error) {
+      console.error("Error deleting the trip:", error);
+      setError("Error deleting the trip.");
+    }
+  };
 
   const openModal = (trip) => {
     setSelectedTrip(trip);
@@ -167,7 +188,9 @@ const ActiveTable = () => {
             </div>
             <div className="col-span-1">
               <div className="text-gray-700 font-medium">{trip.vehicleNo}</div>
-              <div className="text-blue-500 text-xs cursor-pointer">Vehicle Type {trip.vehicleType}</div>
+              <div className="text-blue-500 text-xs cursor-pointer">
+                Vehicle Type {trip.vehicleType}
+              </div>
             </div>
             <div className="col-span-1">
               <div className="text-gray-700 font-medium">INV5678904</div>
@@ -180,11 +203,9 @@ const ActiveTable = () => {
             <div className="col-span-2">
               <div className="text-gray-700 font-medium">{trip.to.address}</div>
               <div className="text-gray-500 text-xs">
-                PQR Warehouse
+                {trip.to.lat}
                 <br />
-                Gurgaon, Haryana
-                <br />
-                (123457)
+                {trip.to.lng}
               </div>
             </div>
             <div className="col-span-1 relative">
@@ -201,22 +222,39 @@ const ActiveTable = () => {
             </div>
             <div className="col-span-12 text-gray-500 text-xs pt-2 mt-2 grid grid-cols-12 gap-1">
               <div className="col-span-2">
-                <span className="font-semibold text-blue-500">Reference ID:</span> {trip.referenceNo}
+                <span className="font-semibold text-blue-500">
+                  Reference ID:
+                </span>{" "}
+                {trip.referenceNo}
                 <br />
-                <span className="font-semibold text-blue-500">Product:</span> Boxes
+                <span className="font-semibold text-blue-500">
+                  Product:
+                </span>{" "}
+                Boxes
               </div>
               <div className="col-span-2">
-                <span className="font-semibold text-blue-500">Driver:</span> {trip.driverName}
+                <span className="font-semibold text-blue-500">Driver:</span>{" "}
+                {trip.driverName}
                 <br />
-                <span className="font-semibold text-blue-500">E-way Bill:</span> {trip.ewayBillNo}
+                <span className="font-semibold text-blue-500">
+                  E-way Bill:
+                </span>{" "}
+                {trip.ewayBillNo}
               </div>
               <div className="col-span-2">
-                <span className="font-semibold text-blue-500">Driver No.:</span> {trip.driverNo}
+                <span className="font-semibold text-blue-500">Driver No.:</span>{" "}
+                {trip.driverNo}
                 <br />
-                <span className="font-semibold text-blue-500">Distance:</span> {trip.distance}km
+                <span className="font-semibold text-blue-500">
+                  Distance:
+                </span>{" "}
+                {trip.distance}km
               </div>
               <div className="col-span-2">
-                <span className="font-semibold text-blue-500">E-way Bill Expiry:</span> 7
+                <span className="font-semibold text-blue-500">
+                  E-way Bill Expiry:
+                </span>{" "}
+                7
                 <br />
                 <span className="font-semibold text-blue-500">Trip Duration:</span> 2 Days
               </div>
