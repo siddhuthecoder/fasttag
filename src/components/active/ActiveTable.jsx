@@ -190,6 +190,7 @@ const ActiveTable = () => {
               </div>
             </div>
             <div className="col-span-2 flex justify-center ">
+              <div className="flex items-center">
               <div className="flex items-center cursor-pointer" onClick={() => toggleDetails(trip._id)}>
                 <div className="text-blue-600">
                   {trip.showDetails ? "Hide details" : "Show details"}
@@ -199,6 +200,14 @@ const ActiveTable = () => {
                 ) : (
                   <FaChevronDown className="text-[12px] pt-1 text-blue-600" />
                 )}
+              </div>
+              <div className="ms-3">
+                <img
+                    src={fastag}
+                    alt="FASTag Logo"
+                    className="w-14 h-7 scale-[0.7] rounded-full  border border-black bg-[#EDEDED]"
+                  />
+              </div>
               </div>
             </div>
           </div>
@@ -305,11 +314,11 @@ const ActiveTable = () => {
                
               </div>
               <div className="flex items-center  col-span-2 ">
-                <img
+                {/* <img
                   src={fastag}
                   alt="FASTag Logo"
                   className="w-14 h-7 rounded border border-black bg-[#EDEDED]"
-                />
+                /> */}
               </div>
               <button
                 onClick={() => markAsCompleted(trip._id)}
