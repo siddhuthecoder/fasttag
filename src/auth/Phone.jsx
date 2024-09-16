@@ -6,7 +6,7 @@ import axios from 'axios';
 import Footer from './../components/Footer';
 import { useSelector } from 'react-redux';
 import Company from '../assets/company.png';
-import Agent from '../assets/Agent.png';
+import Agent from '../assets/agent.png';
 import { MdClose } from 'react-icons/md'; // Import the close icon
 
 const Phone = () => {

@@ -86,6 +86,25 @@ const OpenTable = () => {
     );
   };
 
+
+  
+  const openModal = (trip) => {
+    setSelectedTrip(trip);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedTrip(null);
+  };
+
+
+  const handleSave = async (id) => {
+    // Implement save logic here
+    console.log('Saving trip with ID:', id);
+    closeModal();
+  };
+
   const makeActive = async (id) => {
     try {
       // Send PATCH request to the API to update isActive to false
@@ -209,7 +228,7 @@ In Traansit            </div>
 
             
             <div className="absolute top-0 right-[-80px] flex space-x-2 mt-[-10] ">
-              <FontAwesomeIcon icon={faEdit} className="text-blue-500 cursor-pointer" />
+            <FontAwesomeIcon icon={faEdit} className="text-blue-500 cursor-pointer" onClick={() => openModal(trip)} />
               <FontAwesomeIcon icon={faEnvelope} className="text-blue-500 cursor-pointer" />
             </div>
           </div>
