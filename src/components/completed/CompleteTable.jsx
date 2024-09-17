@@ -130,9 +130,9 @@ const CompleteTable = () => {
           <div className="col-span-2 ps-3 ">Loading Point</div>
           <div className="col-span-2 ps-3 ">Unloading Point</div>
           <div className="col-span-1 ps-3 ">Vehicle</div>
-          <div className="col-span-2 ps-3 ">LR No.</div>
+          <div className="col-span-1 ps-3 ">LR No.</div>
           <div className="col-span-2 ps-3 ">Location</div>
-          <div className="col-span-2 ps-3 ">Status</div>
+          <div className="col-span-1 ps-3 ">Status</div>
           <div className="col-span-2 ps-3 ">Actions</div>
         </div>
         {trips.map((trip) => (
@@ -141,31 +141,31 @@ const CompleteTable = () => {
          key={trip._id}
        >
          <div className="grid grid-cols-12 gap-4 items-center text-sm bg-gray-50 p-2 rounded-b-md">
-           <div className="col-span-1 text-blue-500 cursor-pointer text-[12px] text-center">
+           <div className="col-span-1 text-blue-500 cursor-pointer text-[12px] ps-2">
              #{trip.ID}
            </div>
            <div className="col-span-2">
-             <div className="text-gray-700 font-medium text-center">
+             <div className="text-gray-700 font-medium ps-2">
                {trip.from.address}
              </div>
            </div>
            <div className="col-span-2">
-             <div className="text-gray-700 font-medium text-center">
+             <div className="text-gray-700 font-medium ps-2">
                {trip.to.address}
              </div>
            </div>
-           <div className="col-span-1 text-center">
+           <div className="col-span-1 ps-2">
              <div className="text-gray-700 font-medium">{trip.vehicleNo}</div>
            </div>
-           <div className="col-span-1 text-center">
+           <div className="col-span-1 ps-2">
              <div className="text-gray-700 font-medium">
                {trip.lrNo || "N/A"}
              </div>
            </div>
-           <div className="col-span-2 text-center">
+           <div className="col-span-2 ps-2">
              <div className="text-gray-700 font-medium"> {trip.locationHistory?.locationHistory[0].tollPlazaName || 'N/A'}</div>
            </div>
-           <div className="col-span-1 text-center">
+           <div className="col-span-1 ps-2">
              <div className="bg-pink-100 text-pink-600 text-xs font-semibold px-2 py-1 rounded-md">
                Completed
              </div>
@@ -198,34 +198,34 @@ const CompleteTable = () => {
          {trip.showDetails && (
            <>
            <div className="grid grid-cols-12 gap-4 items-center text-sm bg-gray-50 p-2 rounded-b-md">
-           <div className="col-span-1 text-blue-500 cursor-pointer text-[12px] text-center">
+           <div className="col-span-1 text-blue-500 cursor-pointer text-[12px] ps-2">
              
            </div>
            <div className="col-span-2">
-             <div className="text-gray-700 font-medium text-center">
+             <div className="text-gray-700 font-medium ps-2">
                
              </div>
              
            </div>
            <div className="col-span-2">
-             <div className="text-gray-700 font-medium text-center">
+             <div className="text-gray-700 font-medium ps-2">
                
              </div>
             
            </div>
-           <div className="col-span-1 text-center">
+           <div className="col-span-1 ps-2">
              <div className="text-gray-700 font-medium"></div>
            </div>
-           <div className="col-span-1 text-center">
+           <div className="col-span-1 ps-2">
              <div className="text-gray-700 font-medium">
                
              </div>
            </div>
-           <div className="col-span-2 text-center">
+           <div className="col-span-2 ps-2">
              <div className="text-gray-700 font-medium"></div>
             
            </div>
-           <div className="col-span-1 text-center">
+           <div className="col-span-1 ps-2">
              <div className="">
                
              </div>

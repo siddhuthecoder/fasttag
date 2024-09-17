@@ -111,8 +111,10 @@ const TollPlazaMap = ({ tollData = [] }) => {
   }, [tollData]);
 
   return (
-    <div id="map-container">
-      <div ref={mapRef} id="map" />
+    <div id="map-container" className="sticky top-[60px]">
+      <div ref={mapRef} id="map"  style={{
+        maxHeight:"80vh"
+      }} />
     </div>
   );
 };

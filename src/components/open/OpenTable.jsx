@@ -152,13 +152,13 @@ const OpenTable = () => {
     <>
       <div className="w-full overflow-x-scroll">
         <div className="grid w-full min-w-[1200px] grid-cols-12 gap-1 text-sm font-semibold text-gray-700 bg-gray-100 p-2 rounded-t-md mt-4">
-          <div className="col-span-1 text-center">ID</div>
-          <div className="col-span-2 text-center">Loading Point</div>
-          <div className="col-span-2 text-center">Unloading Point</div>
-          <div className="col-span-1 text-center">Vehicle</div>
-          <div className="col-span-1 text-center">LR No.</div>
-          <div className="col-span-1 text-center">Status</div>
-          <div className="col-span-2 text-center">Actions</div>
+          <div className="col-span-1 ps-1 ">ID</div>
+          <div className="col-span-2 ps-1 ">Loading Point</div>
+          <div className="col-span-2 ps-1 ">Unloading Point</div>
+          <div className="col-span-1 ps-1 ">Vehicle</div>
+          <div className="col-span-2 ps-1 ">LR No.</div>
+          <div className="col-span-2 ps-1 ">Status</div>
+          <div className="col-span-2 ps-1 ">Actions</div>
         </div>
         {trips.map((trip) => (
           <div
@@ -166,31 +166,31 @@ const OpenTable = () => {
           key={trip._id}
         >
           <div className="grid grid-cols-12 gap-4 items-center text-sm bg-gray-50 p-2 rounded-b-md">
-            <div className="col-span-1 text-blue-500 cursor-pointer text-[12px] text-center">
+            <div className="col-span-1 text-blue-500 cursor-pointer text-[12px] ">
               #{trip.ID}
             </div>
             <div className="col-span-2">
-              <div className="text-gray-700 font-medium text-center">
+              <div className="text-gray-700 font-medium ">
                 {trip.from.address}
               </div>
             </div>
             <div className="col-span-2">
-              <div className="text-gray-700 font-medium text-center">
+              <div className="text-gray-700 font-medium ">
                 {trip.to.address}
               </div>
             </div>
-            <div className="col-span-1 text-center">
+            <div className="col-span-1 ">
               <div className="text-gray-700 font-medium">{trip.vehicleNo}</div>
             </div>
-            <div className="col-span-1 text-center">
+            <div className="col-span-2 ">
               <div className="text-gray-700 font-medium">
                 {trip.lrNo || "N/A"}
               </div>
             </div>
-            {/* <div className="col-span-2 text-center">
+            {/* <div className="col-span-2 ">
               <div className="text-gray-700 font-medium">{trip.to.address}</div>
             </div> */}
-            <div className="col-span-1 text-center">
+            <div className="col-span-2 ">
               <div className="bg-pink-100 text-pink-600 text-xs font-semibold px-2 py-1 rounded-md">
                 In Transit
               </div>
@@ -222,43 +222,43 @@ const OpenTable = () => {
           {trip.showDetails && (
             <>
             <div className="grid grid-cols-12 gap-4 items-center text-sm bg-gray-50 p-2 rounded-b-md">
-            <div className="col-span-1 text-blue-500 cursor-pointer text-[12px] text-center">
+            <div className="col-span-1 text-blue-500 cursor-pointer text-[12px] ">
               
             </div>
             <div className="col-span-2">
-              <div className="text-gray-700 font-medium text-center">
+              <div className="text-gray-700 font-medium ">
                 
               </div>
-              {/* <div className="text-gray-500 text-xs text-center">
+              {/* <div className="text-gray-500 text-xs ">
                 Lat: {trip.from.lat} <br />
                 Lng: {trip.from.lng}
               </div> */}
             </div>
             <div className="col-span-2">
-              <div className="text-gray-700 font-medium text-center">
+              <div className="text-gray-700 font-medium ">
                 
               </div>
-              {/* <div className="text-gray-500 text-xs text-center">
+              {/* <div className="text-gray-500 text-xs ">
                 Lat: {trip.to.lat} <br />
                 Lng: {trip.to.lng}
               </div> */}
             </div>
-            <div className="col-span-1 text-center">
+            <div className="col-span-1 ">
               <div className="text-gray-700 font-medium"></div>
             </div>
-            <div className="col-span-1 text-center">
+            <div className="col-span-1 ">
               <div className="text-gray-700 font-medium">
                 
               </div>
             </div>
-            <div className="col-span-2 text-center">
+            <div className="col-span-2 ">
               <div className="text-gray-700 font-medium"></div>
               {/* <div className="text-gray-500 text-xs">
                 {trip.to.lat} <br />
                 {trip.to.lng}
               </div> */}
             </div>
-            <div className="col-span-1 text-center">
+            <div className="col-span-1 ">
               <div className="">
                 
               </div>
@@ -508,14 +508,14 @@ export default OpenTable;
 //     <>
 //       <div className="w-full overflow-x-scroll">
 //         <div className="grid w-full min-w-[1200px] grid-cols-12 gap-1 text-sm font-semibold text-gray-700 bg-gray-100 p-2 rounded-t-md mt-4">
-//           <div className="col-span-1 text-center">ID</div>
-//           <div className="col-span-2 text-center">Loading Point</div>
-//           <div className="col-span-2 text-center">Unloading Point</div>
-//           <div className="col-span-1 text-center">Vehicle</div>
-//           <div className="col-span-1 text-center">LR No.</div>
-//           <div className="col-span-2 text-center">Location</div>
-//           <div className="col-span-1 text-center">Status</div>
-//           <div className="col-span-2 text-center">Actions</div>
+//           <div className="col-span-1 ">ID</div>
+//           <div className="col-span-2 ">Loading Point</div>
+//           <div className="col-span-2 ">Unloading Point</div>
+//           <div className="col-span-1 ">Vehicle</div>
+//           <div className="col-span-1 ">LR No.</div>
+//           <div className="col-span-2 ">Location</div>
+//           <div className="col-span-1 ">Status</div>
+//           <div className="col-span-2 ">Actions</div>
 //         </div>
 //         {trips.map((trip) => (
 //           <div
@@ -523,38 +523,38 @@ export default OpenTable;
 //             key={trip._id}
 //           >
 //             <div className="grid grid-cols-12 gap-4 items-center text-sm bg-gray-50 p-2 rounded-b-md">
-//               <div className="col-span-1 text-blue-500 cursor-pointer text-[12px] text-center">
+//               <div className="col-span-1 text-blue-500 cursor-pointer text-[12px] ">
 //                 #{trip.ID}
 //               </div>
 //               <div className="col-span-2">
-//                 <div className="text-gray-700 font-medium text-center">
+//                 <div className="text-gray-700 font-medium ">
 //                   {trip.from.address}
 //                 </div>
-//                 <div className="text-gray-500 text-xs text-center">
+//                 <div className="text-gray-500 text-xs ">
 //                   Lat: {trip.from.lat} <br />
 //                   Lng: {trip.from.lng}
 //                 </div>
 //               </div>
 //               <div className="col-span-2">
-//                 <div className="text-gray-700 font-medium text-center">
+//                 <div className="text-gray-700 font-medium ">
 //                   {trip.to.address}
 //                 </div>
-//                 <div className="text-gray-500 text-xs text-center">
+//                 <div className="text-gray-500 text-xs ">
 //                   Lat: {trip.to.lat} <br />
 //                   Lng: {trip.to.lng}
 //                 </div>
 //               </div>
-//               <div className="col-span-1 text-center">
+//               <div className="col-span-1 ">
 //                 <div className="text-gray-700 font-medium">
 //                   {trip.vehicleNo}
 //                 </div>
 //               </div>
-//               <div className="col-span-1 text-center">
+//               <div className="col-span-1 ">
 //                 <div className="text-gray-700 font-medium">
 //                   {trip.lrNo || "N/A"}
 //                 </div>
 //               </div>
-//               <div className="col-span-2 text-center">
+//               <div className="col-span-2 ">
 //                 <div className="text-gray-700 font-medium">
 //                   {trip.to.address}
 //                 </div>
@@ -563,7 +563,7 @@ export default OpenTable;
 //                   {trip.to.lng}
 //                 </div>
 //               </div>
-//               <div className="col-span-1 text-center">
+//               <div className="col-span-1 ">
 //                 <div className="bg-pink-100 text-pink-600 text-xs font-semibold px-2 py-1 rounded-md">
 //                   In Transit
 //                 </div>

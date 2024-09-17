@@ -143,7 +143,7 @@ const deleteTrip = async (id) => {
           <div className="col-span-1  ">Vehicle</div>
           <div className="col-span-2  ">LR No.</div>
           <div className="col-span-2  ">Status</div>
-          <div className="col-span-2  ">Actions</div>
+          <div className="col-span-2 text-center ">Actions</div>
         </div>
         {trips.map((trip) => (
           <div
@@ -151,31 +151,31 @@ const deleteTrip = async (id) => {
           key={trip._id}
         >
           <div className="grid grid-cols-12 gap-4 items-center text-sm bg-gray-50 p-2 rounded-b-md">
-            <div className="col-span-1 text-blue-500 cursor-pointer text-[12px] text-center">
+            <div className="col-span-1 text-blue-500 cursor-pointer text-[12px]">
               #{trip.ID}
             </div>
             <div className="col-span-2">
-              <div className="text-gray-700 font-medium text-center">
+              <div className="text-gray-700 font-medium">
                 {trip.from.address}
               </div>
             </div>
             <div className="col-span-2">
-              <div className="text-gray-700 font-medium text-center">
+              <div className="text-gray-700 font-medium">
                 {trip.to.address}
               </div>
             </div>
-            <div className="col-span-1 text-center">
+            <div className="col-span-1">
               <div className="text-gray-700 font-medium">{trip.vehicleNo}</div>
             </div>
-            <div className="col-span-1 text-center">
+            <div className="col-span-2">
               <div className="text-gray-700 font-medium">
                 {trip.lrNo || "N/A"}
               </div>
             </div>
-            {/* <div className="col-span-2 text-center">
+            {/* <div className="col-span-2">
               <div className="text-gray-700 font-medium">{trip.to.address}</div>
             </div> */}
-            <div className="col-span-1 text-center">
+            <div className="col-span-2">
               <div className="bg-pink-100 text-pink-600 text-xs font-semibold px-2 py-1 rounded-md">
                 Cancelled
               </div>
@@ -207,34 +207,34 @@ const deleteTrip = async (id) => {
           {trip.showDetails && (
             <>
             <div className="grid grid-cols-12 gap-4 items-center text-sm bg-gray-50 p-2 rounded-b-md">
-            <div className="col-span-1 text-blue-500 cursor-pointer text-[12px] text-center">
+            <div className="col-span-1 text-blue-500 cursor-pointer text-[12px]">
               
             </div>
             <div className="col-span-2">
-              <div className="text-gray-700 font-medium text-center">
+              <div className="text-gray-700 font-medium">
                 
               </div>
               
             </div>
             <div className="col-span-2">
-              <div className="text-gray-700 font-medium text-center">
+              <div className="text-gray-700 font-medium">
                 
               </div>
              
             </div>
-            <div className="col-span-1 text-center">
+            <div className="col-span-1">
               <div className="text-gray-700 font-medium"></div>
             </div>
-            <div className="col-span-1 text-center">
+            <div className="col-span-1">
               <div className="text-gray-700 font-medium">
                 
               </div>
             </div>
-            <div className="col-span-2 text-center">
+            <div className="col-span-2">
               <div className="text-gray-700 font-medium"></div>
               
             </div>
-            <div className="col-span-1 text-center">
+            <div className="col-span-1">
               <div className="">
                 
               </div>

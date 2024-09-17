@@ -62,8 +62,10 @@ const LocationHistoryPage = () => {
   };
 
   return (
-    <div className="location-history-page">
-      <button onClick={handleBackClick} className="back-button mt-1">
+    <div className="location-history-page h-[calc(100vh-60px)] w-full" style={{
+      height:"100vh"
+    }}>
+      <button onClick={handleBackClick} className="back-button ">
         Go Back
       </button>
       <TollPlazaMap tollData={mapData} />
