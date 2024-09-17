@@ -207,13 +207,13 @@ const OpenTable = () => {
                   <FaChevronDown className="text-[12px] pt-1 text-blue-600" />
                 )}
               </div>
-              <div className="ms-3">
-                <img
+              {/* <div className="ms-3"> */}
+                {/* <img
                     src={fastag}
                     alt="FASTag Logo"
                     className="w-14 h-7 scale-[0.7] rounded-full  border border-black bg-[#EDEDED]"
                   />
-              </div>
+              </div> */}
               </div>
             </div>
           </div>
