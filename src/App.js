@@ -39,7 +39,7 @@ import OpenCreate from './pages/Opentrip';
 import CancelTrip from './pages/CancelTrip';
 import CompletedTrip from './pages/CompletedTrip';
 import ActiveTrip from './pages/ActiveTrip';
-
+import LocationHistoryPage from './components/Trips/LocationHistoryPage'
 const App = () => {
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state) => state.auth.user);
@@ -65,7 +65,7 @@ const App = () => {
                       <Route path='/searchhistory' element={<SearchHistory/>}/>
                       <Route path='/transaction' element={<TransactionHistory/>}/>
                       <Route path='/privacy' element={<Policy/>}/>
-                      <Route path='/trip' element={<Trip/>}/>
+                      <Route path='/trip' element={<ActiveTrip/>}/>
                       <Route path='/map' element={<TripMap/>}/>
                       <Route path='/trip/create' element={<Trip/>}/>
                       <Route path='/trip/active' element={<ActiveTrip/>}/>
@@ -78,6 +78,7 @@ const App = () => {
                       <Route path="/layout" element={<Layout />} />
                       <Route path="/terms" element={<Terms/>}/>
                       <Route path="/selectType" element={<SelectType />} />
+                      <Route path="/location-history/:tripId" element={<LocationHistoryPage />} />
                     {/* <Route path="/fillDetails" element={<Register />} />
                     <Route path="/register" element={<ForgetPassword />} />
                     <Route path="/newPassword" element={<NewPassword />} />

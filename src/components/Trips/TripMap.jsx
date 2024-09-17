@@ -3,7 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
-const EditTripForm = ({ tripDetails }) => {
+const TripMap = ({ tripDetails }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     companyID: tripDetails.companyID,
@@ -344,4 +344,4 @@ const EditTripForm = ({ tripDetails }) => {
   );
 };
 
-export default EditTripForm;
+export default TripMap;

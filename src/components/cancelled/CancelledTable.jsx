@@ -50,7 +50,9 @@ const CancelledTable = () => {
           // setTrips(
           //   response.data.map((trip) => ({ ...trip, showDetails: false }))
           // );
-          setTrips(filterCompletedTrips(response.data))
+          debugger
+          console.log(response.data)
+          setTrips(response.data)
           
         } catch (err) {
           setError(err.message || 'Error fetching data');
@@ -65,10 +67,7 @@ const CancelledTable = () => {
   }, [user?._id]);
 
   // Filter completed trips once
-  const filterCompletedTrips = (trips) => {
-    console.log({trips})
-    return trips.filter((trip) => trip.isDeleted === true);
-  };
+
   const toggleDetails = (id) => {
     setTrips((prevTrips) =>
       prevTrips.map((trip) =>
@@ -139,12 +138,12 @@ const deleteTrip = async (id) => {
       <div className="w-full overflow-x-scroll">
         <div className="grid w-full min-w-[1200px] grid-cols-12 gap-4 text-sm font-semibold text-gray-700 bg-gray-100 p-2 rounded-t-md">
           <div className="col-span-1  ">ID</div>
-          <div className="col-span-2  ">Date</div>
           <div className="col-span-2  ">Loading Point</div>
           <div className="col-span-2  ">Unloading Point</div>
           <div className="col-span-1  ">Vehicle</div>
           <div className="col-span-2  ">LR No.</div>
           <div className="col-span-2  ">Status</div>
+          <div className="col-span-2  ">Actions</div>
         </div>
         {trips.map((trip) => (
           <div
@@ -173,12 +172,12 @@ const deleteTrip = async (id) => {
                 {trip.lrNo || "N/A"}
               </div>
             </div>
-            <div className="col-span-2 text-center">
+            {/* <div className="col-span-2 text-center">
               <div className="text-gray-700 font-medium">{trip.to.address}</div>
-            </div>
+            </div> */}
             <div className="col-span-1 text-center">
               <div className="bg-pink-100 text-pink-600 text-xs font-semibold px-2 py-1 rounded-md">
-                In Transit
+                Cancelled
               </div>
             </div>
             <div className="col-span-2 flex justify-center ">
@@ -193,13 +192,13 @@ const deleteTrip = async (id) => {
                   <FaChevronDown className="text-[12px] pt-1 text-blue-600" />
                 )}
               </div>
-              <div className="ms-3">
+              {/* <div className="ms-3">
                 <img
                     src={fastag}
                     alt="FASTag Logo"
                     className="w-14 h-7 scale-[0.7] rounded-full  border border-black bg-[#EDEDED]"
                   />
-              </div>
+              </div> */}
               </div>
             </div>
           </div>
@@ -215,19 +214,13 @@ const deleteTrip = async (id) => {
               <div className="text-gray-700 font-medium text-center">
                 
               </div>
-              <div className="text-gray-500 text-xs text-center">
-                Lat: {trip.from.lat} <br />
-                Lng: {trip.from.lng}
-              </div>
+              
             </div>
             <div className="col-span-2">
               <div className="text-gray-700 font-medium text-center">
                 
               </div>
-              <div className="text-gray-500 text-xs text-center">
-                Lat: {trip.to.lat} <br />
-                Lng: {trip.to.lng}
-              </div>
+             
             </div>
             <div className="col-span-1 text-center">
               <div className="text-gray-700 font-medium"></div>
@@ -239,20 +232,17 @@ const deleteTrip = async (id) => {
             </div>
             <div className="col-span-2 text-center">
               <div className="text-gray-700 font-medium"></div>
-              <div className="text-gray-500 text-xs">
-                {trip.to.lat} <br />
-                {trip.to.lng}
-              </div>
+              
             </div>
             <div className="col-span-1 text-center">
               <div className="">
                 
               </div>
-              <div className="text-gray-500 text-xs">
+              {/* <div className="text-gray-500 text-xs">
                 {formatDate(trip.updatedAt)}
-              </div>
+              </div> */}
             </div>
-            <div className="col-span-2 flex justify-center space-x-2">
+            {/* <div className="col-span-2 flex justify-center space-x-2">
               <FontAwesomeIcon
                 icon={faEdit}
                 className="text-blue-500 cursor-pointer"
@@ -263,7 +253,7 @@ const deleteTrip = async (id) => {
                 className="text-red-500 cursor-pointer"
                 onClick={() => deleteTrip(trip._id)}
               />
-            </div>
+            </div> */}
 
             
           </div>
@@ -312,12 +302,12 @@ const deleteTrip = async (id) => {
                   className="w-14 h-7 rounded border border-black bg-[#EDEDED]"
                 /> */}
               </div>
-              <button
+              {/* <button
                 // onClick={() => markAsCompleted(trip._id)}
                 className="bg-green-500 p-1 rounded col-span-2 max-h-[30px] text-white px-6"
               >
                 Mark as completed
-              </button>
+              </button> */}
             </div>
             
             </>

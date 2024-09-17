@@ -8,6 +8,7 @@ import EditTripForm from "../Trips/EditDetails";
 import { IoMdClose } from "react-icons/io";
 import fastag from '../../assets/mod1.png'
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Modal = ({ isOpen, onClose, onSave, trip }) => {
   if (!isOpen) return null;
@@ -36,7 +37,7 @@ const ActiveTable = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
   const user = useSelector((state) => state.auth.user);
   const [showDetails, setShowDetails] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       if (user && user._id) {
@@ -111,7 +112,13 @@ const ActiveTable = () => {
     setIsModalOpen(false);
     setSelectedTrip(null);
   };
-
+  const viewLocationHistory = (tripId,trip) => {
+    if(trip.locationHistory==null){
+      alert("No Location Found ")
+      return
+    }
+    navigate(`/location-history/${tripId}`);
+  };
   const handleSave = async (id) => {
     console.log("Saving trip with ID:", id);
     closeModal();
@@ -159,7 +166,7 @@ const ActiveTable = () => {
           className="bg-white w-full min-w-[1200px] shadow rounded-md mt-2"
           key={trip._id}
         >
-          <div className="grid grid-cols-12 gap-4 items-center text-sm bg-gray-50 p-2 rounded-b-md">
+          <div className="grid grid-cols-12 gap-3 items-center text-sm bg-gray-50 p-1 rounded-b-md">
             <div className="col-span-1 text-blue-500 cursor-pointer text-[12px] text-center">
               #{trip.ID}
             </div>
@@ -182,7 +189,8 @@ const ActiveTable = () => {
               </div>
             </div>
             <div className="col-span-2 text-center">
-              <div className="text-gray-700 font-medium">{trip.to.address}</div>
+          
+              <div className="text-gray-700 font-medium">  {trip.locationHistory.locationHistory[0].tollPlazaName}</div>
             </div>
             <div className="col-span-1 text-center">
               <div className="bg-pink-100 text-pink-600 text-xs font-semibold px-2 py-1 rounded-md">
@@ -192,20 +200,21 @@ const ActiveTable = () => {
             <div className="col-span-2 flex justify-center ">
               <div className="flex items-center">
               <div className="flex items-center cursor-pointer" onClick={() => toggleDetails(trip._id)}>
-                <div className="text-blue-600">
+                <div className="text-blue-600 ">
                   {trip.showDetails ? "Hide details" : "Show details"}
                 </div>
                 {trip.showDetails ? (
-                  <FaChevronUp className="text-[12px] pt-1 text-blue-600" />
+                  <FaChevronUp className="text-[12px] ps-1 text-blue-600" />
                 ) : (
-                  <FaChevronDown className="text-[12px] pt-1 text-blue-600" />
+                  <FaChevronDown className="text-[12px] text-blue-600" />
                 )}
               </div>
-              <div className="ms-3">
+              <div className="ms-1">
                 <img
                     src={fastag}
                     alt="FASTag Logo"
-                    className="w-14 h-7 scale-[0.7] rounded-full  border border-black bg-[#EDEDED]"
+                    className="w-[100px] h-9 scale-[0.6] rounded-full border border-black bg-[#EDEDED]"
+                    onClick={() => viewLocationHistory(trip._id,trip)}
                   />
               </div>
               </div>
@@ -223,19 +232,19 @@ const ActiveTable = () => {
               <div className="text-gray-700 font-medium text-center">
                 
               </div>
-              <div className="text-gray-500 text-xs text-center">
+              {/* <div className="text-gray-500 text-xs text-center">
                 Lat: {trip.from.lat} <br />
                 Lng: {trip.from.lng}
-              </div>
+              </div> */}
             </div>
             <div className="col-span-2">
               <div className="text-gray-700 font-medium text-center">
                 
               </div>
-              <div className="text-gray-500 text-xs text-center">
+              {/* <div className="text-gray-500 text-xs text-center">
                 Lat: {trip.to.lat} <br />
                 Lng: {trip.to.lng}
-              </div>
+              </div> */}
             </div>
             <div className="col-span-1 text-center">
               <div className="text-gray-700 font-medium"></div>
@@ -247,10 +256,10 @@ const ActiveTable = () => {
             </div>
             <div className="col-span-2 text-center">
               <div className="text-gray-700 font-medium"></div>
-              <div className="text-gray-500 text-xs">
+              {/* <div className="text-gray-500 text-xs">
                 {trip.to.lat} <br />
                 {trip.to.lng}
-              </div>
+              </div> */}
             </div>
             <div className="col-span-1 text-center">
               <div className="">
@@ -280,25 +289,25 @@ const ActiveTable = () => {
                 <span className="font-semibold text-blue-500">
                   Reference ID:
                 </span>{" "}
-                {trip.referenceNo}
+                {trip.referenceNo || 'N/A'}
                 <br />
                 <span className="font-semibold text-blue-500">
                   Product:
                 </span>{" "}
-                {trip.Product }
+                {trip.Product || 'N/A'}
               </div>
               <div className="col-span-2">
                 <span className="font-semibold text-blue-500">Driver:</span>{" "}
-                {trip.DriverName}
+                {trip.DriverName || 'N/A'}
                 <br />
                 <span className="font-semibold text-blue-500">
                   E-way Bill:
                 </span>{" "}
-                {trip.ewayBillNo}
+                {trip.ewayBillNo || 'N/A'}
               </div>
               <div className="col-span-2">
                 <span className="font-semibold text-blue-500">Driver No.:</span>{" "}
-                {trip.DriverPhone}
+                {trip.DriverPhone || 'N/A'}
                 <br />
                 <span className="font-semibold text-blue-500">
                   Distance:
@@ -339,8 +348,5 @@ const ActiveTable = () => {
 };
 
 export default ActiveTable;
-
-
-
 
 

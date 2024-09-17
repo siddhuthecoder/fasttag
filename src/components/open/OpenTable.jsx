@@ -157,7 +157,6 @@ const OpenTable = () => {
           <div className="col-span-2 text-center">Unloading Point</div>
           <div className="col-span-1 text-center">Vehicle</div>
           <div className="col-span-1 text-center">LR No.</div>
-          <div className="col-span-2 text-center">Location</div>
           <div className="col-span-1 text-center">Status</div>
           <div className="col-span-2 text-center">Actions</div>
         </div>
@@ -188,9 +187,9 @@ const OpenTable = () => {
                 {trip.lrNo || "N/A"}
               </div>
             </div>
-            <div className="col-span-2 text-center">
+            {/* <div className="col-span-2 text-center">
               <div className="text-gray-700 font-medium">{trip.to.address}</div>
-            </div>
+            </div> */}
             <div className="col-span-1 text-center">
               <div className="bg-pink-100 text-pink-600 text-xs font-semibold px-2 py-1 rounded-md">
                 In Transit
@@ -230,19 +229,19 @@ const OpenTable = () => {
               <div className="text-gray-700 font-medium text-center">
                 
               </div>
-              <div className="text-gray-500 text-xs text-center">
+              {/* <div className="text-gray-500 text-xs text-center">
                 Lat: {trip.from.lat} <br />
                 Lng: {trip.from.lng}
-              </div>
+              </div> */}
             </div>
             <div className="col-span-2">
               <div className="text-gray-700 font-medium text-center">
                 
               </div>
-              <div className="text-gray-500 text-xs text-center">
+              {/* <div className="text-gray-500 text-xs text-center">
                 Lat: {trip.to.lat} <br />
                 Lng: {trip.to.lng}
-              </div>
+              </div> */}
             </div>
             <div className="col-span-1 text-center">
               <div className="text-gray-700 font-medium"></div>
@@ -254,10 +253,10 @@ const OpenTable = () => {
             </div>
             <div className="col-span-2 text-center">
               <div className="text-gray-700 font-medium"></div>
-              <div className="text-gray-500 text-xs">
+              {/* <div className="text-gray-500 text-xs">
                 {trip.to.lat} <br />
                 {trip.to.lng}
-              </div>
+              </div> */}
             </div>
             <div className="col-span-1 text-center">
               <div className="">

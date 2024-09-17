@@ -25,7 +25,7 @@ const VehicleDataTable = () => {
         };
 
         fetchVehicleData();
-    }, []);
+    }, [companyID]);
 
     // Handle search input and filter the vehicle list based on the search term
     const handleSearch = () => {
@@ -54,6 +54,19 @@ const VehicleDataTable = () => {
                 console.error('Error adding vehicle:', error);
             }
         }
+    };
+
+    // Function to check if a date is expired
+    const isExpired = (dateStr) => {
+        if (!dateStr) return false;
+        const date = new Date(dateStr);
+        const today = new Date();
+        return date < today;
+    };
+
+    // Function to apply conditional styling
+    const getCellClassName = (dateStr) => {
+        return isExpired(dateStr) ? 'expired' : '';
     };
 
     return (
@@ -103,12 +116,12 @@ const VehicleDataTable = () => {
                         {filteredVehicles.map((vehicle) => (
                             <tr key={vehicle._id}>
                                 <td>{vehicle.rc_regn_no}</td>
-                                <td>{vehicle.rc_fit_upto}</td>
-                                <td>{vehicle.rc_insurance_upto}</td>
-                                <td>{vehicle.rc_np_upto}</td>
-                                <td>{vehicle.rc_permit_valid_upto}</td>
-                                <td>{vehicle.rc_pucc_upto}</td>
-                                <td>{vehicle.rc_tax_upto}</td>
+                                <td className={getCellClassName(vehicle.rc_fit_upto)}>{vehicle.rc_fit_upto}</td>
+                                <td className={getCellClassName(vehicle.rc_insurance_upto)}>{vehicle.rc_insurance_upto}</td>
+                                <td className={getCellClassName(vehicle.rc_np_upto)}>{vehicle.rc_np_upto}</td>
+                                <td className={getCellClassName(vehicle.rc_permit_valid_upto)}>{vehicle.rc_permit_valid_upto}</td>
+                                <td className={getCellClassName(vehicle.rc_pucc_upto)}>{vehicle.rc_pucc_upto}</td>
+                                <td className={getCellClassName(vehicle.rc_tax_upto)}>{vehicle.rc_tax_upto}</td>
                             </tr>
                         ))}
                     </tbody>

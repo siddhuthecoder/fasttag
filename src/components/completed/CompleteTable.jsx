@@ -9,6 +9,7 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from 'react-redux';
 import fastag from '../../assets/mod1.png'
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 const Modal = ({ isOpen, onClose, onSave, trip }) => {
   if (!isOpen) return null;
@@ -33,6 +34,7 @@ const CompleteTable = () => {
   const user = useSelector((state) => state.auth.user);
   const [selectedTrip, setSelectedTrip] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const companyId = user?._id;
 
@@ -99,7 +101,13 @@ const CompleteTable = () => {
     setSelectedTrip(trip);
     setIsModalOpen(true);
   };
-
+  const viewLocationHistory = (tripId,trip) => {
+    if(trip.locationHistory==null){
+      alert("No Location Found ")
+      return
+    }
+    navigate(`/location-history/${tripId}`);
+  };
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedTrip(null);
@@ -118,12 +126,14 @@ const CompleteTable = () => {
       <div className="w-full overflow-x-auto">
         <div className="grid w-full min-w-[1200px] grid-cols-12 gap-2 text-sm font-semibold text-gray-700 bg-gray-100 p-2 rounded-t-md mt-4">
           <div className="col-span-1 ps-3 ">ID</div>
-          <div className="col-span-2 ps-3 ">Date</div>
+          {/* <div className="col-span-2 ps-3 ">Date</div> */}
           <div className="col-span-2 ps-3 ">Loading Point</div>
           <div className="col-span-2 ps-3 ">Unloading Point</div>
           <div className="col-span-1 ps-3 ">Vehicle</div>
           <div className="col-span-2 ps-3 ">LR No.</div>
+          <div className="col-span-2 ps-3 ">Location</div>
           <div className="col-span-2 ps-3 ">Status</div>
+          <div className="col-span-2 ps-3 ">Actions</div>
         </div>
         {trips.map((trip) => (
          <div
@@ -153,11 +163,11 @@ const CompleteTable = () => {
              </div>
            </div>
            <div className="col-span-2 text-center">
-             <div className="text-gray-700 font-medium">{trip.to.address}</div>
+             <div className="text-gray-700 font-medium"> {trip.locationHistory?.locationHistory[0].tollPlazaName || 'N/A'}</div>
            </div>
            <div className="col-span-1 text-center">
              <div className="bg-pink-100 text-pink-600 text-xs font-semibold px-2 py-1 rounded-md">
-               In Transit
+               Completed
              </div>
            </div>
            <div className="col-span-2 flex justify-center ">
@@ -173,11 +183,12 @@ const CompleteTable = () => {
                )}
              </div>
              <div className="ms-3">
-               <img
-                   src={fastag}
-                   alt="FASTag Logo"
-                   className="w-14 h-7 scale-[0.7] rounded-full  border border-black bg-[#EDEDED]"
-                 />
+             <img
+                    src={fastag}
+                    alt="FASTag Logo"
+                    className="w-[100px] h-9 scale-[0.6] rounded-full border border-black bg-[#EDEDED]"
+                    onClick={() => viewLocationHistory(trip._id,trip)}
+                  />
              </div>
              </div>
            </div>
@@ -194,19 +205,13 @@ const CompleteTable = () => {
              <div className="text-gray-700 font-medium text-center">
                
              </div>
-             <div className="text-gray-500 text-xs text-center">
-               Lat: {trip.from.lat} <br />
-               Lng: {trip.from.lng}
-             </div>
+             
            </div>
            <div className="col-span-2">
              <div className="text-gray-700 font-medium text-center">
                
              </div>
-             <div className="text-gray-500 text-xs text-center">
-               Lat: {trip.to.lat} <br />
-               Lng: {trip.to.lng}
-             </div>
+            
            </div>
            <div className="col-span-1 text-center">
              <div className="text-gray-700 font-medium"></div>
@@ -218,10 +223,7 @@ const CompleteTable = () => {
            </div>
            <div className="col-span-2 text-center">
              <div className="text-gray-700 font-medium"></div>
-             <div className="text-gray-500 text-xs">
-               {trip.to.lat} <br />
-               {trip.to.lng}
-             </div>
+            
            </div>
            <div className="col-span-1 text-center">
              <div className="">

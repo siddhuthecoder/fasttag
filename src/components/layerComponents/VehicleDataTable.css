@@ -91,3 +91,13 @@
     color: #888;
     font-size: 1.2rem;
 }
+
+.expired {
+    color: red !important; /* Enforce red font color */
+}
+
+
+
+.no-data-text {
+    color: #888;
+}
